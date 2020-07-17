@@ -1,9 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import store from './redux/store';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
+import AuthRoute from './util/AuthRoute';
+import Landing from './components/landing/Landing';
+import Login from './components/landing/Login';
+import Signup from './components/landing/Signup';
 import Display from './components/Display';
 
 import './App.css';
@@ -31,7 +36,26 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Display />
+        <Router>
+          <Switch>
+            <AuthRoute exact path="/app"
+              auth={false} redirect="/"
+              component={Display}
+            />
+            <AuthRoute exact path="/"
+              auth={true} redirect="/app"
+              component={Landing}
+            />
+            <AuthRoute exact path="/login"
+              auth={true} redirect="/app"
+              component={Login}
+            />
+            <AuthRoute exact path="/signup"
+              auth={true} redirect="/app"
+              component={Signup}
+            />
+          </Switch>
+        </Router>
       </div>
     </Provider>
   );

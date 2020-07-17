@@ -4,10 +4,10 @@ import {
   SESSION_SET_UNAUTHENTICATED,
 } from '../types'
 
-import { DISPLAY_LANDING } from '../../util/constants';
+import { DISPLAY_STACK } from '../../util/constants';
 
 const INITIAL_STATE = {
-  display: DISPLAY_LANDING,
+  display: DISPLAY_STACK,
   user: {},
   authenticated: false,
 };

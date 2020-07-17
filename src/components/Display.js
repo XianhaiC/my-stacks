@@ -1,26 +1,35 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import PlaylistDisplay from './playlist/PlaylistDisplay';
+import StackDisplay from './stack/StackDisplay';
+
+import {
+  DISPLAY_PLAYLIST,
+  DISPLAY_STACK,
+} from '../util/constants';
+
 class Display extends Component {
   render() {
-    return (
-      <div></div>
-    );
+    var currentDisplay;
+
+    switch (this.props.display) {
+      case DISPLAY_PLAYLIST: currentDisplay = <PlaylistDisplay />; break;
+      case DISPLAY_STACK: currentDisplay = <StackDisplay />; break;
+      default: currentDisplay = <StackDisplay />; break;
+    }
+
+    return currentDisplay;
   }
 }
 
 Display.propTypes = {
-  editUserDetails: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
+  display: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  // credentials: state.user.credentials
+  display: state.session.display
 })
 
-const mapDispatchToProps = {
-  // redux actions
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Display);
+export default connect(mapStateToProps)(Display);
