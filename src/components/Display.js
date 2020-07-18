@@ -24,10 +24,6 @@ class Display extends Component {
   }
 }
 
-Display.propTypes = {
-  display: PropTypes.number.isRequired,
-}
-
 const mapStateToProps = (state) => ({
   display: state.session.display
 })

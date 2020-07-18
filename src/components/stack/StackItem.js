@@ -1,0 +1,44 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import {
+  FOCUS_NONE,
+  FOCUS_SHOW,
+  FOCUS_EDIT,
+} from '../../util/constants';
+
+class StackItem extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      hover: false,
+      modTitle: null,
+      modDescription: null,
+      modDurationWork: null,
+      modDurationBreak: null,
+      focusState: FOCUS_NONE
+    }
+  }
+
+  render() {
+    const { blocks, blockId } = this.props;
+
+    return (
+      <div>
+        {blocks[blockId].task}
+      </div>
+    );
+  }
+}
+
+StackItem.propTypes = {
+  blockId: PropTypes.string.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+  blocks: state.data.blocks,
+})
+
+export default connect(mapStateToProps)(StackItem);

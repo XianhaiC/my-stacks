@@ -7,18 +7,20 @@ import {
   PLAYLIST_SET_FOCUS_CURRENT,
   PLAYLIST_ADD_COMPLETED_BLOCKS,
   PLAYLIST_CLEAR_COMPLETED_BLOCKS,
+  PLAYLIST_SET_INITIAL_SHUFFLE,
 } from '../types'
 
 import { PLAYLIST_MODE_WORK } from '../../util/constants';
 
 const INITIAL_STATE = {
-  playlist_mode: PLAYLIST_MODE_WORK,
-  playlist_stack: null,
-  focus_initial: [],
-  focus_finished: [],
-  focus_remaining: [],
-  focus_current: null,
-  completed_blocks: {},
+  playlistMode: PLAYLIST_MODE_WORK,
+  playlistStack: null,
+  focusInitial: [],
+  focusFinished: [],
+  focusRemaining: [],
+  focusCurrent: null,
+  completedBlocks: {},
+  initialShuffle: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,43 +28,43 @@ export default (state = INITIAL_STATE, action) => {
     case PLAYLIST_SET_MODE:
       return {
         ...state,
-        playlist_mode: action.payload,
+        playlistMode: action.payload,
       };
 
     case PLAYLIST_SET_PLAYLIST_STACK:
       return {
         ...state,
-        playlist_stack: action.payload,
+        playlistStack: action.payload,
       };
 
     case PLAYLIST_SET_FOCUS_INITIAL:
       return {
         ...state,
-        focus_intial: action.payload,
+        focusInitial: action.payload,
       };
 
     case PLAYLIST_SET_FOCUS_FINISHED:
       return {
         ...state,
-        focus_finished: action.payload,
+        focusFinished: action.payload,
       };
 
     case PLAYLIST_SET_FOCUS_REMAINING:
       return {
         ...state,
-        focus_remaining: action.payload,
+        focusRemaining: action.payload,
       };
 
     case PLAYLIST_SET_FOCUS_CURRENT:
       return {
         ...state,
-        focus_current: action.payload,
+        focusCurrent: action.payload,
       };
 
     case PLAYLIST_ADD_COMPLETED_BLOCKS:
       return {
         ...state,
-        completed_blocks: { 
+        completedBlocks: { 
           ...state.completed_blocks,
           ...action.payload,
         },
@@ -71,7 +73,13 @@ export default (state = INITIAL_STATE, action) => {
     case PLAYLIST_CLEAR_COMPLETED_BLOCKS:
       return {
         ...state,
-        completed_blocks: {},
+        completedBlocks: {},
+      };
+
+    case PLAYLIST_SET_INITIAL_SHUFFLE:
+      return {
+        ...state,
+        initialShuffle: action.payload,
       };
 
     default:

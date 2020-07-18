@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import StackList from './StackList';
+import StackDock from './StackDock';
+
 class StackContainer extends Component {
   render() {
-    const { stacks, blocks, stack_focused } = this.props;
-    console.log("CONT", stacks, blocks, stack_focused)
-    const blockItems = stacks[stack_focused].order
-      .map((blockId) =>
-      <p key={blockId}>{blocks[blockId].task}</p>
-    );
+    const { stacks, stackFocused } = this.props;
 
     return (
       <div>
-        { blockItems }
+        <h1>{stacks[stackFocused].name}</h1>
+        <div>
+          <StackList />
+          <StackDock />
+        </div>
       </div>
     );
   }
@@ -20,12 +22,7 @@ class StackContainer extends Component {
 
 const mapStateToProps = (state) => ({
   stacks: state.data.stacks,
-  blocks: state.data.blocks,
-  stack_focused: state.stack.stack_focused,
+  stackFocused: state.stack.stackFocused,
 })
 
-const mapDispatchToProps = {
-  // TODO
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(StackContainer);
+export default connect(mapStateToProps)(StackContainer);

@@ -15,6 +15,8 @@ import { fixtureBlocks } from './fixtureBlocks';
 import { fixtureStacks } from './fixtureStacks';
 import { fixtureUser } from './fixtureUser';
 
+// logs in the user via a firebase token
+// fetches the user data upon success and redirects to the app
 export const sessionUserLogin = (credentials, history) => (dispatch) => {
   // TODO replace with legitimate token
   setAuthorizationHeader('some_token');
@@ -24,6 +26,7 @@ export const sessionUserLogin = (credentials, history) => (dispatch) => {
 }
 
 export const sessionUserSignup = (newUserData, history) => (dispatch) => {
+  // TODO
   /*
   dispatch({ type: LOADING_UI });
   axios.post('/signup', newUserData)
@@ -47,6 +50,7 @@ export const sessionUserSignup = (newUserData, history) => (dispatch) => {
 }
 
 
+// fetches the user's stacks and blocks from firebase
 export const sessionUserFetchData = () => (dispatch) => {
   // temporary fixture data will be used until the
   // database is ready
@@ -65,24 +69,20 @@ export const sessionUserFetchData = () => (dispatch) => {
 
   dispatch({
     type: STACK_SET_STACK_FOCUSED,
-    payload: Object.values(stacks).find(stack => stack.is_inbox).id,
+    payload: Object.values(stacks).find(stack => stack.isInbox).id,
   });
 }
 
+// clears localStorage and redux memory upon logout
 export const sessionUserLogout = () => (dispatch) => {
   localStorage.removeItem('userToken');
   delete axios.defaults.headers.common['Authorization'];
   dispatch({ type: SESSION_SET_UNAUTHENTICATED });
 }
 
-const setAuthorizationHeader = (token) => {
-  const userToken = `Bearer ${token}`;
-  localStorage.setItem('userToken', userToken);
-  axios.defaults.headers.common['Authorization'] = userToken;
-};
 
-export const updateUser = (userDetails) => (dispatch) => {
-  // todo
+export const sessionUserUpdate = (userDetails) => (dispatch) => {
+  // TODO
 }
 
 export const uploadImage = (formData) => (dispatch) => {
@@ -96,3 +96,11 @@ export const uploadImage = (formData) => (dispatch) => {
     .catch(err => console.log(err));
     */
 }
+
+// ----- helpers
+
+const setAuthorizationHeader = (token) => {
+  const userToken = `Bearer ${token}`;
+  localStorage.setItem('userToken', userToken);
+  axios.defaults.headers.common['Authorization'] = userToken;
+};

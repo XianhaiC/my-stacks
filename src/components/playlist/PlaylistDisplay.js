@@ -1,22 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react';
 
-class PlaylistDisplay extends Component {
-  render() {
-    return (<div>Playlist</div>);
-  }
+import Background from '../common/Background';
+import PlaylistContainer from './PlaylistContainer';
+
+const PlaylistDisplay = (props) => {
+  return (
+    <Background>
+      <PlaylistContainer />
+    </Background>
+  );
 }
 
-PlaylistDisplay.propTypes = {
-}
-
-const mapStateToProps = (state) => ({
-  // credentials: state.user.credentials
-})
-
-const mapDispatchToProps = {
-  // redux actions
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistDisplay);
+export default PlaylistDisplay;

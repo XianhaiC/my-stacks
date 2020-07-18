@@ -4,6 +4,18 @@ import { connect } from 'react-redux';
 import { stackSetStackFocused } from '../../redux/actions/stackActions';
 
 class Sidebar extends Component {
+  constructor() {
+    super();
+
+    this.handleClickAddStack = this.handleClickAddStack.bind(this);
+    this.handleClickOptions = this.handleClickOptions.bind(this);
+  }
+
+  handleClickAddStack() {
+  }
+
+  handleClickOptions() {
+  }
   render() {
     const stackItems = Object.values(this.props.stacks).map((stack) =>
       <h3 onClick={(e) => this.props.stackSetStackFocused(stack.id)}
@@ -14,6 +26,10 @@ class Sidebar extends Component {
     return (
       <div>
         { stackItems }
+        <div>
+          <button onClick={this.handleClickAddStack}>Add stack</button>
+          <button onClick={this.handleClickOptions}>Options</button>
+        </div>
       </div>
     );
   }
