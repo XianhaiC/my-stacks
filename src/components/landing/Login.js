@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-import { sessionUserLogin } from '../../redux/actions/sessionActions';
+import {sessionUserLogin} from '../../redux/actions/sessionActions';
 
 class Login extends Component {
   constructor() {
@@ -9,7 +10,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-    }
+    };
 
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -54,8 +55,13 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  sessionUserLogin: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
 const mapDispatchToProps = {
   sessionUserLogin,
-}
+};
 
 export default connect(null, mapDispatchToProps)(Login);

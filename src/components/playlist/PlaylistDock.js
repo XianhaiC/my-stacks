@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import {
   playlistSetMode,
@@ -19,7 +20,7 @@ class PlaylistDock extends Component {
       enabledPause: false,
       enabledShuffle: false,
       burstCurrent: 0,
-    }
+    };
 
     this.timer = 0;
 
@@ -101,7 +102,7 @@ class PlaylistDock extends Component {
   }
 
   transitionMode() {
-    const { focusCurrent, playlistCheckoff } = this.props;
+    const {focusCurrent, playlistCheckoff} = this.props;
     // TODO
     // currently switches immediately to the next task, or exits if there
     // aren't any left
@@ -109,17 +110,16 @@ class PlaylistDock extends Component {
     if (this.playlistStackEmpty()) {
       this.endPlaylist();
       return;
-    }
-    else {
+    } else {
       this.startNextBlock();
     }
   }
 
   startNextBlock() {
-    const { blocks, focusCurrent, playlistSetMode } = this.props;
+    const {blocks} = this.props;
 
     const nextBlock = this.playlistStackPop();
-    this.setState({ modeTimeRemaining: blocks[nextBlock].durationWork * 60 });
+    this.setState({modeTimeRemaining: blocks[nextBlock].durationWork * 60});
     this.startTimer();
   }
 
@@ -132,14 +132,16 @@ class PlaylistDock extends Component {
   }
 
   render() {
-    const { blocks, focusCurrent } = this.props;
+    const {blocks, focusCurrent} = this.props;
 
-    if (focusCurrent === null) return (
-      <div>
-        <p>Session finished</p>
-        <button onClick={(() => this.props.playlistEnd()).bind(this)}>Go back</button>
-      </div>
-    );
+    if (focusCurrent === null) {
+      return (
+        <div>
+          <p>Session finished</p>
+          <button onClick={(() => this.props.playlistEnd())}>Go back</button>
+        </div>
+      );
+    }
 
     const minutes = Math.floor(this.state.modeTimeRemaining / 60);
     const seconds = this.state.modeTimeRemaining % 60;
@@ -153,11 +155,23 @@ class PlaylistDock extends Component {
   }
 }
 
+PlaylistDock.propTypes = {
+  blocks: PropTypes.object.isRequired,
+  focusRemaining: PropTypes.array.isRequired,
+  focusCurrent: PropTypes.string,
+  playlistSetMode: PropTypes.func.isRequired,
+  playlistSetFocusFinished: PropTypes.func.isRequired,
+  playlistSetFocusRemaining: PropTypes.func.isRequired,
+  playlistSetFocusCurrent: PropTypes.func.isRequired,
+  playlistCheckoff: PropTypes.func.isRequired,
+  playlistEnd: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   blocks: state.data.blocks,
   focusRemaining: state.playlist.focusRemaining,
   focusCurrent: state.playlist.focusCurrent,
-})
+});
 
 const mapDispatchToProps = {
   playlistSetMode,
@@ -166,6 +180,6 @@ const mapDispatchToProps = {
   playlistSetFocusCurrent,
   playlistCheckoff,
   playlistEnd,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistDock);

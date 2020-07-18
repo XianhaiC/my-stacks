@@ -2,9 +2,9 @@ import {
   SESSION_SET_DISPLAY,
   SESSION_SET_AUTHENTICATED,
   SESSION_SET_UNAUTHENTICATED,
-} from '../types'
+} from '../types';
 
-import { DISPLAY_STACK } from '../../util/constants';
+import {DISPLAY_STACK} from '../../util/constants';
 
 const INITIAL_STATE = {
   display: DISPLAY_STACK,
@@ -13,7 +13,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case SESSION_SET_DISPLAY:
       return {
         ...state,
@@ -33,4 +33,4 @@ export default (state = INITIAL_STATE, action) => {
     default:
       return state;
   }
-}
+};

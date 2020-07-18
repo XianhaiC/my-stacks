@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-import { stackSetStackFocused } from '../../redux/actions/stackActions';
+import {stackSetStackFocused} from '../../redux/actions/stackActions';
 
 class Sidebar extends Component {
   constructor() {
@@ -20,7 +21,7 @@ class Sidebar extends Component {
     const stackItems = Object.values(this.props.stacks).map((stack) =>
       <h3 onClick={(e) => this.props.stackSetStackFocused(stack.id)}
         key={stack.id}>{stack.name}
-      </h3>
+      </h3>,
     );
 
     return (
@@ -35,12 +36,17 @@ class Sidebar extends Component {
   }
 }
 
+Sidebar.propTypes = {
+  stacks: PropTypes.object.isRequired,
+  stackSetStackFocused: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   stacks: state.data.stacks,
-})
+});
 
 const mapDispatchToProps = {
   stackSetStackFocused,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

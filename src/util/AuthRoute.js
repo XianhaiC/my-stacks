@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {Route, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 // Component is the actual referenceable variable
 // component is the original name of the field
@@ -25,10 +26,16 @@ const AuthRoute = ({
         <Component {...props} />
     }
   />
-)
+);
+
+AuthRoute.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
+  auth: PropTypes.bool.isRequired,
+  redirect: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state) => ({
-  authenticated: state.session.authenticated
-})
+  authenticated: state.session.authenticated,
+});
 
 export default connect(mapStateToProps)(AuthRoute);

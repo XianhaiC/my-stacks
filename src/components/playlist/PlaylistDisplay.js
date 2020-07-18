@@ -9,6 +9,6 @@ const PlaylistDisplay = (props) => {
       <PlaylistContainer />
     </Background>
   );
-}
+};
 
 export default PlaylistDisplay;

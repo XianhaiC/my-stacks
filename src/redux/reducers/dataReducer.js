@@ -1,7 +1,7 @@
 import {
   DATA_SET_STACKS,
   DATA_SET_BLOCKS,
-} from '../types'
+} from '../types';
 
 const INITIAL_STATE = {
   stacks: {},
@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case DATA_SET_STACKS:
       return {
         ...state,
@@ -25,4 +25,4 @@ export default (state = INITIAL_STATE, action) => {
     default:
       return state;
   }
-}
+};

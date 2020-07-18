@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PlaylistDock from './PlaylistDock';
-import PlaylistProgressList from './PlaylistProgressList';
 
 const PlaylistContainer = (props) => {
   return (
@@ -9,6 +8,6 @@ const PlaylistContainer = (props) => {
       <PlaylistDock />
     </div>
   );
-}
+};
 
 export default PlaylistContainer;

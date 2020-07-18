@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import PlaylistDisplay from './playlist/PlaylistDisplay';
 import StackDisplay from './stack/StackDisplay';
@@ -12,7 +12,7 @@ import {
 
 class Display extends Component {
   render() {
-    var currentDisplay;
+    let currentDisplay;
 
     switch (this.props.display) {
       case DISPLAY_PLAYLIST: currentDisplay = <PlaylistDisplay />; break;
@@ -24,8 +24,12 @@ class Display extends Component {
   }
 }
 
+Display.propTypes = {
+  display: PropTypes.number.isRequired,
+};
+
 const mapStateToProps = (state) => ({
-  display: state.session.display
-})
+  display: state.session.display,
+});
 
 export default connect(mapStateToProps)(Display);

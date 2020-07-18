@@ -5,7 +5,7 @@ import {
   STACK_SET_POPUP_VISIBLE_OPTIONS_STACK,
   STACK_SET_POPUP_VISIBLE_CREATE_STACK,
   STACK_SET_POPUP_VISIBLE_EDIT_STACK,
-} from '../types'
+} from '../types';
 
 const INITIAL_STATE = {
   sidebarVisible: true,
@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case STACK_SET_SIDEBAR_VISIBLE:
       return {
         ...state,
@@ -57,4 +57,4 @@ export default (state = INITIAL_STATE, action) => {
     default:
       return state;
   }
-}
+};

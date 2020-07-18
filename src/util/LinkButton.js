@@ -10,22 +10,23 @@ const LinkButton = (props) => {
     onClick,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
     ...rest
-  } = props
+  } = props;
   return (
     <button
       {...rest} // `children` is just another prop!
       onClick={(event) => {
-        onClick && onClick(event)
-        history.push(to)
+        onClick && onClick(event);
+        history.push(to);
       }}
     />
-  )
-}
+  );
+};
 
 LinkButton.propTypes = {
   to: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   history: PropTypes.object.isRequired,
-}
+  onClick: PropTypes.func,
+};
 
-export default withRouter(LinkButton)
+export default withRouter(LinkButton);

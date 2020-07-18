@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 class Signup extends Component {
   constructor() {
@@ -8,11 +8,12 @@ class Signup extends Component {
       email: '',
       password: '',
       passwordConfirm: '',
-    }
+    };
 
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleChangePasswordConfirm = this.handleChangePasswordConfirm.bind(this);
+    this.handleChangePasswordConfirm =
+      this.handleChangePasswordConfirm.bind(this);
     this.handleClickSignup = this.handleClickSignup.bind(this);
   }
 
@@ -65,6 +66,6 @@ class Signup extends Component {
 
 const mapDispatchToProps = {
   // redux actions
-}
+};
 
 export default connect(null, mapDispatchToProps)(Signup);

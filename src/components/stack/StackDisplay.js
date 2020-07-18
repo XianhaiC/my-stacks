@@ -11,6 +11,6 @@ const StackDisplay = (props) => {
       <StackContainer />
     </Background>
   );
-}
+};
 
 export default StackDisplay;

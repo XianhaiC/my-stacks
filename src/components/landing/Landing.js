@@ -9,6 +9,6 @@ const LandingDisplay = (props) => {
       <LinkButton to='/signup'>Signup</LinkButton>
     </div>
   );
-}
+};
 
 export default LandingDisplay;

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-import { playlistStart } from '../../redux/actions/playlistActions';
+import {playlistStart} from '../../redux/actions/playlistActions';
 
 class StackDock extends Component {
   constructor() {
@@ -23,7 +24,7 @@ class StackDock extends Component {
   // ----- helpers
 
   playlistPreprocess(shuffle) {
-    const { stacks, stackFocused, playlistStart } = this.props;
+    const {stacks, stackFocused, playlistStart} = this.props;
     playlistStart(stacks[stackFocused].order, shuffle);
   }
 
@@ -39,9 +40,15 @@ class StackDock extends Component {
   }
 }
 
+StackDock.propTypes = {
+  stacks: PropTypes.object.isRequired,
+  stackFocused: PropTypes.string.isRequired,
+  playlistStart: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   stacks: state.data.stacks,
   stackFocused: state.stack.stackFocused,
-})
+});
 
-export default connect(mapStateToProps, { playlistStart })(StackDock);
+export default connect(mapStateToProps, {playlistStart})(StackDock);

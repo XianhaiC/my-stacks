@@ -1,6 +1,6 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import {Provider} from 'react-redux';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import store from './redux/store';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
@@ -25,8 +25,7 @@ if (token) {
   // Date.now() gives the time in seconds
   if (decodedToken.exp * 1000 < Date.now()) {
     // logout the user
-  }
-  else {
+  } else {
     axios.defaults.headers.common['Authorization'] = token;
     // update global state and fetch user data
   }

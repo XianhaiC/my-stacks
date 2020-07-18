@@ -1,5 +1,4 @@
 import axios from 'axios';
-import fs from 'fs';
 
 import {
   DATA_SET_BLOCKS,
@@ -9,11 +8,11 @@ import {
   STACK_SET_STACK_FOCUSED,
 } from '../types';
 
-import { PATH_APP } from '../../util/constants';
+import {PATH_APP} from '../../util/constants';
 
-import { fixtureBlocks } from './fixtureBlocks';
-import { fixtureStacks } from './fixtureStacks';
-import { fixtureUser } from './fixtureUser';
+import {fixtureBlocks} from './fixtureBlocks';
+import {fixtureStacks} from './fixtureStacks';
+import {fixtureUser} from './fixtureUser';
 
 // logs in the user via a firebase token
 // fetches the user data upon success and redirects to the app
@@ -21,9 +20,9 @@ export const sessionUserLogin = (credentials, history) => (dispatch) => {
   // TODO replace with legitimate token
   setAuthorizationHeader('some_token');
   dispatch(sessionUserFetchData());
-  dispatch({ type: SESSION_SET_AUTHENTICATED, payload: fixtureUser });
+  dispatch({type: SESSION_SET_AUTHENTICATED, payload: fixtureUser});
   history.push(PATH_APP);
-}
+};
 
 export const sessionUserSignup = (newUserData, history) => (dispatch) => {
   // TODO
@@ -47,7 +46,7 @@ export const sessionUserSignup = (newUserData, history) => (dispatch) => {
       })
     });
     */
-}
+};
 
 
 // fetches the user's stacks and blocks from firebase
@@ -69,21 +68,21 @@ export const sessionUserFetchData = () => (dispatch) => {
 
   dispatch({
     type: STACK_SET_STACK_FOCUSED,
-    payload: Object.values(stacks).find(stack => stack.isInbox).id,
+    payload: Object.values(stacks).find((stack) => stack.isInbox).id,
   });
-}
+};
 
 // clears localStorage and redux memory upon logout
 export const sessionUserLogout = () => (dispatch) => {
   localStorage.removeItem('userToken');
   delete axios.defaults.headers.common['Authorization'];
-  dispatch({ type: SESSION_SET_UNAUTHENTICATED });
-}
+  dispatch({type: SESSION_SET_UNAUTHENTICATED});
+};
 
 
 export const sessionUserUpdate = (userDetails) => (dispatch) => {
   // TODO
-}
+};
 
 export const uploadImage = (formData) => (dispatch) => {
   // TODO
@@ -95,7 +94,7 @@ export const uploadImage = (formData) => (dispatch) => {
     })
     .catch(err => console.log(err));
     */
-}
+};
 
 // ----- helpers
 
