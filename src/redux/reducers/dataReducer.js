@@ -1,5 +1,6 @@
 import {
   DATA_SET_STACKS,
+  DATA_SET_STACK,
   DATA_SET_BLOCKS,
 } from '../types';
 
@@ -15,6 +16,18 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         stacks: action.payload,
       };
+
+    case DATA_SET_STACK:
+      const newState = {
+        ...state,
+        stacks: {
+          ...state.stacks,
+        },
+      };
+
+      newState.stacks[action.payload.id] = action.payload;
+
+      return newState;
 
     case DATA_SET_BLOCKS:
       return {

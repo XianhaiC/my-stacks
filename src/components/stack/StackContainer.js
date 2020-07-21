@@ -7,7 +7,12 @@ import StackDock from './StackDock';
 
 class StackContainer extends Component {
   render() {
-    const {stacks, stackFocused} = this.props;
+    const {
+      loadingStacks, loadingBlocks,
+      stacks, stackFocused,
+    } = this.props;
+
+    if (loadingStacks || loadingBlocks) return (<h3>Loading stacks</h3>);
 
     return (
       <div>
@@ -22,13 +27,17 @@ class StackContainer extends Component {
 }
 
 StackContainer.propTypes = {
-  stacks: PropTypes.object.isRequired,
-  stackFocused: PropTypes.string.isRequired,
+  stacks: PropTypes.object,
+  stackFocused: PropTypes.string,
+  loadingStacks: PropTypes.bool.isRequired,
+  loadingBlocks: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   stacks: state.data.stacks,
   stackFocused: state.stack.stackFocused,
+  loadingStacks: state.session.loadingStacks,
+  loadingBlocks: state.session.loadingBlocks,
 });
 
 export default connect(mapStateToProps)(StackContainer);

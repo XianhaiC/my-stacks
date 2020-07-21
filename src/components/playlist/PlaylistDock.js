@@ -119,7 +119,7 @@ class PlaylistDock extends Component {
     const {blocks} = this.props;
 
     const nextBlock = this.playlistStackPop();
-    this.setState({modeTimeRemaining: blocks[nextBlock].durationWork * 60});
+    this.setState({modeTimeRemaining: blocks[nextBlock].durationWork});
     this.startTimer();
   }
 
@@ -129,6 +129,11 @@ class PlaylistDock extends Component {
     // set enabled_shuffle to begin_shuffled redux variable,
     // which is set by the handlers for the start session buttons
     this.startNextBlock();
+  }
+
+  componentWillUnmount() {
+    // disable any remaining timers
+    clearInterval(this.timer);
   }
 
   render() {

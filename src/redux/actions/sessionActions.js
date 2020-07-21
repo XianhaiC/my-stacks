@@ -1,27 +1,40 @@
 import axios from 'axios';
 
 import {
-  DATA_SET_BLOCKS,
   DATA_SET_STACKS,
+  DATA_SET_STACK,
+  DATA_SET_BLOCKS,
+  SESSION_LOADING_LANDING,
+  SESSION_LOADING_STACKS,
+  SESSION_LOADING_BLOCKS,
   SESSION_SET_AUTHENTICATED,
   SESSION_SET_UNAUTHENTICATED,
+  SESSION_ERRORS_SET,
   STACK_SET_STACK_FOCUSED,
 } from '../types';
 
 import {PATH_APP} from '../../util/constants';
 
-import {fixtureBlocks} from './fixtureBlocks';
-import {fixtureStacks} from './fixtureStacks';
-import {fixtureUser} from './fixtureUser';
-
 // logs in the user via a firebase token
 // fetches the user data upon success and redirects to the app
 export const sessionUserLogin = (credentials, history) => (dispatch) => {
-  // TODO replace with legitimate token
-  setAuthorizationHeader('some_token');
-  dispatch(sessionUserFetchData());
-  dispatch({type: SESSION_SET_AUTHENTICATED, payload: fixtureUser});
-  history.push(PATH_APP);
+  dispatch({type: SESSION_LOADING_LANDING, payload: true});
+  axios.post('/login', credentials)
+      .then((res) => {
+        console.log(res.data);
+
+        setAuthorizationHeader(res.data.token);
+
+        dispatch(sessionUserFetchData());
+        dispatch({type: SESSION_ERRORS_SET, payload: {}});
+        history.push(PATH_APP);
+      })
+      .catch((err) => {
+        dispatch({
+          type: SESSION_ERRORS_SET,
+          payload: err.response.data,
+        });
+      });
 };
 
 export const sessionUserSignup = (newUserData, history) => (dispatch) => {
@@ -51,25 +64,79 @@ export const sessionUserSignup = (newUserData, history) => (dispatch) => {
 
 // fetches the user's stacks and blocks from firebase
 export const sessionUserFetchData = () => (dispatch) => {
-  // temporary fixture data will be used until the
-  // database is ready
+  dispatch({type: SESSION_LOADING_STACKS, payload: true});
+  axios.get('/users/')
+      .then((res) => {
+        console.log(res.data);
 
-  const stacks = fixtureStacks;
-  const blocks = fixtureBlocks;
-  dispatch({
-    type: DATA_SET_STACKS,
-    payload: stacks,
-  });
+        let stackInboxId = null;
 
-  dispatch({
-    type: DATA_SET_BLOCKS,
-    payload: blocks,
-  });
+        // add a 'loaded' flag to each stack
+        // this is necessary for lazy loading each stack's blocks
+        // find the inbox stack while we're at it too
+        Object.values(res.data.stacks).find((stack) => {
+          if (stack.isInbox) stackInboxId = stack.id;
+          stack.loaded = false;
+        });
 
-  dispatch({
-    type: STACK_SET_STACK_FOCUSED,
-    payload: Object.values(stacks).find((stack) => stack.isInbox).id,
-  });
+        // assert inbox exists
+        if (stackInboxId === null) throw '[ERROR] No inbox stack found';
+
+        dispatch({
+          type: SESSION_SET_AUTHENTICATED,
+          payload: res.data.user,
+        });
+
+        dispatch({
+          type: DATA_SET_STACKS,
+          payload: res.data.stacks,
+        });
+
+        dispatch({
+          type: STACK_SET_STACK_FOCUSED,
+          payload: Object.values(res.data.stacks).find((stack) => stack.isInbox).id,
+        });
+
+        dispatch({type: SESSION_LOADING_STACKS, payload: false});
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: SESSION_ERRORS_SET,
+          payload: err.response.data,
+        });
+      });
+};
+
+export const sessionBlockFetchData = (stackId) => (dispatch, getState) => {
+  dispatch({type: SESSION_LOADING_BLOCKS, payload: true});
+  axios.get(`/stacks/${stackId}/blocks`)
+      .then((res) => {
+        console.log(res.data);
+        const {stacks, blocks} = getState().data;
+
+        dispatch({
+          type: DATA_SET_BLOCKS,
+          payload: {...blocks, ...res.data.blocks},
+        });
+
+        dispatch({
+          type: DATA_SET_STACK,
+          payload: {
+            ...stacks[stackId],
+            loaded: true,
+          },
+        });
+
+        dispatch({type: SESSION_LOADING_BLOCKS, payload: false});
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch({
+          type: SESSION_ERRORS_SET,
+          payload: err.response.data,
+        });
+      });
 };
 
 // clears localStorage and redux memory upon logout

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import {EMAIL_REGEX} from '../../util/constants';
+
 class Signup extends Component {
   constructor() {
     super();
@@ -37,7 +39,7 @@ class Signup extends Component {
           placeholder="Email"
           value={this.state.email}
           onChange={this.handleChangeEmail}
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          pattern={EMAIL_REGEX}
           maxLength="255"
           title="Must provide a valid email"
           required />
