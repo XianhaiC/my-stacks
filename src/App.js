@@ -13,21 +13,39 @@ import Display from './components/Display';
 
 import './App.css';
 
+import {
+  sessionUserLogout,
+  sessionUserFetchData,
+} from './redux/actions/sessionActions';
+
+import {
+  SESSION_SET_AUTHENTICATED,
+  SESSION_LOADING_LANDING,
+} from './redux/types'
+
+import {PATH_ROOT} from './util/constants';
+
+
 
 let authenticated;
-const token = localStorage.FBIdToken;
+const token = localStorage.userToken;
 
 if (token) {
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
+  console.log('[INFO] User session exists', decodedToken);
 
   // expiration time in milliseconds
   // Date.now() gives the time in seconds
   if (decodedToken.exp * 1000 < Date.now()) {
     // logout the user
+    store.dispatch(sessionUserLogout());
+    window.location.href = PATH_ROOT;
   } else {
+    // fetch the user data
     axios.defaults.headers.common['Authorization'] = token;
-    // update global state and fetch user data
+    store.dispatch(sessionUserFetchData());
+    store.dispatch({ type: SESSION_SET_AUTHENTICATED })
+    store.dispatch({type: SESSION_LOADING_LANDING, payload: false});
   }
 }
 

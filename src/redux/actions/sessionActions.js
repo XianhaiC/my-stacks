@@ -4,13 +4,17 @@ import {
   DATA_SET_STACKS,
   DATA_SET_STACK,
   DATA_SET_BLOCKS,
+  DATA_CLEAR,
   SESSION_LOADING_LANDING,
   SESSION_LOADING_STACKS,
   SESSION_LOADING_BLOCKS,
+  SESSION_SET_USER,
   SESSION_SET_AUTHENTICATED,
-  SESSION_SET_UNAUTHENTICATED,
+  SESSION_CLEAR,
   SESSION_ERRORS_SET,
   STACK_SET_STACK_FOCUSED,
+  STACK_CLEAR,
+  PLAYLIST_CLEAR,
 } from '../types';
 
 import {PATH_APP} from '../../util/constants';
@@ -26,8 +30,8 @@ export const sessionUserLogin = (credentials, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token);
 
       dispatch(sessionUserFetchData());
-      dispatch({type: SESSION_ERRORS_SET, payload: {}});
-      history.push(PATH_APP);
+      dispatch({ type: SESSION_SET_AUTHENTICATED })
+      dispatch({type: SESSION_LOADING_LANDING, payload: false});
     })
     .catch((err) => {
       dispatch({
@@ -48,7 +52,6 @@ export const sessionUserSignup = (newUserData, history) => (dispatch) => {
 
       dispatch(sessionUserFetchData());
       dispatch({type: SESSION_ERRORS_SET, payload: {}});
-      //history.push(PATH_APP);
     })
     .catch(err => {
       console.error("DATA", err)
@@ -58,6 +61,17 @@ export const sessionUserSignup = (newUserData, history) => (dispatch) => {
       });
     });
 };
+
+// clears localStorage and redux memory upon logout
+export const sessionUserLogout = () => (dispatch) => {
+  localStorage.removeItem('userToken');
+  delete axios.defaults.headers.common['Authorization'];
+  dispatch({type: SESSION_CLEAR});
+  dispatch({type: DATA_CLEAR});
+  dispatch({type: PLAYLIST_CLEAR});
+  dispatch({type: STACK_CLEAR});
+};
+
 
 
 // fetches the user's stacks and blocks from firebase
@@ -81,7 +95,7 @@ export const sessionUserFetchData = () => (dispatch) => {
       if (stackInboxId === null) throw '[ERROR] No inbox stack found';
 
       dispatch({
-        type: SESSION_SET_AUTHENTICATED,
+        type: SESSION_SET_USER,
         payload: res.data.user,
       });
 
@@ -135,13 +149,6 @@ export const sessionBlockFetchData = (stackId) => (dispatch, getState) => {
         payload: err.response.data,
       });
     });
-};
-
-// clears localStorage and redux memory upon logout
-export const sessionUserLogout = () => (dispatch) => {
-  localStorage.removeItem('userToken');
-  delete axios.defaults.headers.common['Authorization'];
-  dispatch({type: SESSION_SET_UNAUTHENTICATED});
 };
 
 

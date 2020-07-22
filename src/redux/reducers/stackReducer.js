@@ -5,6 +5,7 @@ import {
   STACK_SET_POPUP_VISIBLE_OPTIONS_STACK,
   STACK_SET_POPUP_VISIBLE_CREATE_STACK,
   STACK_SET_POPUP_VISIBLE_EDIT_STACK,
+  STACK_CLEAR,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -53,6 +54,9 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         popupVisibleEditStack: action.payload,
       };
+
+    case STACK_CLEAR:
+      return state;
 
     default:
       return state;

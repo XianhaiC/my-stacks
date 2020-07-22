@@ -7,6 +7,7 @@ import {
   PLAYLIST_ADD_COMPLETED_BLOCKS,
   PLAYLIST_CLEAR_COMPLETED_BLOCKS,
   PLAYLIST_SET_INITIAL_SHUFFLE,
+  PLAYLIST_CLEAR,
 } from '../types';
 
 import {PLAYLIST_MODE_WORK} from '../../util/constants';
@@ -73,6 +74,9 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         initialShuffle: action.payload,
       };
+
+    case PLAYLIST_CLEAR:
+      return state;
 
     default:
       return state;

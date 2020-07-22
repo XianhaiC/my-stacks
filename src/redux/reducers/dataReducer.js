@@ -3,6 +3,7 @@ import {
   DATA_SET_STACK,
   DATA_SET_BLOCKS,
   DATA_SET_BLOCK,
+  DATA_CLEAR,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -46,6 +47,9 @@ export default (state = INITIAL_STATE, action) => {
 
       newState.blocks[action.payload.id] = action.payload;
       return newState;
+
+    case DATA_CLEAR:
+      return state;
 
     default:
       return state;

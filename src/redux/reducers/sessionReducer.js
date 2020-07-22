@@ -3,8 +3,9 @@ import {
   SESSION_LOADING_LANDING,
   SESSION_LOADING_STACKS,
   SESSION_LOADING_BLOCKS,
+  SESSION_SET_USER,
   SESSION_SET_AUTHENTICATED,
-  SESSION_SET_UNAUTHENTICATED,
+  SESSION_CLEAR,
   SESSION_ERRORS_SET,
 } from '../types';
 
@@ -46,15 +47,20 @@ export default (state = INITIAL_STATE, action) => {
         loadingBlocks: action.payload,
       };
 
+    case SESSION_SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
     case SESSION_SET_AUTHENTICATED:
       return {
         ...state,
         authenticated: true,
-        user: action.payload,
       };
 
-    case SESSION_SET_UNAUTHENTICATED:
-      return INITIAL_STATE;
+    case SESSION_CLEAR:
+      return state;
 
     case SESSION_ERRORS_SET:
       return {
