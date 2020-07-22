@@ -26,7 +26,8 @@ class Login extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     this.props.sessionUserLogin({...this.state}, this.props.history);
   }
 

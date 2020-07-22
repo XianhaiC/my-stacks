@@ -3,20 +3,35 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {stackSetStackFocused} from '../../redux/actions/stackActions';
+import {dataStackCreate} from '../../redux/actions/dataActions';
 
 class Sidebar extends Component {
   constructor() {
     super();
+    this.state = {
+      name: '',
+      isRoutine: false,
+      backgroundColor: 'default',
+      durationGrace: 900,
+    };
 
-    this.handleClickAddStack = this.handleClickAddStack.bind(this);
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleStackCreate = this.handleStackCreate.bind(this);
     this.handleClickOptions = this.handleClickOptions.bind(this);
   }
 
-  handleClickAddStack() {
+  handleChangeName(e) {
+    this.setState({name: e.target.value});
+  }
+
+  handleStackCreate(e) {
+    e.preventDefault();
+    this.props.dataStackCreate({...this.state});
   }
 
   handleClickOptions() {
   }
+
   render() {
     const stackItems = Object.values(this.props.stacks).map((stack) =>
       <h3 onClick={(e) => this.props.stackSetStackFocused(stack.id)}
@@ -28,7 +43,16 @@ class Sidebar extends Component {
       <div>
         { stackItems }
         <div>
-          <button onClick={this.handleClickAddStack}>Add stack</button>
+          <form onSubmit={this.handleStackCreate}>
+            <input
+              type="text"
+              placeholder="Stack name"
+              value={this.state.name}
+              onChange={this.handleChangeName}
+              maxLength="255"
+              required />
+            <input type="submit" value="Add stack"/>
+          </form>
           <button onClick={this.handleClickOptions}>Options</button>
         </div>
       </div>
@@ -39,6 +63,7 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   stacks: PropTypes.object.isRequired,
   stackSetStackFocused: PropTypes.func.isRequired,
+  dataStackCreate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -47,6 +72,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   stackSetStackFocused,
+  dataStackCreate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

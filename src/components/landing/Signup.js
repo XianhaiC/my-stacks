@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {EMAIL_REGEX} from '../../util/constants';
+import {sessionUserSignup} from '../../redux/actions/sessionActions';
 
 class Signup extends Component {
   constructor() {
@@ -16,58 +17,65 @@ class Signup extends Component {
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleChangePasswordConfirm =
       this.handleChangePasswordConfirm.bind(this);
-    this.handleClickSignup = this.handleClickSignup.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeEmail() {
+  handleChangeEmail(e) {
+    this.setState({email: e.target.value});
   }
 
-  handleChangePassword() {
+  handleChangePassword(e) {
+    this.setState({password: e.target.value});
   }
 
-  handleChangePasswordConfirm() {
+  handleChangePasswordConfirm(e) {
+    this.setState({passwordConfirm: e.target.value});
   }
 
-  handleClickSignup() {
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.sessionUserSignup({...this.state}, this.props.history);
   }
 
   render() {
     return (
       <div>
-        <input
-          type="text"
-          placeholder="Email"
-          value={this.state.email}
-          onChange={this.handleChangeEmail}
-          pattern={EMAIL_REGEX}
-          maxLength="255"
-          title="Must provide a valid email"
-          required />
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleChangeEmail}
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            maxLength="255"
+            title="Must provide a valid email"
+            required />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={this.state.password}
-          onChange={this.handleChangePassword}
-          pattern=".{6,}"
-          title="Must contain at least 6 or more characters"
-          required />
+          <input
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleChangePassword}
+            pattern=".{6,}"
+            title="Must contain at least 6 or more characters"
+            required />
 
-        <input
-          type="password"
-          placeholder="Confirm password"
-          value={this.state.passwordConfirm}
-          onChange={this.handleChangePasswordConfirm}
-          pattern=".{6,}"
-          required />
-        <button onClick={this.handleClickSignup}>Signup</button>
+          <input
+            type="password"
+            placeholder="Confirm password"
+            value={this.state.passwordConfirm}
+            onChange={this.handleChangePasswordConfirm}
+            pattern=".{6,}"
+            required />
+          <input type="submit" value="Submit"/>
+        </form>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = {
-  // redux actions
+  sessionUserSignup,
 };
 
 export default connect(null, mapDispatchToProps)(Signup);

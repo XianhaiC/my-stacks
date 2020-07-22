@@ -1,10 +1,38 @@
 import axios from 'axios';
 
+import {
+  DATA_SET_STACK,
+  SESSION_ERRORS_SET,
+  STACK_SET_STACK_FOCUSED,
+} from '../types';
+
 // ----- stack resource actions
 
 // create
-export const dataStackCreate = () => (dispatch) => {
-  // TODO
+export const dataStackCreate = (stackData) => (dispatch) => {
+  axios.post('/stacks', stackData)
+    .then(res => {
+      console.log('[INFO] Stack created', res.data);
+
+      res.data.loaded = false;
+
+      dispatch({
+        type: DATA_SET_STACK,
+        payload: res.data,
+      });
+
+      dispatch({
+        type: STACK_SET_STACK_FOCUSED,
+        payload: res.data.id,
+      });
+    })
+    .catch(err => {
+      console.error("DATA", err)
+      dispatch({
+        type: SESSION_ERRORS_SET,
+        payload: err.response.data,
+      });
+    });
 };
 
 // update
