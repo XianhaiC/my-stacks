@@ -11,6 +11,7 @@ export const SESSION_ERRORS_SET = 'SESSION_ERRORS_SET';
 export const DATA_SET_STACKS = 'DATA_SET_STACKS';
 export const DATA_SET_STACK = 'DATA_SET_STACK';
 export const DATA_SET_BLOCKS = 'DATA_SET_BLOCKS';
+export const DATA_SET_BLOCK = 'DATA_SET_BLOCK';
 
 // displayPlaylist
 export const PLAYLIST_SET_MODE = 'PLAYLIST_SET_MODE';

@@ -8,6 +8,7 @@ import {dataStackCreate} from '../../redux/actions/dataActions';
 class Sidebar extends Component {
   constructor() {
     super();
+    // TODO move this into the popup component
     this.state = {
       name: '',
       isRoutine: false,

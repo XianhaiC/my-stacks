@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
   DATA_SET_STACK,
+  DATA_SET_BLOCK,
   SESSION_ERRORS_SET,
   STACK_SET_STACK_FOCUSED,
 } from '../types';
@@ -14,6 +15,7 @@ export const dataStackCreate = (stackData) => (dispatch) => {
     .then(res => {
       console.log('[INFO] Stack created', res.data);
 
+      // newly created stack, so technically it hasn't 'loaded' yet
       res.data.loaded = false;
 
       dispatch({
@@ -46,16 +48,39 @@ export const dataStackDelete = () => (dispatch) => {
 };
 
 // create
-export const dataTaskCreate = () => (dispatch) => {
-  // TODO
+export const dataBlockCreate = (blockData) => (dispatch) => {
+  axios.post(`/blocks`, blockData)
+    .then(res => {
+      console.log('[INFO] Stack created', res.data);
+
+      // the stack had already been loaded, so set this for consistency
+      res.data.stack.loaded = true;
+
+      dispatch({
+        type: DATA_SET_BLOCK,
+        payload: res.data.block,
+      });
+
+      dispatch({
+        type: DATA_SET_STACK,
+        payload: res.data.stack,
+      });
+    })
+    .catch(err => {
+      console.error("DATA", err)
+      dispatch({
+        type: SESSION_ERRORS_SET,
+        payload: err.response.data,
+      });
+    });
 };
 
 // update
-export const dataTaskUpdate = () => (dispatch) => {
+export const dataBlockUpdate = () => (dispatch) => {
   // TODO
 };
 
 // delete
-export const dataTaskDelete = () => (dispatch) => {
+export const dataBlockDelete = () => (dispatch) => {
   // TODO
 };

@@ -5,17 +5,58 @@ import {connect} from 'react-redux';
 import StackItem from './StackItem';
 
 import {sessionBlockFetchData} from '../../redux/actions/sessionActions';
+import {dataBlockCreate} from '../../redux/actions/dataActions';
 
 class StackList extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      task: '',
+      description: '',
+      durationWork: 1500,
+      durationBreak: 600,
+      numBursts: 3,
+      stackId: '',
+    }
+
+    this.handleChangeTask = this.handleChangeTask.bind(this);
+    this.handleChangeDescription = this.handleChangeDescription.bind(this);
+    this.handleChangeDurationWork = this.handleChangeDurationWork.bind(this);
+    this.handleChangeDurationBreak = this.handleChangeDurationBreak.bind(this);
+    this.handleBlockCreate = this.handleBlockCreate.bind(this);
     this.fetchBlocks = this.fetchBlocks.bind(this);
+  }
+
+  handleChangeTask(e) {
+    this.setState({task: e.target.value});
+  }
+
+  handleChangeDescription(e) {
+    this.setState({description: e.target.value});
+  }
+
+  handleChangeDurationWork(e) {
+    this.setState({durationWork: e.target.value});
+  }
+
+  handleChangeDurationBreak(e) {
+    this.setState({durationBreak: e.target.value});
+  }
+
+  handleBlockCreate(e) {
+    e.preventDefault();
+    console.log("FOCUSED", this.props.stackFocused)
+    this.props.dataBlockCreate({
+      ...this.state,
+      stackId: this.props.stackFocused,
+    });
   }
 
   fetchBlocks() {
     const {stacks, stackFocused, sessionBlockFetchData} = this.props;
-    console.log(' SHOULD GET', stacks[stackFocused].loaded);
-    console.log(' ET', stackFocused);
+    console.log('FOCU STACK LOADED?', stacks[stackFocused].loaded);
+    console.log('', stackFocused);
     if (!stacks[stackFocused].loaded) {
       sessionBlockFetchData(stackFocused);
     }
@@ -45,7 +86,42 @@ class StackList extends Component {
     return (
       <div>
         { blockItems }
-        <button>Add task</button>
+        <form onSubmit={this.handleBlockCreate}>
+
+          <input
+            type="text"
+            placeholder="Block task"
+            value={this.state.task}
+            onChange={this.handleChangeTask}
+            maxLength="255"
+            required />
+
+          <input
+            type="text"
+            placeholder="Block description"
+            value={this.state.description}
+            onChange={this.handleChangeDescription}
+            maxLength="255"
+            required />
+
+          <input
+            type="number"
+            placeholder="Duration"
+            value={this.state.durationWork}
+            onChange={this.handleChangeDurationWork}
+            maxLength="255"
+            required />
+
+          <input
+            type="number"
+            placeholder="Break"
+            value={this.state.durationBreak}
+            onChange={this.handleChangeDurationBreak}
+            maxLength="255"
+            required />
+
+          <input type="submit" value="Add block"/>
+        </form>
       </div>
     );
   }
@@ -56,6 +132,7 @@ StackList.propTypes = {
   stackFocused: PropTypes.string.isRequired,
   loadingBlocks: PropTypes.bool.isRequired,
   sessionBlockFetchData: PropTypes.func.isRequired,
+  dataBlockCreate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -66,6 +143,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   sessionBlockFetchData,
+  dataBlockCreate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StackList);
