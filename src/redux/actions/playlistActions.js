@@ -64,9 +64,13 @@ export const playlistClearCompletedBlock = () => (dispatch) => {
   });
 };
 
-export const playlistCheckoff = (blockId, done) => (dispatch, getState) => {
-  if (done) dispatch(playlistAddCompletedBlocks(blockId));
+export const playlistCheckoff = (done) => (dispatch, getState) => {
   const playlistState = getState().playlist;
+
+  // the focused block has already been checked off
+  if (playlistState.focusCurrent === null) return
+
+  if (done) dispatch(playlistAddCompletedBlocks(playlistState.focusCurrent));
   const focusFinishedNew = [
     ...playlistState.focusFinished,
     playlistState.focusCurrent,
