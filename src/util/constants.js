@@ -10,8 +10,9 @@ export const PLAYLIST_ITEM_CURRENT = 1;
 export const PLAYLIST_ITEM_REMAINING = 2;
 
 export const FOCUS_NONE = 0;
-export const FOCUS_SHOW = 1;
-export const FOCUS_EDIT = 2;
+export const FOCUS_SHOW_BUTTONS = 1;
+export const FOCUS_SHOW_INFO = 2;
+export const FOCUS_EDIT = 3;
 
 // paths
 export const PATH_ROOT = '/';
