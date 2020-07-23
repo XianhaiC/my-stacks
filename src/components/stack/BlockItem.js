@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
   FOCUS_NONE,
 } from '../../util/constants';
 
-class StackItem extends Component {
+class BlockItem extends Component {
   constructor() {
     super();
 
@@ -21,7 +21,7 @@ class StackItem extends Component {
   }
 
   render() {
-    const {blocks, blockId} = this.props;
+    const { blocks, blockId } = this.props;
 
     return (
       <div>
@@ -31,7 +31,7 @@ class StackItem extends Component {
   }
 }
 
-StackItem.propTypes = {
+BlockItem.propTypes = {
   blocks: PropTypes.object.isRequired,
   blockId: PropTypes.string.isRequired,
 };
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => ({
   blocks: state.data.blocks,
 });
 
-export default connect(mapStateToProps)(StackItem);
+export default connect(mapStateToProps)(BlockItem);

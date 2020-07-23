@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import StackList from './StackList';
+import BlockList from './BlockList';
 import StackDock from './StackDock';
 
 class StackContainer extends Component {
@@ -18,7 +18,7 @@ class StackContainer extends Component {
       <div>
         <h1>{stacks[stackFocused].name}</h1>
         <div>
-          <StackList />
+          <BlockList />
           <StackDock />
         </div>
       </div>

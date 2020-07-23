@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import StackItem from './StackItem';
+import BlockItem from './BlockItem';
 
-import {sessionBlockFetchData} from '../../redux/actions/sessionActions';
-import {dataBlockCreate} from '../../redux/actions/dataActions';
+import { sessionBlockFetchData } from '../../redux/actions/sessionActions';
+import { dataBlockCreate } from '../../redux/actions/dataActions';
 
-class StackList extends Component {
+class BlockList extends Component {
   constructor(props) {
     super(props);
 
@@ -29,19 +29,19 @@ class StackList extends Component {
   }
 
   handleChangeTask(e) {
-    this.setState({task: e.target.value});
+    this.setState({ task: e.target.value });
   }
 
   handleChangeDescription(e) {
-    this.setState({description: e.target.value});
+    this.setState({ description: e.target.value });
   }
 
   handleChangeDurationWork(e) {
-    this.setState({durationWork: e.target.value});
+    this.setState({ durationWork: e.target.value });
   }
 
   handleChangeDurationBreak(e) {
-    this.setState({durationBreak: e.target.value});
+    this.setState({ durationBreak: e.target.value });
   }
 
   handleBlockCreate(e) {
@@ -54,7 +54,7 @@ class StackList extends Component {
   }
 
   fetchBlocks() {
-    const {stacks, stackFocused, sessionBlockFetchData} = this.props;
+    const { stacks, stackFocused, sessionBlockFetchData } = this.props;
     console.log('FOCU STACK LOADED?', stacks[stackFocused].loaded);
     console.log('', stackFocused);
     if (!stacks[stackFocused].loaded) {
@@ -71,21 +71,21 @@ class StackList extends Component {
   }
 
   render() {
-    const {loadingBlocks, stacks, stackFocused} = this.props;
+    const { loadingBlocks, stacks, stackFocused } = this.props;
 
     if (!stacks[stackFocused].loaded) {
       return (<h3>Loading blocks</h3>);
     }
 
     const blockItems = stacks[stackFocused].order
-        .map((blockId) =>
-          <StackItem key={blockId} blockId={blockId} />,
-        );
+      .map((blockId) =>
+        <BlockItem key={blockId} blockId={blockId} />,
+    );
 
 
     return (
       <div>
-        { blockItems }
+        {blockItems}
         <form onSubmit={this.handleBlockCreate}>
 
           <input
@@ -120,14 +120,14 @@ class StackList extends Component {
             maxLength="255"
             required />
 
-          <input type="submit" value="Add block"/>
+          <input type="submit" value="Add block" />
         </form>
       </div>
     );
   }
 }
 
-StackList.propTypes = {
+BlockList.propTypes = {
   stacks: PropTypes.object.isRequired,
   stackFocused: PropTypes.string.isRequired,
   loadingBlocks: PropTypes.bool.isRequired,
@@ -146,4 +146,4 @@ const mapDispatchToProps = {
   dataBlockCreate,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StackList);
+export default connect(mapStateToProps, mapDispatchToProps)(BlockList);
