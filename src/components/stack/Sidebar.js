@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import {StyledButtonOutline} from '../common/styles';
+
 import {stackSetStackFocused} from '../../redux/actions/stackActions';
 import {dataStackCreate} from '../../redux/actions/dataActions';
 
@@ -54,7 +56,7 @@ class Sidebar extends Component {
               required />
             <input type="submit" value="Add stack"/>
           </form>
-          <button onClick={this.handleClickOptions}>Options</button>
+          <StyledButtonOutline onClick={this.handleClickOptions}>Options</StyledButtonOutline>
         </div>
       </div>
     );

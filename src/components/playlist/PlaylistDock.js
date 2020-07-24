@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
+
+import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
+import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
+import ShuffleRoundedIcon from '@material-ui/icons/ShuffleRounded';
 
 import {
   playlistSetMode,
@@ -16,6 +21,33 @@ import {
   PLAYLIST_MODE_BREAK,
   PLAYLIST_MODE_GRACE,
 } from '../../util/constants';
+
+import {shuffle} from '../../util/helpers';
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const StyledTextLight = styled.div`
+  font-size: 1em;
+  font-weight: 600;
+  color: ${props => props.theme.primaryLight};
+`
+
+const StyledTimer = styled.div`
+  font-size: 5em;
+  color: ${props => props.theme.primaryLight};
+`
+
+const StyledContainerButton = styled.div`
+  display: flex;
+  justify-content: center;
+  color: ${props => props.theme.primaryLight};
+  padding: 2.5em;
+`
 
 class PlaylistDock extends Component {
   constructor() {
@@ -50,13 +82,36 @@ class PlaylistDock extends Component {
   // ----- handlers
 
   handleClickShuffle() {
+    const {
+      focusInitial,
+      focusFinished,
+      focusRemaining,
+      playlistSetFocusRemaining
+    } = this.props;
+
+    const enabledShuffleNew = !this.state.enabledShuffle;
+
+    let focusRemainingNew;
+
+    if (enabledShuffleNew) {
+      focusRemainingNew = [...focusRemaining];
+      shuffle(focusRemainingNew);
+    }
+    else {
+      // create the remaning list by taking the initial list minus the 
+      // finished list
+      focusRemainingNew =
+        focusInitial.filter(blockId => !focusFinished.includes(blockId));
+    }
+
+    playlistSetFocusRemaining(focusRemainingNew);
   }
 
   handleClickPause() {
-    const newEnabledPause = !this.state.enabledPause;
+    const enabledPauseNew = !this.state.enabledPause;
 
-    newEnabledPause ? this.cancelTimer() : this.startTimer();
-    this.setState({enabledPause: newEnabledPause});
+    enabledPauseNew ? this.cancelTimer() : this.startTimer();
+    this.setState({enabledPause: enabledPauseNew});
   }
 
   handleClickRestart() {
@@ -218,7 +273,7 @@ class PlaylistDock extends Component {
   }
 
   render() {
-    const {blocks, focusCurrent, playlistMode} = this.props;
+    const {blocks, stacks, focusCurrent, playlistMode, stackFocused} = this.props;
 
     if (focusCurrent === null) {
       return (
@@ -233,18 +288,17 @@ class PlaylistDock extends Component {
     const seconds = this.state.modeTimeRemaining % 60;
 
     return (
-      <div>
-        <div>
-          <p>Time: {minutes}m {seconds}s</p>
-          <p>Current task: {blocks[focusCurrent].task}</p>
-          {playlistMode !== PLAYLIST_MODE_WORK && <h2>Taking a break...</h2>}
+      <StyledContainer>
+        <StyledTextLight>{stacks[stackFocused].name}</StyledTextLight>
+        <StyledTimer>{minutes}m {seconds}s</StyledTimer>
 
-          <button onClick={this.handleClickRestart}>Restart</button>
-          <button onClick={this.handleClickPause}>Pause</button>
-          <button onClick={this.handleClickShuffle}>Shuffle</button>
-        </div>
-        <button onClick={() => this.props.playlistEnd()}>Finish</button>
-      </div>
+        <StyledContainerButton>
+          <RefreshRoundedIcon onClick={this.handleClickRestart}>Restart</RefreshRoundedIcon>
+          <PauseRoundedIcon onClick={this.handleClickPause}>Pause</PauseRoundedIcon>
+          <ShuffleRoundedIcon onClick={this.handleClickShuffle}>Shuffle</ShuffleRoundedIcon>
+        </StyledContainerButton>
+        {playlistMode !== PLAYLIST_MODE_WORK && <StyledTextLight>Taking a break</StyledTextLight>}
+      </StyledContainer>
     );
   }
 }
@@ -268,7 +322,9 @@ const mapStateToProps = (state) => ({
   blocks: state.data.blocks,
   stacks: state.data.stacks,
   playlistMode: state.playlist.playlistMode,
+  focusInitial: state.playlist.focusInitial,
   focusRemaining: state.playlist.focusRemaining,
+  focusFinished: state.playlist.focusFinished,
   focusCurrent: state.playlist.focusCurrent,
   stackFocused: state.stack.stackFocused,
 });

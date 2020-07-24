@@ -2,6 +2,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import store from './redux/store';
+import {ThemeProvider} from 'styled-components';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
@@ -25,6 +26,14 @@ import {
 
 import {PATH_ROOT} from './util/constants';
 
+const theme = {
+  primaryDark: '#242741',
+  primaryDarkDull: '#C3C6DE',
+  primaryLight: '#FFFFFF',
+  midtone: '#3C4271',
+  secondary: '#4CD2B2',
+  secondaryAlt: '#FF8541',
+}
 
 
 let authenticated;
@@ -53,26 +62,29 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Router>
-          <Switch>
-            <AuthRoute exact path="/app"
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Switch>
+
+              <AuthRoute exact path="/app"
               auth={false} redirect="/"
-              component={Display}
-            />
-            <AuthRoute exact path="/"
+              component={Display} />
+
+              <AuthRoute exact path="/"
               auth={true} redirect="/app"
-              component={Landing}
-            />
-            <AuthRoute exact path="/login"
+              component={Landing} />
+
+              <AuthRoute exact path="/login"
               auth={true} redirect="/app"
-              component={Login}
-            />
-            <AuthRoute exact path="/signup"
+              component={Login} />
+
+              <AuthRoute exact path="/signup"
               auth={true} redirect="/app"
-              component={Signup}
-            />
-          </Switch>
-        </Router>
+              component={Signup} />
+
+            </Switch>
+          </Router>
+        </ThemeProvider>
       </div>
     </Provider>
   );
