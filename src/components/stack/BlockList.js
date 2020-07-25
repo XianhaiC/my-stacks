@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import BlockItem from './BlockItem';
 
-import {sessionBlockFetchData} from '../../redux/actions/sessionActions';
-import {dataBlockCreate} from '../../redux/actions/dataActions';
+import { sessionBlockFetchData } from '../../redux/actions/sessionActions';
+import { dataBlockCreate } from '../../redux/actions/dataActions';
 
 class BlockList extends Component {
   constructor(props) {
     super(props);
 
+    //these states should go inside of BlockItem.js
     this.state = {
       task: '',
       description: '',
@@ -25,23 +26,24 @@ class BlockList extends Component {
     this.handleChangeDurationWork = this.handleChangeDurationWork.bind(this);
     this.handleChangeDurationBreak = this.handleChangeDurationBreak.bind(this);
     this.handleBlockCreate = this.handleBlockCreate.bind(this);
+    this.handleRearrange = this.handleRearrange.bind(this);
     this.fetchBlocks = this.fetchBlocks.bind(this);
   }
 
   handleChangeTask(e) {
-    this.setState({task: e.target.value});
+    this.setState({ task: e.target.value });
   }
 
   handleChangeDescription(e) {
-    this.setState({description: e.target.value});
+    this.setState({ description: e.target.value });
   }
 
   handleChangeDurationWork(e) {
-    this.setState({durationWork: e.target.value});
+    this.setState({ durationWork: e.target.value });
   }
 
   handleChangeDurationBreak(e) {
-    this.setState({durationBreak: e.target.value});
+    this.setState({ durationBreak: e.target.value });
   }
 
   handleBlockCreate(e) {
@@ -54,7 +56,7 @@ class BlockList extends Component {
   }
 
   fetchBlocks() {
-    const {stacks, stackFocused, sessionBlockFetchData} = this.props;
+    const { stacks, stackFocused, sessionBlockFetchData } = this.props;
     console.log('FOCU STACK LOADED?', stacks[stackFocused].loaded);
     console.log('', stackFocused);
     if (!stacks[stackFocused].loaded) {
@@ -70,22 +72,89 @@ class BlockList extends Component {
     this.fetchBlocks();
   }
 
+  //an array of item id's
+  //int position (index), boolean above
+  handleRearrange(id, above) { //swap stacks[stackFocused].order[top] and stacks[stackFocused].order[bottom]
+    //TODO, update the state to have the new items order
+    //stacks[stackFocused].order = newOrderItems;
+    //also check edge conditions, i.e. can't move block up or can't move block down
+    let blockIdsArray = this.props.stacks[this.props.stackFocused].order;
+    let index = blockIdsArray.indexOf(id);
+    if (index === 0 || index === blockIdsArray.length - 1) {
+      console.log("returned for " + id);
+      return;
+    }
+    if (above) {
+      let temp = blockIdsArray[index];
+      blockIdsArray[index] = blockIdsArray[index - 1];
+      blockIdsArray[index - 1] = temp;
+      //swap items blockIdsArray[index] and blockIdsArray[index - 1]
+    }
+    else {
+      //swap items blockIdsArray[index] and blockIdsArray[index + 1]
+      let temp = blockIdsArray[index];
+      blockIdsArray[index] = blockIdsArray[index + 1];
+      blockIdsArray[index + 1] = temp;
+    }
+    //console.log("executed rearrangement for " + id); //why does this log 4 times???
+    this.props.stacks[this.props.stackFocused].order = blockIdsArray;
+    console.log(this.props.stacks[this.props.stackFocused].order);
+  }
+
   render() {
-    const {stacks, stackFocused} = this.props;
+    const { stacks, stackFocused } = this.props;
 
     if (!stacks[stackFocused].loaded) {
       return (<h3>Loading blocks</h3>);
     }
-
     const blockItems = stacks[stackFocused].order
-        .map((blockId) =>
-          <BlockItem key={blockId} blockId={blockId} />,
-        );
+      .map((blockId) =>
+        <BlockItem key={blockId} blockId={blockId} onRearrange={this.handleRearrange} />,
+    );
 
-
+    //this should be another component
     return (
       <div>
         {blockItems}
+        <form style={{ margin: 10, border: '1px solid gray', padding: 5 }} onSubmit={this.handleBlockCreate}>
+
+          <input
+            type="text"
+            placeholder="Block task"
+            value={this.state.task}
+            onChange={this.handleChangeTask}
+            maxLength="255"
+            required
+          />
+
+          <input
+            type="text"
+            placeholder="Block description"
+            value={this.state.description}
+            onChange={this.handleChangeDescription}
+            maxLength="255"
+            required
+          />
+
+          <input
+            type="number"
+            placeholder="Duration"
+            value={this.state.durationWork}
+            onChange={this.handleChangeDurationWork}
+            maxLength="255"
+            required
+          />
+
+          <input
+            type="number"
+            placeholder="Break"
+            value={this.state.durationBreak}
+            onChange={this.handleChangeDurationBreak}
+            maxLength="255"
+            required
+          />
+          <input type="submit" value="Add block" />
+        </form>
       </div>
     );
   }

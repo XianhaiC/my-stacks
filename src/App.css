@@ -4,3 +4,40 @@ html, body {
   sans-serif;
   background-color: rgb(245, 245, 245);
 }
+
+.burst{
+    color: green; 
+    display: inline;
+    border: 1px solid green;
+    border-radius: 50%;
+    padding: 4px 10px 4px 10px;
+}
+
+.block-item-div-or-form{
+    margin: 10px;
+    border: 2px solid #555555;
+    border-radius: 20px;
+    padding: 10px; 
+    width: 55%;
+    background-color: #DDDDDD;
+}
+
+.block-item-button{
+    background-color: #555555;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 2px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    float: right;
+}
+
+.block-item-description{
+  margin: 5px;
+  padding: 20px;
+  background-color: #EEEEEE;
+  color: #222222;
+}
