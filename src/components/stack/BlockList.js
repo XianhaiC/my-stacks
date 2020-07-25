@@ -26,7 +26,6 @@ class BlockList extends Component {
     this.handleChangeDurationWork = this.handleChangeDurationWork.bind(this);
     this.handleChangeDurationBreak = this.handleChangeDurationBreak.bind(this);
     this.handleBlockCreate = this.handleBlockCreate.bind(this);
-    this.handleRearrange = this.handleRearrange.bind(this);
     this.fetchBlocks = this.fetchBlocks.bind(this);
   }
 
@@ -48,7 +47,6 @@ class BlockList extends Component {
 
   handleBlockCreate(e) {
     e.preventDefault();
-    console.log('FOCUSED', this.props.stackFocused);
     this.props.dataBlockCreate({
       ...this.state,
       stackId: this.props.stackFocused,
@@ -57,8 +55,6 @@ class BlockList extends Component {
 
   fetchBlocks() {
     const { stacks, stackFocused, sessionBlockFetchData } = this.props;
-    console.log('FOCU STACK LOADED?', stacks[stackFocused].loaded);
-    console.log('', stackFocused);
     if (!stacks[stackFocused].loaded) {
       sessionBlockFetchData(stackFocused);
     }
@@ -72,35 +68,6 @@ class BlockList extends Component {
     this.fetchBlocks();
   }
 
-  //an array of item id's
-  //int position (index), boolean above
-  handleRearrange(id, above) { //swap stacks[stackFocused].order[top] and stacks[stackFocused].order[bottom]
-    //TODO, update the state to have the new items order
-    //stacks[stackFocused].order = newOrderItems;
-    //also check edge conditions, i.e. can't move block up or can't move block down
-    let blockIdsArray = this.props.stacks[this.props.stackFocused].order;
-    let index = blockIdsArray.indexOf(id);
-    if (index === 0 || index === blockIdsArray.length - 1) {
-      console.log("returned for " + id);
-      return;
-    }
-    if (above) {
-      let temp = blockIdsArray[index];
-      blockIdsArray[index] = blockIdsArray[index - 1];
-      blockIdsArray[index - 1] = temp;
-      //swap items blockIdsArray[index] and blockIdsArray[index - 1]
-    }
-    else {
-      //swap items blockIdsArray[index] and blockIdsArray[index + 1]
-      let temp = blockIdsArray[index];
-      blockIdsArray[index] = blockIdsArray[index + 1];
-      blockIdsArray[index + 1] = temp;
-    }
-    //console.log("executed rearrangement for " + id); //why does this log 4 times???
-    this.props.stacks[this.props.stackFocused].order = blockIdsArray;
-    console.log(this.props.stacks[this.props.stackFocused].order);
-  }
-
   render() {
     const { stacks, stackFocused } = this.props;
 
@@ -109,18 +76,18 @@ class BlockList extends Component {
     }
     const blockItems = stacks[stackFocused].order
       .map((blockId) =>
-        <BlockItem key={blockId} blockId={blockId} onRearrange={this.handleRearrange} />,
+        <BlockItem key={blockId} blockId={blockId} />,
     );
 
     //this should be another component
     return (
       <div>
         {blockItems}
-        <form style={{ margin: 10, border: '1px solid gray', padding: 5 }} onSubmit={this.handleBlockCreate}>
+        <form style={{ margin: 10, border: '1px solid gray', padding: 5 }}>
 
           <input
             type="text"
-            placeholder="Block task"
+            placeholder="Task"
             value={this.state.task}
             onChange={this.handleChangeTask}
             maxLength="255"
@@ -129,11 +96,10 @@ class BlockList extends Component {
 
           <input
             type="text"
-            placeholder="Block description"
+            placeholder="Description"
             value={this.state.description}
             onChange={this.handleChangeDescription}
             maxLength="255"
-            required
           />
 
           <input

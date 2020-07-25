@@ -12,10 +12,10 @@ class BlockItem extends Component {
 
     //rename task => block
     this.state = {
-      task: 'Title',
-      description: 'A basic description should go here.',
-      durationWork: 1500,
-      durationBreak: 600,
+      editTask: 'Title',
+      editDescription: 'A basic description should go here.',
+      editDurationWork: 1500,
+      editDurationBreak: 600,
       numBursts: 3,
       stackId: '',
       hover: false,
@@ -34,15 +34,13 @@ class BlockItem extends Component {
     this.handleCloseInfo = this.handleCloseInfo.bind(this);
     this.handleIncrementBursts = this.handleIncrementBursts.bind(this);
     this.handleDecrementBursts = this.handleDecrementBursts.bind(this);
-    this.handleOnClickSaveChanges = this.handleOnClickSaveChanges.bind(this);
-    this.handleOnClickSaveChanges = this.handleOnClickSaveChanges.bind(this);
-    this.handleMouseEnterButton = this.handleMouseEnterButton.bind(this);
-    this.handleMouseLeaveButton = this.handleMouseLeaveButton.bind(this);
+    this.handleClickSaveChanges = this.handleClickSaveChanges.bind(this);
+    this.handleSwapBlocks = this.handleSwapBlocks.bind(this);
 
-    this.handleChangeTask = this.handleChangeTask.bind(this);
-    this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    this.handleChangeDurationWork = this.handleChangeDurationWork.bind(this);
-    this.handleChangeDurationBreak = this.handleChangeDurationBreak.bind(this);
+    this.handleChangeEditTask = this.handleChangeTask.bind(this);
+    this.handleChangeEditDescription = this.handleChangeDescription.bind(this);
+    this.handleChangeDurationEditWork = this.handleChangeDurationWork.bind(this);
+    this.handleChangeDurationEditBreak = this.handleChangeDurationBreak.bind(this);
   }
 
   //onMassEnter and onMassLeave
@@ -83,16 +81,8 @@ class BlockItem extends Component {
     if (this.state.numBursts > 1) this.setState({ numBursts: this.state.numBursts - 1 });
   }
 
-  handleMouseEnterButton() {
-    //document.body.style.cursor = 'pointer'; //flickers on button edge?
-  }
-
-  handleMouseLeaveButton() {
-    //document.body.style.cursor = '';
-  }
-
   /* need to do a PATCH request to firebase and also update the store */
-  handleOnClickSaveChanges() {
+  handleClickSaveChanges() {
     //TODO, meet with Xianhai to discuss this
     this.setState({ focusState: FOCUS_INFO })
   }
@@ -114,14 +104,43 @@ class BlockItem extends Component {
     this.setState({ durationBreak: e.target.value, modDurationBreak: e.target.value });
   }
 
+  handleSwapBlocks(id, above) { //swap stacks[stackFocused].order[top] and stacks[stackFocused].order[bottom]
+    //TODO, update the state to have the new items order
+    //stacks[stackFocused].order = newOrderItems;
+    //also check edge conditions, i.e. can't move block up or can't move block down
+    const { stacks, stackFocused } = this.props;
+
+    let blockIdsArray = stacks[stackFocused].order;
+    let index = blockIdsArray.indexOf(id);
+    if (index === 0 && above === true || index === blockIdsArray.length - 1 && above === false) {
+      console.log("returned for " + id);
+      return;
+    }
+    if (above) {
+      let temp = blockIdsArray[index];
+      blockIdsArray[index] = blockIdsArray[index - 1];
+      blockIdsArray[index - 1] = temp;
+      //swap items blockIdsArray[index] and blockIdsArray[index - 1]
+    }
+    else {
+      //swap items blockIdsArray[index] and blockIdsArray[index + 1]
+      let temp = blockIdsArray[index];
+      blockIdsArray[index] = blockIdsArray[index + 1];
+      blockIdsArray[index + 1] = temp;
+    }
+    //console.log("executed rearrangement for " + id); //why does this log 4 times???
+    this.props.stacks[this.props.stackFocused].order = blockIdsArray;
+    console.log(this.props.stacks[this.props.stackFocused].order);
+  }
+
   //Finite state machine
   render() {
     const { blocks, blockId } = this.props;
     let blockItem;
 
     switch (this.state.focusState) {
-      case FOCUS_NONE:
 
+      case FOCUS_NONE:
         blockItem = (
           <center>
             <div className="block-item-div-or-form" onMouseEnter={this.handleMouseEnterBlock}>
@@ -131,16 +150,52 @@ class BlockItem extends Component {
         )
         break;
 
-      case FOCUS_HOVER: //only shows play or up/down buttons
+      case FOCUS_HOVER:
         blockItem = (
           <center>
             <div className="block-item-div-or-form" onMouseLeave={this.handleMouseLeaveBlock}>
               <h3 className="burst">{this.state.numBursts}</h3> {blocks[blockId].task}
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleClickEye}>👁</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleIncrementBursts}>+</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleDecrementBursts}>-</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={() => this.props.onRearrange(this.props.blockId, true)}>⇧</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={() => this.props.onRearrange(this.props.blockId, false)}>⇩</button>
+
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={this.handleClickEye}>
+                👁
+              </button>
+
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={this.handleIncrementBursts}>
+                +
+              </button>
+
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={this.handleDecrementBursts}>
+                -
+              </button>
+
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={() => this.handleSwapBlocks(this.props.blockId, true)}>
+                ⇧
+              </button>
+
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={() => this.handleSwapBlocks(this.props.blockId, false)}>
+                ⇩
+              </button>
+
             </div>
           </center>
         )
@@ -151,27 +206,42 @@ class BlockItem extends Component {
         blockItem = (
           <center>
             <div className="block-item-div-or-form" >
-              <span style={{ margin: '5px', fontWeight: 'bold' }}>{this.state.task}</span>
-              <span style={{ margin: '5px', float: 'right' }}>Burst length: [{this.state.durationWork}]</span>
-              <span style={{ margin: '5px', float: 'right' }}>Break length: [{this.state.durationBreak}]</span>
-              <div className="block-item-description" >{this.state.description}</div>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" style={{ float: 'none' }} onClick={this.handleClickEdit}>Edit</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" style={{ float: 'none' }} onClick={this.handleCloseInfo}>Close</button>
+              <span style={{ margin: '5px', fontWeight: 'bold' }}>
+                {this.state.editTask}
+              </span>
+              <span style={{ margin: '5px', float: 'right' }}>
+                Burst length: [{this.state.editDurationWork}]
+              </span>
+              <span style={{ margin: '5px', float: 'right' }}>
+                Break length: [{this.state.editDurationBreak}]
+              </span>
+              <div className="block-item-description" >{this.state.editDescription}</div>
+              <button
+                className="block-item-button"
+                style={{ float: 'none' }}
+                onClick={this.handleClickEdit}>
+                Edit
+              </button>
+              <button
+                className="block-item-button"
+                style={{ float: 'none' }}
+                onClick={this.handleCloseInfo}>
+                Close
+              </button>
             </div >
           </center>
         )
         break;
 
-
-      case FOCUS_EDIT: //weird bug, form submits if I click cancel
+      case FOCUS_EDIT:
         blockItem = (
           <center>
             <form className="block-item-div-or-form" onSubmit={this.handleBlockCreate}>
 
               <input
                 type="text"
-                placeholder="Block task"
-                value={this.state.task}
+                placeholder="Task"
+                value={this.state.editTask}
                 onChange={this.handleChangeTask}
                 maxLength="255"
                 required
@@ -179,8 +249,8 @@ class BlockItem extends Component {
 
               <input
                 type="text"
-                placeholder="Block description"
-                value={this.state.description}
+                placeholder="Description"
+                value={this.state.editDescription}
                 onChange={this.handleChangeDescription}
                 maxLength="255"
                 required
@@ -189,7 +259,7 @@ class BlockItem extends Component {
               <input
                 type="number"
                 placeholder="Duration"
-                value={this.state.durationWork}
+                value={this.state.editDurationWork}
                 onChange={this.handleChangeDurationWork}
                 maxLength="255"
                 required
@@ -198,13 +268,25 @@ class BlockItem extends Component {
               <input
                 type="number"
                 placeholder="Break"
-                value={this.state.durationBreak}
+                value={this.state.editDurationBreak}
                 onChange={this.handleChangeDurationBreak}
                 maxLength="255"
                 required
               />
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleOnClickSaveChanges}>Save</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleClickCancel}>Cancel</button>
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={this.handleClickSaveChanges}>
+                Save
+              </button>
+              <button
+                onMouseEnter={this.handleMouseEnterButton}
+                onMouseLeave={this.handleMouseLeaveButton}
+                className="block-item-button"
+                onClick={this.handleClickCancel}>
+                Cancel
+              </button>
             </form>
           </center>
         )
@@ -224,6 +306,8 @@ BlockItem.propTypes = {
 
 const mapStateToProps = (state) => ({
   blocks: state.data.blocks,
+  stacks: state.data.stacks,
+  stackFocused: state.stack.stackFocused,
 });
 
 export default connect(mapStateToProps)(BlockItem);

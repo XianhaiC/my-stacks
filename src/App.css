@@ -14,12 +14,22 @@ html, body {
 }
 
 .block-item-div-or-form{
-    margin: 10px;
-    border: 2px solid #555555;
-    border-radius: 20px;
+    margin: 5px;
+    border-radius: 10px;
     padding: 10px; 
     width: 55%;
-    background-color: #DDDDDD;
+    background-color: #FFFFFF;
+}
+
+.block-item-div-or-form:hover{
+    border: none;
+    border-radius: 10px;
+    padding: 10px; 
+    width: 55%;
+    background-color: #FFFFFF;
+    border-top: none;
+    border-bottom: none;
+    box-shadow: 5px 5px 10px rgba(31, 31, 31, 0.4);
 }
 
 .block-item-button{
