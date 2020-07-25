@@ -25,7 +25,7 @@ const PlaylistEnd = (props) => {
   );
 };
 
-playlistEnd.propTypes = {
+PlaylistEnd.propTypes = {
   playlistEnd: PropTypes.func.isRequired,
 };
 

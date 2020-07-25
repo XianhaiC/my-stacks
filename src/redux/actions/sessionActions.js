@@ -89,7 +89,9 @@ export const sessionUserFetchData = () => (dispatch) => {
         });
 
         // assert inbox exists
-        if (stackInboxId === null) throw '[ERROR] No inbox stack found';
+        if (stackInboxId === null) {
+          throw new Error('[ERROR] No inbox stack found');
+        }
 
         dispatch({
           type: SESSION_SET_USER,
@@ -104,7 +106,7 @@ export const sessionUserFetchData = () => (dispatch) => {
         dispatch({
           type: STACK_SET_STACK_FOCUSED,
           payload:
-          Object.values(res.data.stacks).find((stack) => stack.isInbox).id,
+        Object.values(res.data.stacks).find((stack) => stack.isInbox).id,
         });
 
         dispatch({type: SESSION_LOADING_STACKS, payload: false});
