@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import styled from 'styled-components';
+import styled, {withTheme} from 'styled-components';
 
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import ShuffleRoundedIcon from '@material-ui/icons/ShuffleRounded';
+
+import {StyledBox, StyledBoxColumn} from '../common/styles';
 
 import {
   playlistSetMode,
@@ -24,6 +26,7 @@ import {
 
 import {shuffle} from '../../util/helpers';
 
+
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,23 +34,40 @@ const StyledContainer = styled.div`
   align-items: center;
 `
 
-const StyledTextLight = styled.div`
+const StyledText = styled.div`
   font-size: 1em;
-  font-weight: 600;
-  color: ${props => props.theme.primaryLight};
+  font-weight: 500;
+  color:
+  ${props => props.mode === PLAYLIST_MODE_WORK
+      ? props.theme.primaryDark
+      : props.theme.primaryLight
+      };
+  transition: all 0.5s ease-in-out;
 `
 
-const StyledTimer = styled.div`
+const StyledTextTimer = styled(StyledText)`
   font-size: 5em;
-  color: ${props => props.theme.primaryLight};
-`
+`;
+
+const StyledTextBreak = styled(StyledText)`
+  visibility:
+  ${props => props.mode === PLAYLIST_MODE_WORK
+      ? 'hidden'
+      : 'visible'
+      };
+  opacity:
+  ${props => props.mode === PLAYLIST_MODE_WORK
+      ? '0'
+      : '1'
+      };
+`;
 
 const StyledContainerButton = styled.div`
   display: flex;
   justify-content: center;
   color: ${props => props.theme.primaryLight};
-  padding: 2.5em;
-`
+  padding: 1.5rem;
+`;
 
 class PlaylistDock extends Component {
   constructor() {
@@ -273,7 +293,14 @@ class PlaylistDock extends Component {
   }
 
   render() {
-    const {blocks, stacks, focusCurrent, playlistMode, stackFocused} = this.props;
+    const {
+      blocks,
+      stacks,
+      focusCurrent,
+      playlistMode,
+      stackFocused,
+      theme,
+    } = this.props;
 
     if (focusCurrent === null) {
       return (
@@ -284,21 +311,39 @@ class PlaylistDock extends Component {
       );
     }
 
-    const minutes = Math.floor(this.state.modeTimeRemaining / 60);
-    const seconds = this.state.modeTimeRemaining % 60;
+    const minutes = Math.floor(this.state.modeTimeRemaining / 60)
+      .toString()
+      .padStart(2, '0');
+    const seconds = (this.state.modeTimeRemaining % 60)
+      .toString()
+      .padStart(2, '0');
+
+    const styleIcon = {
+      color: playlistMode === PLAYLIST_MODE_WORK
+      ? theme.primaryDark
+      : theme.primaryLight,
+      fontSize: '2rem',
+      padding: '0.2rem',
+      transition: 'all 0.5s ease-in-out',
+    }
 
     return (
-      <StyledContainer>
-        <StyledTextLight>{stacks[stackFocused].name}</StyledTextLight>
-        <StyledTimer>{minutes}m {seconds}s</StyledTimer>
+      <Fragment>
+        <StyledBox />
+        <StyledBoxColumn>
+          <StyledText mode={playlistMode}>{stacks[stackFocused].name}</StyledText>
+          <StyledTextTimer mode={playlistMode}>{minutes}:{seconds}</StyledTextTimer>
 
-        <StyledContainerButton>
-          <RefreshRoundedIcon onClick={this.handleClickRestart}>Restart</RefreshRoundedIcon>
-          <PauseRoundedIcon onClick={this.handleClickPause}>Pause</PauseRoundedIcon>
-          <ShuffleRoundedIcon onClick={this.handleClickShuffle}>Shuffle</ShuffleRoundedIcon>
-        </StyledContainerButton>
-        {playlistMode !== PLAYLIST_MODE_WORK && <StyledTextLight>Taking a break</StyledTextLight>}
-      </StyledContainer>
+          <StyledContainerButton>
+            <RefreshRoundedIcon onClick={this.handleClickRestart} style={styleIcon} />
+            <PauseRoundedIcon onClick={this.handleClickPause} style={styleIcon} />
+            <ShuffleRoundedIcon onClick={this.handleClickShuffle} style={styleIcon} />
+          </StyledContainerButton>
+        </StyledBoxColumn>
+        <StyledBox>
+          <StyledTextBreak mode={playlistMode}>Taking a break</StyledTextBreak>
+        </StyledBox>
+      </Fragment>
     );
   }
 }
@@ -338,4 +383,4 @@ const mapDispatchToProps = {
   playlistEnd,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistDock);
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(PlaylistDock));

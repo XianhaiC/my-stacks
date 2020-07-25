@@ -6,6 +6,9 @@ export const StyledBox = styled.div`
   justify-content: center;
   align-items: center;
 `
+export const StyledBoxColumn = styled(StyledBox)`
+  flex-direction: column;
+`;
 
 export const StyledButtonOutline = styled.button`
   border-radius: 0.3rem;

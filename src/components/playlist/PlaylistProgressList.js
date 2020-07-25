@@ -17,11 +17,15 @@ import {
 
 const StyledContainer = styled.div`
   margin-left: auto;
+  margin-right: 5em;
   position: relative;
   align-self: stretch;
+  width: 24rem;
   display: flex;
   flex-direction: column;
-  width: 300px;
+  overflow: hidden;
+  filter: ${props => props.mode === PLAYLIST_MODE_BREAK ? 'blur(4px)' : 'none'};
+  transition: all 0.5s ease-in-out;
 `
 
 class PlaylistProgressList extends Component {
@@ -36,7 +40,7 @@ class PlaylistProgressList extends Component {
     );
 
     return (
-      <StyledContainer>
+      <StyledContainer mode={playlistMode}>
         {blocksList}
       </StyledContainer>
     );

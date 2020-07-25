@@ -55,13 +55,15 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case PLAYLIST_ADD_COMPLETED_BLOCKS:
-      return {
+      const newState = {
         ...state,
         completedBlocks: {
-          ...state.completed_blocks,
-          ...action.payload,
+          ...state.completedBlocks,
         },
       };
+
+      newState.completedBlocks[action.payload] = true;
+      return newState;
 
     case PLAYLIST_CLEAR_COMPLETED_BLOCKS:
       return {

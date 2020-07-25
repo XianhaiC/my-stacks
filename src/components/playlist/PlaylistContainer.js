@@ -1,11 +1,16 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 
 import PlaylistEnd from './PlaylistEnd';
 import PlaylistDock from './PlaylistDock';
 import PlaylistProgressList from './PlaylistProgressList';
 
-import {StyledBox} from '../common/styles';
+import {StyledBox, StyledBoxColumn} from '../common/styles';
+
+import {
+  PLAYLIST_MODE_WORK,
+} from '../../util/constants';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -13,18 +18,23 @@ const StyledContainer = styled.div`
   justify-content: center;
   height: 80%;
   width: 100%;
-  background: ${props => props.theme.primaryDark};
+  background:
+  ${props => props.mode === PLAYLIST_MODE_WORK
+      ? props.theme.primaryLight
+      : props.theme.primaryDark
+      };
+  transition: all 0.5s ease-in-out;
 `
 
 const PlaylistContainer = (props) => {
   return (
-    <StyledContainer>
+    <StyledContainer mode={props.playlistMode}>
       <StyledBox>
         <PlaylistEnd />
       </StyledBox>
-      <StyledBox>
+      <StyledBoxColumn>
         <PlaylistDock />
-      </StyledBox>
+      </StyledBoxColumn>
       <StyledBox>
         <PlaylistProgressList />
       </StyledBox>
@@ -32,4 +42,8 @@ const PlaylistContainer = (props) => {
   );
 };
 
-export default PlaylistContainer;
+const mapStateToProps = (state) => ({
+  playlistMode: state.playlist.playlistMode,
+});
+
+export default connect(mapStateToProps)(PlaylistContainer);
