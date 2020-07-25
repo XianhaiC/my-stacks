@@ -37,12 +37,13 @@ class BlockItem extends Component {
     this.handleClickSaveChanges = this.handleClickSaveChanges.bind(this);
     this.handleSwapBlocks = this.handleSwapBlocks.bind(this);
 
-    this.handleChangeEditTask = this.handleChangeTask.bind(this);
-    this.handleChangeEditDescription = this.handleChangeDescription.bind(this);
-    this.handleChangeDurationEditWork =
-      this.handleChangeDurationWork.bind(this);
-    this.handleChangeDurationEditBreak =
-      this.handleChangeDurationBreak.bind(this);
+    this.handleChangeEditTask = this.handleChangeEditTask.bind(this);
+    this.handleChangeEditDescription =
+      this.handleChangeEditDescription.bind(this);
+    this.handleChangeEditDurationWork =
+      this.handleChangeEditDurationWork.bind(this);
+    this.handleChangeEditDurationBreak =
+      this.handleChangeEditDurationBreak.bind(this);
   }
 
   // onMassEnter and onMassLeave
@@ -94,23 +95,23 @@ class BlockItem extends Component {
   }
 
   /* Input boxes change handlers */
-  handleChangeTask(e) {
+  handleChangeEditTask(e) {
     this.setState({editTask: e.target.value, modTitle: e.target.value});
   }
 
-  handleChangeDescription(e) {
+  handleChangeEditDescription(e) {
     this.setState(
         {editDescription: e.target.value, modDescription: e.target.value},
     );
   }
 
-  handleChangeDurationWork(e) {
+  handleChangeEditDurationWork(e) {
     this.setState(
         {editDurationWork: e.target.value, modDurationWork: e.target.value},
     );
   }
 
-  handleChangeDurationBreak(e) {
+  handleChangeEditDurationBreak(e) {
     this.setState(
         {editDurationBreak: e.target.value, modDurationBreak: e.target.value},
     );
@@ -253,7 +254,7 @@ class BlockItem extends Component {
                 type="text"
                 placeholder="Task"
                 value={this.state.editTask}
-                onChange={this.handleChangeTask}
+                onChange={this.handleChangeEditTask}
                 maxLength="255"
                 required
               />
@@ -262,7 +263,7 @@ class BlockItem extends Component {
                 type="text"
                 placeholder="Description"
                 value={this.state.editDescription}
-                onChange={this.handleChangeDescription}
+                onChange={this.handleChangeEditDescription}
                 maxLength="255"
                 required
               />
@@ -271,7 +272,7 @@ class BlockItem extends Component {
                 type="number"
                 placeholder="Duration"
                 value={this.state.editDurationWork}
-                onChange={this.handleChangeDurationWork}
+                onChange={this.handleChangeEditDurationWork}
                 maxLength="255"
                 required
               />
@@ -280,7 +281,7 @@ class BlockItem extends Component {
                 type="number"
                 placeholder="Break"
                 value={this.state.editDurationBreak}
-                onChange={this.handleChangeDurationBreak}
+                onChange={this.handleChangeEditDurationBreak}
                 maxLength="255"
                 required
               />
