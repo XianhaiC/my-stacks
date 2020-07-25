@@ -17,7 +17,7 @@ import {
 
 const StyledContainer = styled.div`
   margin-left: auto;
-  margin-right: 5em;
+  margin-right: 3em;
   position: relative;
   align-self: stretch;
   width: 24rem;

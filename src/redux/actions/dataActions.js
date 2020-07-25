@@ -67,7 +67,7 @@ export const dataBlockCreate = (blockData) => (dispatch) => {
       });
     })
     .catch(err => {
-      console.error("DATA", err)
+      console.error(err);
       dispatch({
         type: SESSION_ERRORS_SET,
         payload: err.response.data,

@@ -302,15 +302,6 @@ class PlaylistDock extends Component {
       theme,
     } = this.props;
 
-    if (focusCurrent === null) {
-      return (
-        <div>
-          <p>Session finished</p>
-          <button onClick={(() => this.props.playlistEnd())}>Go back</button>
-        </div>
-      );
-    }
-
     const minutes = Math.floor(this.state.modeTimeRemaining / 60)
       .toString()
       .padStart(2, '0');

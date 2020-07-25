@@ -56,13 +56,13 @@ const StyledCard = styled.div`
   ${props => {
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
-        return '5%';
+        return `${5 - 9 * props.index}rem`;
         break;
       case PLAYLIST_ITEM_CURRENT:
-        return 'calc(100% - 12em)';
+        return 'calc(100% - 12rem)';
         break;
       case PLAYLIST_ITEM_REMAINING:
-        return 'calc(100% - 3em)';
+        return `calc(100% - 3rem + ${9 * props.index}rem)`;
         break;
       default:
         return '0%';
@@ -191,6 +191,9 @@ class PlaylistProgressItem extends Component {
     if ((itemIndex = focusFinished.indexOf(blockId)) !== -1) {
       itemState = PLAYLIST_ITEM_FINISHED;
       itemDone = completedBlocks[blockId];
+
+      // index here is reversed to faciliate the styling login better
+      itemIndex = focusFinished.length - 1 - itemIndex;
     }
     else if ((itemIndex = focusRemaining.indexOf(blockId)) !== -1)
       itemState = PLAYLIST_ITEM_REMAINING;
@@ -212,7 +215,12 @@ class PlaylistProgressItem extends Component {
       )
 
     return (
-      <StyledCard state={itemState} mode={playlistMode} done={itemDone}>
+      <StyledCard
+        state={itemState}
+        mode={playlistMode}
+        done={itemDone}
+        index={itemIndex}>
+
         <StyledText state={itemState} mode={playlistMode} done={itemDone}>
           {blocks[blockId].task}
         </StyledText>
@@ -222,6 +230,7 @@ class PlaylistProgressItem extends Component {
         <StyledContainerIcon state={itemState} mode={playlistMode}>
           {componentIcons}
         </StyledContainerIcon>
+
       </StyledCard>
     );
   }
