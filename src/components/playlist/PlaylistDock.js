@@ -26,24 +26,16 @@ import {
 
 import {shuffle} from '../../util/helpers';
 
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
 const StyledText = styled.div`
   font-size: 1em;
   font-weight: 500;
   color:
-  ${props => props.mode === PLAYLIST_MODE_WORK
-      ? props.theme.primaryDark
-      : props.theme.primaryLight
-      };
+  ${(props) => props.mode === PLAYLIST_MODE_WORK ?
+      props.theme.primaryDark :
+      props.theme.primaryLight
+};
   transition: all 0.5s ease-in-out;
-`
+`;
 
 const StyledTextTimer = styled(StyledText)`
   font-size: 5em;
@@ -51,21 +43,21 @@ const StyledTextTimer = styled(StyledText)`
 
 const StyledTextBreak = styled(StyledText)`
   visibility:
-  ${props => props.mode === PLAYLIST_MODE_WORK
-      ? 'hidden'
-      : 'visible'
-      };
+  ${(props) => props.mode === PLAYLIST_MODE_WORK ?
+      'hidden' :
+      'visible'
+};
   opacity:
-  ${props => props.mode === PLAYLIST_MODE_WORK
-      ? '0'
-      : '1'
-      };
+  ${(props) => props.mode === PLAYLIST_MODE_WORK ?
+      '0' :
+      '1'
+};
 `;
 
 const StyledContainerButton = styled.div`
   display: flex;
   justify-content: center;
-  color: ${props => props.theme.primaryLight};
+  color: ${(props) => props.theme.primaryLight};
   padding: 1.5rem;
 `;
 
@@ -106,7 +98,7 @@ class PlaylistDock extends Component {
       focusInitial,
       focusFinished,
       focusRemaining,
-      playlistSetFocusRemaining
+      playlistSetFocusRemaining,
     } = this.props;
 
     const enabledShuffleNew = !this.state.enabledShuffle;
@@ -116,12 +108,11 @@ class PlaylistDock extends Component {
     if (enabledShuffleNew) {
       focusRemainingNew = [...focusRemaining];
       shuffle(focusRemainingNew);
-    }
-    else {
-      // create the remaning list by taking the initial list minus the 
+    } else {
+      // create the remaning list by taking the initial list minus the
       // finished list
       focusRemainingNew =
-        focusInitial.filter(blockId => !focusFinished.includes(blockId));
+        focusInitial.filter((blockId) => !focusFinished.includes(blockId));
     }
 
     playlistSetFocusRemaining(focusRemainingNew);
@@ -135,9 +126,8 @@ class PlaylistDock extends Component {
   }
 
   handleClickRestart() {
-    const {playlistMode, blocks, stacks, focusCurrent, stackFocused} = this.props;
     this.cancelTimer();
-    this.setModeTime(playlistMode);
+    this.setModeTime(this.props.playlistMode);
   }
 
   handleClickSkip() {
@@ -198,11 +188,8 @@ class PlaylistDock extends Component {
   transitionMode() {
     const {
       blocks,
-      stacks,
       playlistMode,
       focusCurrent,
-      stackFocused,
-      playlistSetMode,
       playlistCheckoff,
       playlistEnd,
     } = this.props;
@@ -211,12 +198,11 @@ class PlaylistDock extends Component {
     let newBurstCurrent;
 
     switch (playlistMode) {
-
       case PLAYLIST_MODE_WORK:
         newBurstCurrent = this.state.burstCurrent + 1;
-        if (newBurstCurrent === blocks[focusCurrent].numBursts)
-          nextMode = PLAYLIST_MODE_GRACE 
-        else {
+        if (newBurstCurrent === blocks[focusCurrent].numBursts) {
+          nextMode = PLAYLIST_MODE_GRACE;
+        } else {
           this.setState({burstCurrent: newBurstCurrent});
           nextMode = PLAYLIST_MODE_BREAK;
         }
@@ -243,7 +229,7 @@ class PlaylistDock extends Component {
       default:
         break;
     }
-    console.log("NEXT MODE", nextMode);
+    console.log('NEXT MODE', nextMode);
   }
 
   // note that this also starts a new timer, so make sure to call
@@ -253,13 +239,13 @@ class PlaylistDock extends Component {
 
     switch (mode) {
       case PLAYLIST_MODE_WORK:
-        this.setState({modeTimeRemaining: blocks[focusCurrent].durationWork})
+        this.setState({modeTimeRemaining: blocks[focusCurrent].durationWork});
         break;
       case PLAYLIST_MODE_BREAK:
-        this.setState({modeTimeRemaining: blocks[focusCurrent].durationBreak})
+        this.setState({modeTimeRemaining: blocks[focusCurrent].durationBreak});
         break;
       case PLAYLIST_MODE_GRACE:
-        this.setState({modeTimeRemaining: stacks[stackFocused].durationGrace})
+        this.setState({modeTimeRemaining: stacks[stackFocused].durationGrace});
       default:
         break;
     }
@@ -294,43 +280,55 @@ class PlaylistDock extends Component {
 
   render() {
     const {
-      blocks,
       stacks,
-      focusCurrent,
       playlistMode,
       stackFocused,
       theme,
     } = this.props;
 
     const minutes = Math.floor(this.state.modeTimeRemaining / 60)
-      .toString()
-      .padStart(2, '0');
+        .toString()
+        .padStart(2, '0');
     const seconds = (this.state.modeTimeRemaining % 60)
-      .toString()
-      .padStart(2, '0');
+        .toString()
+        .padStart(2, '0');
 
     const styleIcon = {
-      color: playlistMode === PLAYLIST_MODE_WORK
-      ? theme.primaryDark
-      : theme.primaryLight,
+      color: playlistMode === PLAYLIST_MODE_WORK ?
+      theme.primaryDark :
+      theme.primaryLight,
       fontSize: '2rem',
       padding: '0.2rem',
       transition: 'all 0.5s ease-in-out',
-    }
+    };
 
     return (
       <Fragment>
         <StyledBox />
         <StyledBoxColumn>
-          <StyledText mode={playlistMode}>{stacks[stackFocused].name}</StyledText>
-          <StyledTextTimer mode={playlistMode}>{minutes}:{seconds}</StyledTextTimer>
+          <StyledText mode={playlistMode}>
+            {stacks[stackFocused].name}
+          </StyledText>
+
+          <StyledTextTimer mode={playlistMode}>
+            {minutes}:{seconds}
+          </StyledTextTimer>
 
           <StyledContainerButton>
-            <RefreshRoundedIcon onClick={this.handleClickRestart} style={styleIcon} />
-            <PauseRoundedIcon onClick={this.handleClickPause} style={styleIcon} />
-            <ShuffleRoundedIcon onClick={this.handleClickShuffle} style={styleIcon} />
+            <RefreshRoundedIcon
+              onClick={this.handleClickRestart}
+              style={styleIcon} />
+
+            <PauseRoundedIcon
+              onClick={this.handleClickPause}
+              style={styleIcon} />
+
+            <ShuffleRoundedIcon
+              onClick={this.handleClickShuffle}
+              style={styleIcon} />
           </StyledContainerButton>
         </StyledBoxColumn>
+
         <StyledBox>
           <StyledTextBreak mode={playlistMode}>Taking a break</StyledTextBreak>
         </StyledBox>
@@ -340,10 +338,13 @@ class PlaylistDock extends Component {
 }
 
 PlaylistDock.propTypes = {
+  theme: PropTypes.object.isRequired,
   blocks: PropTypes.object.isRequired,
   stacks: PropTypes.object.isRequired,
   playlistMode: PropTypes.number.isRequired,
+  focusInitial: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,
+  focusFinished: PropTypes.array.isRequired,
   focusCurrent: PropTypes.string,
   stackFocused: PropTypes.string.isRequired,
   playlistSetMode: PropTypes.func.isRequired,
@@ -374,4 +375,5 @@ const mapDispatchToProps = {
   playlistEnd,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme(PlaylistDock));
+export default
+connect(mapStateToProps, mapDispatchToProps)(withTheme(PlaylistDock));

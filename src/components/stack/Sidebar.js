@@ -56,7 +56,9 @@ class Sidebar extends Component {
               required />
             <input type="submit" value="Add stack"/>
           </form>
-          <StyledButtonOutline onClick={this.handleClickOptions}>Options</StyledButtonOutline>
+          <StyledButtonOutline onClick={this.handleClickOptions}>
+            Options
+          </StyledButtonOutline>
         </div>
       </div>
     );

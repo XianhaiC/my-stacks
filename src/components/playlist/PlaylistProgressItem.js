@@ -27,21 +27,21 @@ const StyledCard = styled.div`
   right: 2rem;
 
   box-shadow: 
-  ${props => props.state === PLAYLIST_ITEM_FINISHED
-      ? 'none'
-      : '0px 0px 20px rgba(0, 0, 0, 0.25)'
-      };
+  ${(props) => props.state === PLAYLIST_ITEM_FINISHED ?
+      'none' :
+      '0px 0px 20px rgba(0, 0, 0, 0.25)'
+};
 
   background:
-  ${props => {
+  ${(props) => {
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
         return 'none';
         break;
       case PLAYLIST_ITEM_CURRENT:
-        return props.mode === PLAYLIST_MODE_WORK
-          ? props.theme.primaryDark
-          : props.theme.primaryLight;
+        return props.mode === PLAYLIST_MODE_WORK ?
+          props.theme.primaryDark :
+          props.theme.primaryLight;
         break;
       case PLAYLIST_ITEM_REMAINING:
         return props.theme.midtone;
@@ -53,7 +53,7 @@ const StyledCard = styled.div`
   }};
 
   top:
-  ${props => {
+  ${(props) => {
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
         return `${5 - 9 * props.index}rem`;
@@ -71,12 +71,12 @@ const StyledCard = styled.div`
   }};
 
   border:
-  ${props => {
+  ${(props) => {
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
-        return `0.11rem solid ${props.done
-            ? props.theme.secondary
-            : props.theme.secondaryAlt}`;
+        return `0.11rem solid ${props.done ?
+            props.theme.secondary :
+            props.theme.secondaryAlt}`;
         break;
       default:
         return 'none';
@@ -89,30 +89,30 @@ const StyledCard = styled.div`
 const StyledText = styled.div`
   font-weight: 600;
   padding-top:
-  ${props =>
-      props.state === PLAYLIST_ITEM_CURRENT
-      && props.mode === PLAYLIST_MODE_GRACE 
-      ? '0.8rem'
-        : '2rem'
-      };
+  ${(props) =>
+      props.state === PLAYLIST_ITEM_CURRENT &&
+      props.mode === PLAYLIST_MODE_GRACE ?
+        '0.8rem' :
+        '2rem'
+};
   font-size:
-  ${props =>
-      props.state === PLAYLIST_ITEM_CURRENT
-      && props.mode === PLAYLIST_MODE_GRACE 
-      ? '0.8rem'
-        : '1rem'
-      };
+  ${(props) =>
+      props.state === PLAYLIST_ITEM_CURRENT &&
+      props.mode === PLAYLIST_MODE_GRACE ?
+        '0.8rem' :
+        '1rem'
+};
   color:
-  ${props => {
+  ${(props) => {
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
-        return props.done
-            ? props.theme.secondary
-            : props.theme.secondaryAlt;
+        return props.done ?
+          props.theme.secondary :
+          props.theme.secondaryAlt;
       case PLAYLIST_ITEM_CURRENT:
-        return props.mode === PLAYLIST_MODE_WORK
-          ? props.theme.primaryLight
-          : props.theme.primaryDark;
+        return props.mode === PLAYLIST_MODE_WORK ?
+          props.theme.primaryLight :
+          props.theme.primaryDark;
       case PLAYLIST_ITEM_REMAINING:
         return props.theme.primaryLight;
       default:
@@ -126,11 +126,11 @@ const StyledTextFinished = styled(StyledText)`
   font-size: 1.2rem;
   padding-top: 0;
   display:
-  ${props =>
-      props.state === PLAYLIST_ITEM_CURRENT
-      && props.mode === PLAYLIST_MODE_GRACE 
-      ? 'block' : 'none'
-      };
+  ${(props) =>
+      props.state === PLAYLIST_ITEM_CURRENT &&
+      props.mode === PLAYLIST_MODE_GRACE ?
+        'block' : 'none'
+};
 `;
 
 const StyledContainerIcon = styled.div`
@@ -139,12 +139,12 @@ const StyledContainerIcon = styled.div`
   justify-content: space-around;
   align-items: center;
   display:
-  ${props =>
-      props.state === PLAYLIST_ITEM_FINISHED
-      || props.state === PLAYLIST_ITEM_CURRENT
-      && props.mode === PLAYLIST_MODE_GRACE
-      ? 'block' : 'none'
-      };
+  ${(props) =>
+      props.state === PLAYLIST_ITEM_FINISHED ||
+      props.state === PLAYLIST_ITEM_CURRENT &&
+      props.mode === PLAYLIST_MODE_GRACE ?
+        'block' : 'none'
+};
 `;
 
 
@@ -152,34 +152,33 @@ class PlaylistProgressItem extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {click: false}
+    this.state = {click: false};
 
     this.styleIconDone = {
       padding: '0 1rem',
       color: props.theme.secondary,
-    }
+    };
 
     this.styleIconCancel = {
       ...this.styleIconDone,
       color: props.theme.secondaryAlt,
-    }
+    };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    console.log("CLICK");
+    console.log('CLICK');
     this.setState({click: !this.state.click});
   }
 
   render() {
     const {
       blocks,
-      blockId, 
+      blockId,
       playlistMode,
-      focusFinished, 
-      focusRemaining, 
-      focusCurrent, 
+      focusFinished,
+      focusRemaining,
       completedBlocks,
       playlistCheckoff,
     } = this.props;
@@ -194,25 +193,30 @@ class PlaylistProgressItem extends Component {
 
       // index here is reversed to faciliate the styling login better
       itemIndex = focusFinished.length - 1 - itemIndex;
-    }
-    else if ((itemIndex = focusRemaining.indexOf(blockId)) !== -1)
+    } else if ((itemIndex = focusRemaining.indexOf(blockId)) !== -1) {
       itemState = PLAYLIST_ITEM_REMAINING;
-    else
+    } else {
       itemState = PLAYLIST_ITEM_CURRENT;
+    }
 
     let componentIcons;
 
-    if (itemState === PLAYLIST_ITEM_FINISHED)
-      componentIcons = itemDone
-      ? <DoneOutlineOutlinedIcon style={this.styleIconDone} />
-      : <CancelOutlinedIcon style={this.styleIconCancel} />;
-    else
+    if (itemState === PLAYLIST_ITEM_FINISHED) {
+      componentIcons = itemDone ?
+        <DoneOutlineOutlinedIcon style={this.styleIconDone} /> :
+        <CancelOutlinedIcon style={this.styleIconCancel} />;
+    } else {
       componentIcons = (
         <Fragment>
-          <CancelOutlinedIcon onClick={() => playlistCheckoff(false)} style={this.styleIconCancel} />
-          <DoneOutlineOutlinedIcon onClick={() => playlistCheckoff(true)} style={this.styleIconDone} />
+          <CancelOutlinedIcon
+            onClick={() => playlistCheckoff(false)}
+            style={this.styleIconCancel} />
+          <DoneOutlineOutlinedIcon
+            onClick={() => playlistCheckoff(true)}
+            style={this.styleIconDone} />
         </Fragment>
-      )
+      );
+    }
 
     return (
       <StyledCard
@@ -225,7 +229,7 @@ class PlaylistProgressItem extends Component {
           {blocks[blockId].task}
         </StyledText>
         <StyledTextFinished state={itemState} mode={playlistMode}>
-          Finished?
+        Finished?
         </StyledTextFinished>
         <StyledContainerIcon state={itemState} mode={playlistMode}>
           {componentIcons}
@@ -237,12 +241,12 @@ class PlaylistProgressItem extends Component {
 };
 
 PlaylistProgressItem.propTypes = {
+  theme: PropTypes.object.isRequired,
   blockId: PropTypes.string.isRequired,
   blocks: PropTypes.object.isRequired,
   playlistMode: PropTypes.number.isRequired,
   focusFinished: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,
-  focusCurrent: PropTypes.string,
   completedBlocks: PropTypes.object.isRequired,
   playlistCheckoff: PropTypes.func.isRequired,
 };
@@ -252,8 +256,8 @@ const mapStateToProps = (state) => ({
   playlistMode: state.playlist.playlistMode,
   focusFinished: state.playlist.focusFinished,
   focusRemaining: state.playlist.focusRemaining,
-  focusCurrent: state.playlist.focusCurrent,
   completedBlocks: state.playlist.completedBlocks,
 });
 
-export default connect(mapStateToProps, {playlistCheckoff})(withTheme(PlaylistProgressItem));
+export default
+connect(mapStateToProps, {playlistCheckoff})(withTheme(PlaylistProgressItem));

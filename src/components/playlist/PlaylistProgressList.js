@@ -10,9 +10,7 @@ import {
 } from '../../redux/actions/playlistActions';
 
 import {
-  PLAYLIST_MODE_WORK,
   PLAYLIST_MODE_BREAK,
-  PLAYLIST_MODE_GRACE,
 } from '../../util/constants';
 
 const StyledContainer = styled.div`
@@ -24,19 +22,19 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  filter: ${props => props.mode === PLAYLIST_MODE_BREAK ? 'blur(4px)' : 'none'};
+  filter:
+  ${(props) => props.mode === PLAYLIST_MODE_BREAK ? 'blur(4px)' : 'none'};
   transition: all 0.5s ease-in-out;
-`
+`;
 
 class PlaylistProgressList extends Component {
-
   render() {
-    const {blocks, playlistMode, focusInitial} = this.props;
+    const {playlistMode, focusInitial} = this.props;
 
-    const blocksList = Object.values(focusInitial).map(blockId =>
-      <PlaylistProgressItem 
-      blockId={blockId} 
-      key={blockId} />,
+    const blocksList = Object.values(focusInitial).map((blockId) =>
+      <PlaylistProgressItem
+        blockId={blockId}
+        key={blockId} />,
     );
 
     return (
@@ -48,7 +46,6 @@ class PlaylistProgressList extends Component {
 }
 
 PlaylistProgressList.propTypes = {
-  blocks: PropTypes.object.isRequired,
   playlistMode: PropTypes.number.isRequired,
   focusInitial: PropTypes.array.isRequired,
   focusFinished: PropTypes.array.isRequired,
@@ -58,7 +55,6 @@ PlaylistProgressList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  blocks: state.data.blocks,
   playlistMode: state.playlist.playlistMode,
   focusInitial: state.playlist.focusInitial,
   focusFinished: state.playlist.focusFinished,
@@ -70,4 +66,5 @@ const mapDispatchToProps = {
   playlistCheckoff,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlaylistProgressList);
+export default
+connect(mapStateToProps, mapDispatchToProps)(PlaylistProgressList);

@@ -13,12 +13,14 @@ const StyledContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin: 2em;
-`
+`;
 
 const PlaylistEnd = (props) => {
   return (
     <StyledContainer>
-      <StyledButtonOutline onClick={() => props.playlistEnd()}>End session</StyledButtonOutline>
+      <StyledButtonOutline onClick={() => props.playlistEnd()}>
+        End session
+      </StyledButtonOutline>
     </StyledContainer>
   );
 };

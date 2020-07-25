@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {EMAIL_REGEX} from '../../util/constants';
@@ -73,6 +74,11 @@ class Signup extends Component {
     );
   }
 }
+
+Signup.propTypes = {
+  history: PropTypes.object.isRequired,
+  sessionUserSignup: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
   sessionUserSignup,

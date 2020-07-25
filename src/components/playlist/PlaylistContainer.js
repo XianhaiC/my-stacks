@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
@@ -19,12 +20,12 @@ const StyledContainer = styled.div`
   height: 80%;
   width: 100%;
   background:
-  ${props => props.mode === PLAYLIST_MODE_WORK
-      ? props.theme.primaryLight
-      : props.theme.primaryDark
-      };
+  ${(props) => props.mode === PLAYLIST_MODE_WORK ?
+      props.theme.primaryLight :
+      props.theme.primaryDark
+};
   transition: all 0.5s ease-in-out;
-`
+`;
 
 const PlaylistContainer = (props) => {
   return (
@@ -40,6 +41,10 @@ const PlaylistContainer = (props) => {
       </StyledBox>
     </StyledContainer>
   );
+};
+
+PlaylistContainer.propTypes = {
+  playlistMode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

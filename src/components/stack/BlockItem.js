@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import {
   FOCUS_NONE,
@@ -21,7 +21,7 @@ class BlockItem extends Component {
   }
 
   render() {
-    const { blocks, blockId } = this.props;
+    const {blocks, blockId} = this.props;
 
     return (
       <div>

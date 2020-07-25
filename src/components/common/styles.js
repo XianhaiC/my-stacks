@@ -5,7 +5,7 @@ export const StyledBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 export const StyledBoxColumn = styled(StyledBox)`
   flex-direction: column;
 `;
@@ -16,6 +16,6 @@ export const StyledButtonOutline = styled.button`
   font-size: 1rem;
   font-weight: 600;
   padding: 0.5rem 1.2rem;
-  color: ${props => props.theme.secondary};
+  color: ${(props) => props.theme.secondary};
   background: none;
-`
+`;

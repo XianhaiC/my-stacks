@@ -22,7 +22,7 @@ import {
 import {
   SESSION_SET_AUTHENTICATED,
   SESSION_LOADING_LANDING,
-} from './redux/types'
+} from './redux/types';
 
 import {PATH_ROOT} from './util/constants';
 
@@ -33,7 +33,7 @@ const theme = {
   midtone: '#3C4271',
   secondary: '#4CD2B2',
   secondaryAlt: '#FF8541',
-}
+};
 
 
 let authenticated;
@@ -53,7 +53,7 @@ if (token) {
     // fetch the user data
     axios.defaults.headers.common['Authorization'] = token;
     store.dispatch(sessionUserFetchData());
-    store.dispatch({ type: SESSION_SET_AUTHENTICATED })
+    store.dispatch({type: SESSION_SET_AUTHENTICATED});
     store.dispatch({type: SESSION_LOADING_LANDING, payload: false});
   }
 }
@@ -67,20 +67,20 @@ function App() {
             <Switch>
 
               <AuthRoute exact path="/app"
-              auth={false} redirect="/"
-              component={Display} />
+                auth={false} redirect="/"
+                component={Display} />
 
               <AuthRoute exact path="/"
-              auth={true} redirect="/app"
-              component={Landing} />
+                auth={true} redirect="/app"
+                component={Landing} />
 
               <AuthRoute exact path="/login"
-              auth={true} redirect="/app"
-              component={Login} />
+                auth={true} redirect="/app"
+                component={Login} />
 
               <AuthRoute exact path="/signup"
-              auth={true} redirect="/app"
-              component={Signup} />
+                auth={true} redirect="/app"
+                component={Signup} />
 
             </Switch>
           </Router>
