@@ -139,8 +139,8 @@ class BlockItem extends Component {
               <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleClickEye}>👁</button>
               <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleIncrementBursts}>+</button>
               <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.handleDecrementBursts}>-</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.props.onRearrange(this.props.blockId, true)}>⇧</button>
-              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={this.props.onRearrange(this.props.blockId, false)}>⇩</button>
+              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={() => this.props.onRearrange(this.props.blockId, true)}>⇧</button>
+              <button onMouseEnter={this.handleMouseEnterButton} onMouseLeave={this.handleMouseLeaveButton} className="block-item-button" onClick={() => this.props.onRearrange(this.props.blockId, false)}>⇩</button>
             </div>
           </center>
         )
