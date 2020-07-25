@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import {
-  FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT
+  FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
 } from '../../util/constants';
 
 class BlockItem extends Component {
   constructor() {
     super();
 
-    //rename task => block
+    // rename task => block
     this.state = {
       editTask: 'Title',
       editDescription: 'A basic description should go here.',
@@ -19,10 +19,10 @@ class BlockItem extends Component {
       numBursts: 3,
       stackId: '',
       hover: false,
-      modTitle: null, //title of the task block
-      modDescription: null, //description of the task block
-      modDurationWork: null, //time length in seconds of burst
-      modDurationBreak: null, //time length in seconds of break
+      modTitle: null, // title of the task block
+      modDescription: null, // description of the task block
+      modDurationWork: null, // time length in seconds of burst
+      modDurationBreak: null, // time length in seconds of break
       focusState: FOCUS_NONE,
     };
 
@@ -39,122 +39,130 @@ class BlockItem extends Component {
 
     this.handleChangeEditTask = this.handleChangeTask.bind(this);
     this.handleChangeEditDescription = this.handleChangeDescription.bind(this);
-    this.handleChangeDurationEditWork = this.handleChangeDurationWork.bind(this);
-    this.handleChangeDurationEditBreak = this.handleChangeDurationBreak.bind(this);
+    this.handleChangeDurationEditWork =
+      this.handleChangeDurationWork.bind(this);
+    this.handleChangeDurationEditBreak =
+      this.handleChangeDurationBreak.bind(this);
   }
 
-  //onMassEnter and onMassLeave
-  //onhover, check what state it's in, based on that change the local state
+  // onMassEnter and onMassLeave
+  // onhover, check what state it's in, based on that change the local state
 
   handleMouseEnterBlock() {
     document.body.style.cursor = 'grab';
-    this.setState({ focusState: FOCUS_HOVER });
+    this.setState({focusState: FOCUS_HOVER});
   }
 
   handleMouseLeaveBlock() {
-    this.setState({ focusState: FOCUS_NONE });
-    document.body.style.cursor = ''; //default arrow cursor
+    this.setState({focusState: FOCUS_NONE});
+    document.body.style.cursor = ''; // default arrow cursor
   }
 
   handleClickEye() {
-    this.setState({ focusState: FOCUS_INFO });
+    this.setState({focusState: FOCUS_INFO});
   }
 
   handleClickCancel(e) {
     e.preventDefault();
-    this.setState({ focusState: FOCUS_INFO });
+    this.setState({focusState: FOCUS_INFO});
   }
 
   handleClickEdit() {
-    this.setState({ focusState: FOCUS_EDIT });
+    this.setState({focusState: FOCUS_EDIT});
   }
 
   handleCloseInfo() {
-    this.setState({ focusState: FOCUS_NONE });
+    this.setState({focusState: FOCUS_NONE});
   }
 
   handleIncrementBursts() {
-    if (this.state.numBursts < 10) this.setState({ numBursts: this.state.numBursts + 1 });
+    if (this.state.numBursts < 10) {
+      this.setState({numBursts: this.state.numBursts + 1});
+    }
   }
 
   handleDecrementBursts() {
-    if (this.state.numBursts > 1) this.setState({ numBursts: this.state.numBursts - 1 });
+    if (this.state.numBursts > 1) {
+      this.setState({numBursts: this.state.numBursts - 1});
+    }
   }
 
   /* need to do a PATCH request to firebase and also update the store */
   handleClickSaveChanges() {
-    //TODO, meet with Xianhai to discuss this
-    this.setState({ focusState: FOCUS_INFO })
+    // TODO, meet with Xianhai to discuss this
+    this.setState({focusState: FOCUS_INFO});
   }
 
   /* Input boxes change handlers */
   handleChangeTask(e) {
-    this.setState({ task: e.target.value, modTitle: e.target.value });
+    this.setState({editTask: e.target.value, modTitle: e.target.value});
   }
 
   handleChangeDescription(e) {
-    this.setState({ description: e.target.value, modDescription: e.target.value });
+    this.setState(
+        {editDescription: e.target.value, modDescription: e.target.value},
+    );
   }
 
   handleChangeDurationWork(e) {
-    this.setState({ durationWork: e.target.value, modDurationWork: e.target.value });
+    this.setState(
+        {editDurationWork: e.target.value, modDurationWork: e.target.value},
+    );
   }
 
   handleChangeDurationBreak(e) {
-    this.setState({ durationBreak: e.target.value, modDurationBreak: e.target.value });
+    this.setState(
+        {editDurationBreak: e.target.value, modDurationBreak: e.target.value},
+    );
   }
 
-  handleSwapBlocks(id, above) { //swap stacks[stackFocused].order[top] and stacks[stackFocused].order[bottom]
-    //TODO, update the state to have the new items order
-    //stacks[stackFocused].order = newOrderItems;
-    //also check edge conditions, i.e. can't move block up or can't move block down
-    const { stacks, stackFocused } = this.props;
+  handleSwapBlocks(id, above) {
+    const {stacks, stackFocused} = this.props;
 
-    let blockIdsArray = stacks[stackFocused].order;
-    let index = blockIdsArray.indexOf(id);
-    if (index === 0 && above === true || index === blockIdsArray.length - 1 && above === false) {
-      console.log("returned for " + id);
+    const blockIdsArray = stacks[stackFocused].order;
+    const index = blockIdsArray.indexOf(id);
+    if (index === 0 && above === true ||
+      index === blockIdsArray.length - 1 && above === false) {
+      console.log('returned for ' + id);
       return;
     }
     if (above) {
-      let temp = blockIdsArray[index];
+      const temp = blockIdsArray[index];
       blockIdsArray[index] = blockIdsArray[index - 1];
       blockIdsArray[index - 1] = temp;
-      //swap items blockIdsArray[index] and blockIdsArray[index - 1]
-    }
-    else {
-      //swap items blockIdsArray[index] and blockIdsArray[index + 1]
-      let temp = blockIdsArray[index];
+    } else {
+      const temp = blockIdsArray[index];
       blockIdsArray[index] = blockIdsArray[index + 1];
       blockIdsArray[index + 1] = temp;
     }
-    //console.log("executed rearrangement for " + id); //why does this log 4 times???
-    this.props.stacks[this.props.stackFocused].order = blockIdsArray;
-    console.log(this.props.stacks[this.props.stackFocused].order);
+    stacks[stackFocused].order = blockIdsArray;
   }
 
-  //Finite state machine
+  // Finite state machine
   render() {
-    const { blocks, blockId } = this.props;
+    const {blocks, blockId} = this.props;
     let blockItem;
 
     switch (this.state.focusState) {
-
       case FOCUS_NONE:
         blockItem = (
           <center>
-            <div className="block-item-div-or-form" onMouseEnter={this.handleMouseEnterBlock}>
-              <h3 className="burst">{this.state.numBursts}</h3> {blocks[blockId].task}
+            <div className="block-item-div-or-form"
+              onMouseEnter={this.handleMouseEnterBlock}>
+              <h3 className="burst">{this.state.numBursts}</h3>
+              {blocks[blockId].task}
             </div>
           </center>
-        )
+        );
         break;
 
       case FOCUS_HOVER:
         blockItem = (
           <center>
-            <div className="block-item-div-or-form" onMouseLeave={this.handleMouseLeaveBlock}>
-              <h3 className="burst">{this.state.numBursts}</h3> {blocks[blockId].task}
+            <div className="block-item-div-or-form"
+              onMouseLeave={this.handleMouseLeaveBlock}>
+              <h3 className="burst">{this.state.numBursts}</h3>
+              {blocks[blockId].task}
 
               <button
                 onMouseEnter={this.handleMouseEnterButton}
@@ -184,7 +192,7 @@ class BlockItem extends Component {
                 onMouseEnter={this.handleMouseEnterButton}
                 onMouseLeave={this.handleMouseLeaveButton}
                 className="block-item-button"
-                onClick={() => this.handleSwapBlocks(this.props.blockId, true)}>
+                onClick={() => this.handleSwapBlocks(blockId, true)}>
                 ⇧
               </button>
 
@@ -192,51 +200,54 @@ class BlockItem extends Component {
                 onMouseEnter={this.handleMouseEnterButton}
                 onMouseLeave={this.handleMouseLeaveButton}
                 className="block-item-button"
-                onClick={() => this.handleSwapBlocks(this.props.blockId, false)}>
+                onClick={() => this.handleSwapBlocks(blockId, false)}>
                 ⇩
               </button>
 
             </div>
           </center>
-        )
+        );
         break;
 
-      //should not be a form, just displaying info about block item
-      case FOCUS_INFO: //only shows play or up/down buttons
+      // should not be a form, just displaying info about block item
+      case FOCUS_INFO: // only shows play or up/down buttons
         blockItem = (
           <center>
             <div className="block-item-div-or-form" >
-              <span style={{ margin: '5px', fontWeight: 'bold' }}>
+              <span style={{margin: '5px', fontWeight: 'bold'}}>
                 {this.state.editTask}
               </span>
-              <span style={{ margin: '5px', float: 'right' }}>
+              <span style={{margin: '5px', float: 'right'}}>
                 Burst length: [{this.state.editDurationWork}]
               </span>
-              <span style={{ margin: '5px', float: 'right' }}>
+              <span style={{margin: '5px', float: 'right'}}>
                 Break length: [{this.state.editDurationBreak}]
               </span>
-              <div className="block-item-description" >{this.state.editDescription}</div>
+              <div className="block-item-description" >
+                {this.state.editDescription}
+              </div>
               <button
                 className="block-item-button"
-                style={{ float: 'none' }}
+                style={{float: 'none'}}
                 onClick={this.handleClickEdit}>
                 Edit
               </button>
               <button
                 className="block-item-button"
-                style={{ float: 'none' }}
+                style={{float: 'none'}}
                 onClick={this.handleCloseInfo}>
                 Close
               </button>
             </div >
           </center>
-        )
+        );
         break;
 
       case FOCUS_EDIT:
         blockItem = (
           <center>
-            <form className="block-item-div-or-form" onSubmit={this.handleBlockCreate}>
+            <form className="block-item-div-or-form"
+              onSubmit={this.handleBlockCreate}>
 
               <input
                 type="text"
@@ -274,22 +285,18 @@ class BlockItem extends Component {
                 required
               />
               <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
                 className="block-item-button"
                 onClick={this.handleClickSaveChanges}>
                 Save
               </button>
               <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
                 className="block-item-button"
                 onClick={this.handleClickCancel}>
                 Cancel
               </button>
             </form>
           </center>
-        )
+        );
         break;
     }
 
@@ -300,8 +307,10 @@ class BlockItem extends Component {
 }
 
 BlockItem.propTypes = {
-  blocks: PropTypes.object.isRequired,
   blockId: PropTypes.string.isRequired,
+  stacks: PropTypes.object.isRequired,
+  blocks: PropTypes.object.isRequired,
+  stackFocused: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
