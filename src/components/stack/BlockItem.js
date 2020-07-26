@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import {
   FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
@@ -51,74 +51,74 @@ class BlockItem extends Component {
 
   handleMouseEnterBlock() {
     document.body.style.cursor = 'grab';
-    this.setState({focusState: FOCUS_HOVER});
+    this.setState({ focusState: FOCUS_HOVER });
   }
 
   handleMouseLeaveBlock() {
-    this.setState({focusState: FOCUS_NONE});
+    this.setState({ focusState: FOCUS_NONE });
     document.body.style.cursor = ''; // default arrow cursor
   }
 
   handleClickEye() {
-    this.setState({focusState: FOCUS_INFO});
+    this.setState({ focusState: FOCUS_INFO });
   }
 
   handleClickCancel(e) {
     e.preventDefault();
-    this.setState({focusState: FOCUS_INFO});
+    this.setState({ focusState: FOCUS_INFO });
   }
 
   handleClickEdit() {
-    this.setState({focusState: FOCUS_EDIT});
+    this.setState({ focusState: FOCUS_EDIT });
   }
 
   handleCloseInfo() {
-    this.setState({focusState: FOCUS_NONE});
+    this.setState({ focusState: FOCUS_NONE });
   }
 
   handleIncrementBursts() {
     if (this.state.numBursts < 10) {
-      this.setState({numBursts: this.state.numBursts + 1});
+      this.setState({ numBursts: this.state.numBursts + 1 });
     }
   }
 
   handleDecrementBursts() {
     if (this.state.numBursts > 1) {
-      this.setState({numBursts: this.state.numBursts - 1});
+      this.setState({ numBursts: this.state.numBursts - 1 });
     }
   }
 
   /* need to do a PATCH request to firebase and also update the store */
   handleClickSaveChanges() {
     // TODO, meet with Xianhai to discuss this
-    this.setState({focusState: FOCUS_INFO});
+    this.setState({ focusState: FOCUS_INFO });
   }
 
   /* Input boxes change handlers */
   handleChangeEditTask(e) {
-    this.setState({editTask: e.target.value, modTitle: e.target.value});
+    this.setState({ editTask: e.target.value, modTitle: e.target.value });
   }
 
   handleChangeEditDescription(e) {
     this.setState(
-        {editDescription: e.target.value, modDescription: e.target.value},
+      { editDescription: e.target.value, modDescription: e.target.value },
     );
   }
 
   handleChangeEditDurationWork(e) {
     this.setState(
-        {editDurationWork: e.target.value, modDurationWork: e.target.value},
+      { editDurationWork: e.target.value, modDurationWork: e.target.value },
     );
   }
 
   handleChangeEditDurationBreak(e) {
     this.setState(
-        {editDurationBreak: e.target.value, modDurationBreak: e.target.value},
+      { editDurationBreak: e.target.value, modDurationBreak: e.target.value },
     );
   }
 
   handleSwapBlocks(id, above) {
-    const {stacks, stackFocused} = this.props;
+    const { stacks, stackFocused } = this.props;
 
     const blockIdsArray = stacks[stackFocused].order;
     const index = blockIdsArray.indexOf(id);
@@ -136,12 +136,13 @@ class BlockItem extends Component {
       blockIdsArray[index] = blockIdsArray[index + 1];
       blockIdsArray[index + 1] = temp;
     }
+    console.log(blockIdsArray);
     stacks[stackFocused].order = blockIdsArray;
   }
 
   // Finite state machine
   render() {
-    const {blocks, blockId} = this.props;
+    const { blocks, blockId } = this.props;
     let blockItem;
 
     switch (this.state.focusState) {
@@ -215,13 +216,13 @@ class BlockItem extends Component {
         blockItem = (
           <center>
             <div className="block-item-div-or-form" >
-              <span style={{margin: '5px', fontWeight: 'bold'}}>
+              <span style={{ margin: '5px', fontWeight: 'bold' }}>
                 {this.state.editTask}
               </span>
-              <span style={{margin: '5px', float: 'right'}}>
+              <span style={{ margin: '5px', float: 'right' }}>
                 Burst length: [{this.state.editDurationWork}]
               </span>
-              <span style={{margin: '5px', float: 'right'}}>
+              <span style={{ margin: '5px', float: 'right' }}>
                 Break length: [{this.state.editDurationBreak}]
               </span>
               <div className="block-item-description" >
@@ -229,13 +230,13 @@ class BlockItem extends Component {
               </div>
               <button
                 className="block-item-button"
-                style={{float: 'none'}}
+                style={{ float: 'none' }}
                 onClick={this.handleClickEdit}>
                 Edit
               </button>
               <button
                 className="block-item-button"
-                style={{float: 'none'}}
+                style={{ float: 'none' }}
                 onClick={this.handleCloseInfo}>
                 Close
               </button>
@@ -285,11 +286,11 @@ class BlockItem extends Component {
                 maxLength="255"
                 required
               />
-              <button
+              <input
                 className="block-item-button"
-                onClick={this.handleClickSaveChanges}>
-                Save
-              </button>
+                type="submit"
+                value="Save"
+              />
               <button
                 className="block-item-button"
                 onClick={this.handleClickCancel}>
