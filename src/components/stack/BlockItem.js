@@ -120,18 +120,17 @@ class BlockItem extends Component {
     e.preventDefault();
     this.setState({focusState: FOCUS_INFO});
     this.props.dataBlockUpdate({
-      ...this.state,
-      stackId: this.props.stackFocused,
-      blockId: this.props.blockId,
-    });
+      task: this.state.task,
+      description: this.state.description,
+      durationWork: this.state.durationWork,
+      durationBreak: this.state.durationBreak,
+    }, this.props.blockId);
   }
 
   handleBurstsUpdate() {
     this.props.dataBlockUpdate({
       numBursts: this.state.numBursts,
-      stackId: this.props.stackFocused,
-      blockId: this.props.blockId,
-    });
+    }, this.props.blockId);
   }
 
   handleSwapBlocks(id, above) {

@@ -55,7 +55,6 @@ export const dataBlockCreate = (blockData) => (dispatch) => {
 
         // the stack had already been loaded, so set this for consistency
         res.data.stack.loaded = true;
-        console.log(res.data.block);
 
         dispatch({
           type: DATA_SET_BLOCK,
@@ -77,10 +76,10 @@ export const dataBlockCreate = (blockData) => (dispatch) => {
 };
 
 // update
-export const dataBlockUpdate = (blockData) => (dispatch) => {
-  axios.patch(`/blocks/${blockData.blockId}`, blockData)
+export const dataBlockUpdate = (blockData, blockId) => (dispatch) => {
+  axios.patch(`/blocks/${blockId}`, blockData)
       .then((response) => {
-        console.log(`[INFO] Updated: ${blockData.blockId}`);
+        console.log(`[INFO] Updated: ${blockId}`);
         dispatch({
           type: DATA_SET_BLOCK,
           payload: response.data,
