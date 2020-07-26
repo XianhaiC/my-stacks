@@ -3,8 +3,8 @@ import {
   STACK_SET_STACK_FOCUSED,
   STACK_SET_POPUP_VISIBLE_OPTIONS_SIDEBAR,
   STACK_SET_POPUP_VISIBLE_OPTIONS_STACK,
-  STACK_SET_POPUP_VISIBLE_CREATE_STACK,
-  STACK_SET_POPUP_VISIBLE_EDIT_STACK,
+  STACK_SET_POPUP_VISIBLE_STACK_CREATE,
+  STACK_SET_POPUP_VISIBLE_STACK_EDIT,
   STACK_CLEAR,
 } from '../types';
 
@@ -13,8 +13,8 @@ const INITIAL_STATE = {
   stackFocused: null,
   popupVisibleOptionsSidebar: false,
   popupVisibleOptionsStack: false,
-  popupVisibleCreateStack: false,
-  popupVisibleEditStack: false,
+  popupVisibleStackCreate: false,
+  popupVisibleStackEdit: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -43,16 +43,16 @@ export default (state = INITIAL_STATE, action) => {
         popupVisibleOptionsStack: action.payload,
       };
 
-    case STACK_SET_POPUP_VISIBLE_CREATE_STACK:
+    case STACK_SET_POPUP_VISIBLE_STACK_CREATE:
       return {
         ...state,
-        popupVisibleCreateStack: action.payload,
+        popupVisibleStackCreate: action.payload,
       };
 
-    case STACK_SET_POPUP_VISIBLE_EDIT_STACK:
+    case STACK_SET_POPUP_VISIBLE_STACK_EDIT:
       return {
         ...state,
-        popupVisibleEditStack: action.payload,
+        popupVisibleStackEdit: action.payload,
       };
 
     case STACK_CLEAR:

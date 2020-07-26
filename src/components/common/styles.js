@@ -6,6 +6,7 @@ export const StyledBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export const StyledBoxColumn = styled(StyledBox)`
   flex-direction: column;
 `;
@@ -18,4 +19,22 @@ export const StyledButtonOutline = styled.button`
   padding: 0.5rem 1.2rem;
   color: ${(props) => props.theme.secondary};
   background: none;
+`;
+
+export const StyledButtonContainer = styled.button`
+  outline: none;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+`;
+
+export const StyledPopup = styled.div`
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 20%;
+  background: ${(props) => props.theme.primaryLight};
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
 `;

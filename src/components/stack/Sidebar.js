@@ -1,11 +1,62 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
 
-import {StyledButtonOutline} from '../common/styles';
+import StackItem from './StackItem';
 
-import {stackSetStackFocused} from '../../redux/actions/stackActions';
+import ArrowLeftRoundedIcon from '@material-ui/icons/ArrowLeftRounded';
+import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+
+import {StyledButtonContainer} from '../common/styles';
+
+import {
+  stackSetPopupVisibleStackCreate,
+} from '../../redux/actions/stackActions';
 import {dataStackCreate} from '../../redux/actions/dataActions';
+
+const StyledContainer = styled.div`
+  width: 15rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: ${(props) => props.theme.primaryLightDull};
+`;
+
+const StyledContainerList = styled(StyledContainer)`
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+`;
+
+const StyledDot = styled.div`
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 1rem;
+  margin-right: 0.75rem;
+  background-color: ${(props) => props.theme.primaryDark};
+`;
+
+const StyledSeparator = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+`;
+
+const StyledContainerCloseButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 4rem;
+  padding-right: 0.5rem;
+`;
+
+const StyledContainerBottomButtons = styled(StyledContainerCloseButton)`
+  justify-content: space-between;
+`;
 
 class Sidebar extends Component {
   constructor() {
@@ -36,48 +87,69 @@ class Sidebar extends Component {
   }
 
   render() {
-    const stackItems = Object.values(this.props.stacks).map((stack) =>
-      <h3 onClick={(e) => this.props.stackSetStackFocused(stack.id)}
-        key={stack.id}>{stack.name}
-      </h3>,
-    );
+    const {
+      stacks,
+      stackSetPopupVisibleStackCreate,
+      popupVisibleStackCreate,
+    } = this.props;
+
+    let stackInbox;
+    const stackItems = Object.values(stacks).map((stack) => {
+      const component = <StackItem stackId={stack.id} key={stack.id} />;
+      if (stack.isInbox) {
+        stackInbox = component;
+        return null;
+      }
+      return component;
+    });
 
     return (
-      <div>
-        { stackItems }
-        <div>
-          <form onSubmit={this.handleStackCreate}>
-            <input
-              type="text"
-              placeholder="Stack name"
-              value={this.state.name}
-              onChange={this.handleChangeName}
-              maxLength="255"
-              required />
-            <input type="submit" value="Add stack"/>
-          </form>
-          <StyledButtonOutline onClick={this.handleClickOptions}>
-            Options
-          </StyledButtonOutline>
-        </div>
-      </div>
+      <StyledContainer>
+        <StyledContainerCloseButton>
+          <StyledButtonContainer>
+            <ArrowLeftRoundedIcon />
+          </StyledButtonContainer>
+        </StyledContainerCloseButton>
+        <StyledContainerList>
+          {stackInbox}
+          <StyledSeparator>
+            <StyledDot />
+            <StyledDot />
+            <StyledDot />
+          </StyledSeparator>
+          {stackItems}
+        </StyledContainerList>
+        <StyledContainerBottomButtons>
+          <div>
+            <StyledButtonContainer onClick={() => stackSetPopupVisibleStackCreate(!popupVisibleStackCreate)}>
+              <AddRoundedIcon />
+              Add stack
+            </StyledButtonContainer>
+          </div>
+          <StyledButtonContainer>
+            <SettingsRoundedIcon />
+          </StyledButtonContainer>
+        </StyledContainerBottomButtons>
+      </StyledContainer>
     );
   }
 }
 
 Sidebar.propTypes = {
   stacks: PropTypes.object.isRequired,
-  stackSetStackFocused: PropTypes.func.isRequired,
   dataStackCreate: PropTypes.func.isRequired,
+  popupVisibleStackCreate: PropTypes.bool.isRequired,
+  stackSetPopupVisibleStackCreate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   stacks: state.data.stacks,
+  popupVisibleStackCreate: state.stack.popupVisibleStackCreate,
 });
 
 const mapDispatchToProps = {
-  stackSetStackFocused,
   dataStackCreate,
+  stackSetPopupVisibleStackCreate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
