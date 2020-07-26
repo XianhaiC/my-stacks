@@ -17,7 +17,7 @@ import {
 import {dataStackCreate} from '../../redux/actions/dataActions';
 
 const StyledContainer = styled.div`
-  width: 15rem;
+  width: 17rem;
   height: 100%;
   display: flex;
   flex-direction: column;

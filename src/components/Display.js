@@ -12,6 +12,7 @@ import {
 
 class Display extends Component {
   render() {
+    /*
     let currentDisplay;
 
     switch (this.props.display) {
@@ -19,8 +20,9 @@ class Display extends Component {
       case DISPLAY_STACK: currentDisplay = <StackDisplay />; break;
       default: currentDisplay = <StackDisplay />; break;
     }
+    */
 
-    return currentDisplay;
+    return <StackDisplay />;
   }
 }
 
