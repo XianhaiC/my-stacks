@@ -6,23 +6,20 @@ import {
   FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
 } from '../../util/constants';
 
+import {dataBlockUpdate} from '../../redux/actions/dataActions';
+
 class BlockItem extends Component {
   constructor() {
     super();
 
-    // rename task => block
     this.state = {
-      editTask: 'Title',
-      editDescription: 'A basic description should go here.',
-      editDurationWork: 1500,
-      editDurationBreak: 600,
+      task: 'Title',
+      description: 'A basic description should go here.',
+      durationWork: 1500,
+      durationBreak: 600,
       numBursts: 3,
       stackId: '',
       hover: false,
-      modTitle: null, // title of the task block
-      modDescription: null, // description of the task block
-      modDurationWork: null, // time length in seconds of burst
-      modDurationBreak: null, // time length in seconds of break
       focusState: FOCUS_NONE,
     };
 
@@ -34,8 +31,9 @@ class BlockItem extends Component {
     this.handleCloseInfo = this.handleCloseInfo.bind(this);
     this.handleIncrementBursts = this.handleIncrementBursts.bind(this);
     this.handleDecrementBursts = this.handleDecrementBursts.bind(this);
-    this.handleClickSaveChanges = this.handleClickSaveChanges.bind(this);
     this.handleSwapBlocks = this.handleSwapBlocks.bind(this);
+    this.handleBlockUpdate = this.handleBlockUpdate.bind(this);
+    this.handleBurstsUpdate = this.handleBurstsUpdate.bind(this);
 
     this.handleChangeEditTask = this.handleChangeEditTask.bind(this);
     this.handleChangeEditDescription =
@@ -45,9 +43,6 @@ class BlockItem extends Component {
     this.handleChangeEditDurationBreak =
       this.handleChangeEditDurationBreak.bind(this);
   }
-
-  // onMassEnter and onMassLeave
-  // onhover, check what state it's in, based on that change the local state
 
   handleMouseEnterBlock() {
     document.body.style.cursor = 'grab';
@@ -69,7 +64,15 @@ class BlockItem extends Component {
   }
 
   handleClickEdit() {
-    this.setState({focusState: FOCUS_EDIT});
+    const {blocks, blockId} = this.props;
+    this.setState(
+        {
+          focusState: FOCUS_EDIT,
+          task: blocks[blockId].task,
+          durationWork: blocks[blockId].durationWork,
+          durationBreak: blocks[blockId].durationBreak,
+          description: blocks[blockId].description,
+        });
   }
 
   handleCloseInfo() {
@@ -79,42 +82,56 @@ class BlockItem extends Component {
   handleIncrementBursts() {
     if (this.state.numBursts < 10) {
       this.setState({numBursts: this.state.numBursts + 1});
+      this.handleBurstsUpdate();
     }
   }
 
   handleDecrementBursts() {
     if (this.state.numBursts > 1) {
       this.setState({numBursts: this.state.numBursts - 1});
+      this.handleBurstsUpdate();
     }
-  }
-
-  /* need to do a PATCH request to firebase and also update the store */
-  handleClickSaveChanges() {
-    // TODO, meet with Xianhai to discuss this
-    this.setState({focusState: FOCUS_INFO});
   }
 
   /* Input boxes change handlers */
   handleChangeEditTask(e) {
-    this.setState({editTask: e.target.value, modTitle: e.target.value});
+    this.setState({task: e.target.value});
   }
 
   handleChangeEditDescription(e) {
     this.setState(
-        {editDescription: e.target.value, modDescription: e.target.value},
+        {description: e.target.value},
     );
   }
 
   handleChangeEditDurationWork(e) {
     this.setState(
-        {editDurationWork: e.target.value, modDurationWork: e.target.value},
+        {durationWork: e.target.value},
     );
   }
 
   handleChangeEditDurationBreak(e) {
     this.setState(
-        {editDurationBreak: e.target.value, modDurationBreak: e.target.value},
+        {durationBreak: e.target.value},
     );
+  }
+
+  handleBlockUpdate(e) {
+    e.preventDefault();
+    this.setState({focusState: FOCUS_INFO});
+    this.props.dataBlockUpdate({
+      ...this.state,
+      stackId: this.props.stackFocused,
+      blockId: this.props.blockId,
+    });
+  }
+
+  handleBurstsUpdate() {
+    this.props.dataBlockUpdate({
+      numBursts: this.state.numBursts,
+      stackId: this.props.stackFocused,
+      blockId: this.props.blockId,
+    });
   }
 
   handleSwapBlocks(id, above) {
@@ -124,7 +141,6 @@ class BlockItem extends Component {
     const index = blockIdsArray.indexOf(id);
     if (index === 0 && above === true ||
       index === blockIdsArray.length - 1 && above === false) {
-      console.log('returned for ' + id);
       return;
     }
     if (above) {
@@ -136,7 +152,6 @@ class BlockItem extends Component {
       blockIdsArray[index] = blockIdsArray[index + 1];
       blockIdsArray[index + 1] = temp;
     }
-    console.log(blockIdsArray);
     stacks[stackFocused].order = blockIdsArray;
   }
 
@@ -151,7 +166,7 @@ class BlockItem extends Component {
           <center>
             <div className="block-item-div-or-form"
               onMouseEnter={this.handleMouseEnterBlock}>
-              <h3 className="burst">{this.state.numBursts}</h3>
+              <h3 className="burst">{blocks[blockId].numBursts}</h3>
               {blocks[blockId].task}
             </div>
           </center>
@@ -163,7 +178,7 @@ class BlockItem extends Component {
           <center>
             <div className="block-item-div-or-form"
               onMouseLeave={this.handleMouseLeaveBlock}>
-              <h3 className="burst">{this.state.numBursts}</h3>
+              <h3 className="burst">{blocks[blockId].numBursts}</h3>
               {blocks[blockId].task}
 
               <button
@@ -217,16 +232,16 @@ class BlockItem extends Component {
           <center>
             <div className="block-item-div-or-form" >
               <span style={{margin: '5px', fontWeight: 'bold'}}>
-                {this.state.editTask}
+                {blocks[blockId].task}
               </span>
               <span style={{margin: '5px', float: 'right'}}>
-                Burst length: [{this.state.editDurationWork}]
+                Burst length: [{blocks[blockId].durationWork}]
               </span>
               <span style={{margin: '5px', float: 'right'}}>
-                Break length: [{this.state.editDurationBreak}]
+                Break length: [{blocks[blockId].durationBreak}]
               </span>
               <div className="block-item-description" >
-                {this.state.editDescription}
+                {blocks[blockId].description}
               </div>
               <button
                 className="block-item-button"
@@ -249,12 +264,12 @@ class BlockItem extends Component {
         blockItem = (
           <center>
             <form className="block-item-div-or-form"
-              onSubmit={this.handleBlockCreate}>
+              onSubmit={this.handleBlockUpdate}>
 
               <input
                 type="text"
                 placeholder="Task"
-                value={this.state.editTask}
+                value={this.state.task}
                 onChange={this.handleChangeEditTask}
                 maxLength="255"
                 required
@@ -263,7 +278,7 @@ class BlockItem extends Component {
               <input
                 type="text"
                 placeholder="Description"
-                value={this.state.editDescription}
+                value={this.state.description}
                 onChange={this.handleChangeEditDescription}
                 maxLength="255"
                 required
@@ -272,7 +287,7 @@ class BlockItem extends Component {
               <input
                 type="number"
                 placeholder="Duration"
-                value={this.state.editDurationWork}
+                value={this.state.durationWork}
                 onChange={this.handleChangeEditDurationWork}
                 maxLength="255"
                 required
@@ -281,7 +296,7 @@ class BlockItem extends Component {
               <input
                 type="number"
                 placeholder="Break"
-                value={this.state.editDurationBreak}
+                value={this.state.durationBreak}
                 onChange={this.handleChangeEditDurationBreak}
                 maxLength="255"
                 required
@@ -313,6 +328,7 @@ BlockItem.propTypes = {
   stacks: PropTypes.object.isRequired,
   blocks: PropTypes.object.isRequired,
   stackFocused: PropTypes.string.isRequired,
+  dataBlockUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -321,4 +337,8 @@ const mapStateToProps = (state) => ({
   stackFocused: state.stack.stackFocused,
 });
 
-export default connect(mapStateToProps)(BlockItem);
+const mapDispatchToProps = {
+  dataBlockUpdate,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlockItem);

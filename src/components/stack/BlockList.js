@@ -79,7 +79,6 @@ class BlockList extends Component {
           <BlockItem key={blockId} blockId={blockId} />,
         );
 
-    // this should be another component
     return (
       <div>
         {blockItems}

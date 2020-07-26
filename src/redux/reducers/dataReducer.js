@@ -44,7 +44,6 @@ export default (state = INITIAL_STATE, action) => {
           ...state.blocks,
         },
       };
-
       newState.blocks[action.payload.id] = action.payload;
       return newState;
 
