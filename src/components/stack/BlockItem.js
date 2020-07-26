@@ -81,15 +81,13 @@ class BlockItem extends Component {
 
   handleIncrementBursts() {
     if (this.state.numBursts < 10) {
-      this.setState({numBursts: this.state.numBursts + 1});
-      this.handleBurstsUpdate();
+      this.handleBurstsUpdate(this.state.numBursts + 1);
     }
   }
 
   handleDecrementBursts() {
     if (this.state.numBursts > 1) {
-      this.setState({numBursts: this.state.numBursts - 1});
-      this.handleBurstsUpdate();
+      this.handleBurstsUpdate(this.state.numBursts - 1);
     }
   }
 
@@ -127,10 +125,11 @@ class BlockItem extends Component {
     }, this.props.blockId);
   }
 
-  handleBurstsUpdate() {
+  handleBurstsUpdate(newBurstsValue) {
     this.props.dataBlockUpdate({
-      numBursts: this.state.numBursts,
+      numBursts: newBurstsValue,
     }, this.props.blockId);
+    this.setState({numBursts: newBurstsValue});
   }
 
   handleSwapBlocks(id, above) {
