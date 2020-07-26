@@ -98,6 +98,7 @@ class PlaylistDock extends Component {
       focusInitial,
       focusFinished,
       focusRemaining,
+      focusCurrent,
       playlistSetFocusRemaining,
     } = this.props;
 
@@ -112,10 +113,13 @@ class PlaylistDock extends Component {
       // create the remaning list by taking the initial list minus the
       // finished list
       focusRemainingNew =
-        focusInitial.filter((blockId) => !focusFinished.includes(blockId));
+        focusInitial.filter((blockId) =>
+          !focusFinished.includes(blockId) && blockId !== focusCurrent
+        );
     }
 
     playlistSetFocusRemaining(focusRemainingNew);
+    this.setState({enabledShuffle: enabledShuffleNew});
   }
 
   handleClickPause() {
@@ -287,11 +291,11 @@ class PlaylistDock extends Component {
     } = this.props;
 
     const minutes = Math.floor(this.state.modeTimeRemaining / 60)
-        .toString()
-        .padStart(2, '0');
+      .toString()
+      .padStart(2, '0');
     const seconds = (this.state.modeTimeRemaining % 60)
-        .toString()
-        .padStart(2, '0');
+      .toString()
+      .padStart(2, '0');
 
     const styleIcon = {
       color: playlistMode === PLAYLIST_MODE_WORK ?
@@ -316,16 +320,16 @@ class PlaylistDock extends Component {
 
           <StyledContainerButton>
             <RefreshRoundedIcon
-              onClick={this.handleClickRestart}
-              style={styleIcon} />
+            onClick={this.handleClickRestart}
+            style={styleIcon} />
 
             <PauseRoundedIcon
-              onClick={this.handleClickPause}
-              style={styleIcon} />
+            onClick={this.handleClickPause}
+            style={styleIcon} />
 
             <ShuffleRoundedIcon
-              onClick={this.handleClickShuffle}
-              style={styleIcon} />
+            onClick={this.handleClickShuffle}
+            style={styleIcon} />
           </StyledContainerButton>
         </StyledBoxColumn>
 
