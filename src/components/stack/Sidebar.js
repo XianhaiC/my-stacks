@@ -51,7 +51,6 @@ const StyledContainerCloseButton = styled.div`
   justify-content: flex-end;
   align-items: center;
   height: 4rem;
-  padding-right: 0.5rem;
 `;
 
 const StyledContainerBottomButtons = styled(StyledContainerCloseButton)`
@@ -103,6 +102,10 @@ class Sidebar extends Component {
       return component;
     });
 
+    const styleIconAdd = {
+      fontSize: '2rem',
+    };
+
     return (
       <StyledContainer>
         <StyledContainerCloseButton>
@@ -122,7 +125,7 @@ class Sidebar extends Component {
         <StyledContainerBottomButtons>
           <div>
             <StyledButtonContainer onClick={() => stackSetPopupVisibleStackCreate(!popupVisibleStackCreate)}>
-              <AddRoundedIcon />
+              <AddRoundedIcon style={styleIconAdd} />
               Add stack
             </StyledButtonContainer>
           </div>

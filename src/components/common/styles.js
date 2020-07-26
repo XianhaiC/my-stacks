@@ -21,12 +21,16 @@ export const StyledButtonOutline = styled.button`
   background: none;
 `;
 
-export const StyledButtonContainer = styled.button`
+// we use an <a> element here instead of <button>
+// due to the line-height issues with <button>
+export const StyledButtonContainer = styled.a`
   outline: none;
   border: none;
   background: none;
   display: flex;
   align-items: center;
+  padding: 0.5rem;
+  margin: 0.5rem;
 `;
 
 export const StyledPopup = styled.div`
