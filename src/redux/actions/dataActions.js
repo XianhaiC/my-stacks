@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   DATA_SET_STACK,
   DATA_SET_BLOCK,
+  DATA_DELETE_BLOCK,
   SESSION_ERRORS_SET,
   STACK_SET_STACK_FOCUSED,
 } from '../types';
@@ -38,8 +39,23 @@ export const dataStackCreate = (stackData) => (dispatch) => {
 };
 
 // update
-export const dataStackUpdate = () => (dispatch) => {
-  // TODO
+export const dataStackUpdate = (stackData, stackId) => (dispatch) => {
+  dispatch({
+    type: DATA_SET_STACK,
+    payload: stackData,
+  });
+  console.log(stackData);
+  axios.patch(`stacks/${stackId}`, stackData)
+      .then((response) => {
+        console.log(`[INFO] stack ${stackId} updated`);
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({
+          type: SESSION_ERRORS_SET,
+          payload: error.response.data,
+        });
+      });
 };
 
 // delete
@@ -51,11 +67,9 @@ export const dataStackDelete = () => (dispatch) => {
 export const dataBlockCreate = (blockData) => (dispatch) => {
   axios.post(`/blocks`, blockData)
       .then((res) => {
-        console.log('[INFO] Stack created', res.data);
-
+        console.log('[INFO] Block created', res.data);
         // the stack had already been loaded, so set this for consistency
         res.data.stack.loaded = true;
-
         dispatch({
           type: DATA_SET_BLOCK,
           payload: res.data.block,
@@ -77,13 +91,19 @@ export const dataBlockCreate = (blockData) => (dispatch) => {
 
 // update
 export const dataBlockUpdate = (blockData, blockId) => (dispatch) => {
+  console.log(blockData);
+
+  dispatch({
+    type: DATA_SET_BLOCK,
+    payload: {
+      ...blockData,
+      id: blockId,
+    },
+  });
+
   axios.patch(`/blocks/${blockId}`, blockData)
       .then((response) => {
         console.log(`[INFO] Updated: ${blockId}`);
-        dispatch({
-          type: DATA_SET_BLOCK,
-          payload: response.data,
-        });
       })
       .catch((error) => {
         console.log(error);
@@ -95,6 +115,18 @@ export const dataBlockUpdate = (blockData, blockId) => (dispatch) => {
 };
 
 // delete
-export const dataBlockDelete = () => (dispatch) => {
-  // TODO
-};
+export const dataBlockDelete = (blockData, blockId, stackId) =>
+  (dispatch) => {
+    dispatch({
+      type: DATA_DELETE_BLOCK,
+      payload: {blockId, stackId},
+    });
+    axios.delete(`/blocks/${blockId}`, blockData)
+        .catch((error) => {
+          console.log(error);
+          dispatch({
+            type: SESSION_ERRORS_SET,
+            payload: error.response.data,
+          });
+        });
+  };
