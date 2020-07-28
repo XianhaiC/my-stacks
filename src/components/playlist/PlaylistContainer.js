@@ -21,10 +21,10 @@ const StyledContainer = styled.div`
   height: 80%;
   width: 100%;
   flex:
-  ${props => props.display === DISPLAY_STACK
-      ? '0'
-      : '1'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      '0' :
+      '1'
+};
   background:
   ${(props) => props.mode === PLAYLIST_MODE_WORK ?
       props.theme.primaryLight :

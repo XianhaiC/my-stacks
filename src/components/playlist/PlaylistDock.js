@@ -114,7 +114,7 @@ class PlaylistDock extends Component {
       // finished list
       focusRemainingNew =
         focusInitial.filter((blockId) =>
-          !focusFinished.includes(blockId) && blockId !== focusCurrent
+          !focusFinished.includes(blockId) && blockId !== focusCurrent,
         );
     }
 
@@ -291,11 +291,11 @@ class PlaylistDock extends Component {
     } = this.props;
 
     const minutes = Math.floor(this.state.modeTimeRemaining / 60)
-      .toString()
-      .padStart(2, '0');
+        .toString()
+        .padStart(2, '0');
     const seconds = (this.state.modeTimeRemaining % 60)
-      .toString()
-      .padStart(2, '0');
+        .toString()
+        .padStart(2, '0');
 
     const styleIcon = {
       color: playlistMode === PLAYLIST_MODE_WORK ?
@@ -320,16 +320,16 @@ class PlaylistDock extends Component {
 
           <StyledContainerButton>
             <RefreshRoundedIcon
-            onClick={this.handleClickRestart}
-            style={styleIcon} />
+              onClick={this.handleClickRestart}
+              style={styleIcon} />
 
             <PauseRoundedIcon
-            onClick={this.handleClickPause}
-            style={styleIcon} />
+              onClick={this.handleClickPause}
+              style={styleIcon} />
 
             <ShuffleRoundedIcon
-            onClick={this.handleClickShuffle}
-            style={styleIcon} />
+              onClick={this.handleClickShuffle}
+              style={styleIcon} />
           </StyledContainerButton>
         </StyledBoxColumn>
 

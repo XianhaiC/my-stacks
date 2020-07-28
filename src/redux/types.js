@@ -14,6 +14,7 @@ export const DATA_SET_STACK = 'DATA_SET_STACK';
 export const DATA_SET_BLOCKS = 'DATA_SET_BLOCKS';
 export const DATA_SET_BLOCK = 'DATA_SET_BLOCK';
 export const DATA_CLEAR = 'DATA_CLEAR';
+export const DATA_DELETE_BLOCK = 'DATA_DELETE_BLOCK';
 
 // displayPlaylist
 export const PLAYLIST_SET_MODE = 'PLAYLIST_SET_MODE';

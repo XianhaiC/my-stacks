@@ -5,20 +5,20 @@ import styled from 'styled-components';
 
 import BlockList from './BlockList';
 import StackDock from './StackDock';
-import PlaylistContainer from '../playlist/PlaylistContainer'
+import PlaylistContainer from '../playlist/PlaylistContainer';
 
-import {StyledBoxColumn} from '../common/styles'
+import {StyledBoxColumn} from '../common/styles';
 
-import {DISPLAY_STACK} from '../../util/constants'
+import {DISPLAY_STACK} from '../../util/constants';
 
 const StyledBoxDynamic = styled(StyledBoxColumn)`
   flex:
-  ${props => props.display === DISPLAY_STACK
-      ? '0'
-      : '1'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      '0' :
+      '1'
+};
   transition: all 0.5s ease-in-out;
-`
+`;
 
 const StyledContainer = styled.div`
   display: flex;
@@ -30,56 +30,56 @@ const StyledContainer = styled.div`
 
 const StyledContainerInner = styled(StyledContainer)`
   height:
-  ${props => props.display === DISPLAY_STACK
-      ? '100%'
-      : '80%'
-      };
-`
+  ${(props) => props.display === DISPLAY_STACK ?
+      '100%' :
+      '80%'
+};
+`;
 
 const StyledContainerStack = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  background: ${props => props.theme.primaryLight};
+  background: ${(props) => props.theme.primaryLight};
   transition: all 0.5s ease-in-out;
   flex:
-  ${props => props.display === DISPLAY_STACK
-      ? '1'
-      : '0'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      '1' :
+      '0'
+};
   height:
-  ${props => props.display === DISPLAY_STACK
-      ? '100%'
-      : '0'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      '100%' :
+      '0'
+};
   visibility:
-  ${props => props.display === DISPLAY_STACK
-      ? 'visible'
-      : 'hidden'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      'visible' :
+      'hidden'
+};
 `;
 
 const StyledContainerText = styled.div`
   display: flex;
   flex:
-  ${props => props.display === DISPLAY_STACK
-      ? '0 1 auto'
-      : '1'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      '0 1 auto' :
+      '1'
+};
   height:
-  ${props => props.display === DISPLAY_STACK
-      ? '8rem'
-      : 'auto'
-      };
-`
+  ${(props) => props.display === DISPLAY_STACK ?
+      '8rem' :
+      'auto'
+};
+`;
 
 const StyledTextName = styled.div`
   font-size: 1.75rem;
   font-weight: 500;
   margin: auto 0 0.5rem 7rem;
-  color: ${props => props.theme.primaryLight};
-`
+  color: ${(props) => props.theme.primaryLight};
+`;
 
 class StackContainer extends Component {
   render() {
@@ -91,9 +91,9 @@ class StackContainer extends Component {
       loadingBlocks,
     } = this.props;
 
-    const componentStack = loadingBlocks || loadingStacks
-      ? null
-      : (
+    const componentStack = loadingBlocks || loadingStacks ?
+      null :
+      (
         <Fragment>
           <BlockList />
           <StackDock />
@@ -104,7 +104,7 @@ class StackContainer extends Component {
     return (
       <StyledContainer>
         <StyledContainerText display={display}>
-           {!loadingStacks && <StyledTextName>{stacks[stackFocused].name}</StyledTextName>}
+          {!loadingStacks && <StyledTextName>{stacks[stackFocused].name}</StyledTextName>}
         </StyledContainerText>
         <StyledContainerInner display={display}>
 

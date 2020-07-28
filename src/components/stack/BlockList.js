@@ -80,48 +80,50 @@ class BlockList extends Component {
         );
 
     return (
-      <div>
-        {blockItems}
-        <form style={{margin: 10, border: '1px solid gray', padding: 5}}
-          onSubmit={this.handleBlockCreate}>
+      <center>
+        <div>
+          {blockItems}
+          <form className="block-item-div-or-form"
+            onSubmit={this.handleBlockCreate}>
 
-          <input
-            type="text"
-            placeholder="Task"
-            value={this.state.task}
-            onChange={this.handleChangeTask}
-            maxLength="255"
-            required
-          />
+            <input
+              type="text"
+              placeholder="Task"
+              value={this.state.task}
+              onChange={this.handleChangeTask}
+              maxLength="255"
+              required
+            />
 
-          <input
-            type="text"
-            placeholder="Description"
-            value={this.state.description}
-            onChange={this.handleChangeDescription}
-            maxLength="255"
-          />
+            <input
+              type="text"
+              placeholder="Description"
+              value={this.state.description}
+              onChange={this.handleChangeDescription}
+              maxLength="255"
+            />
 
-          <input
-            type="number"
-            placeholder="Duration"
-            value={this.state.durationWork}
-            onChange={this.handleChangeDurationWork}
-            maxLength="255"
-            required
-          />
+            <input
+              type="number"
+              placeholder="Duration"
+              value={this.state.durationWork}
+              onChange={this.handleChangeDurationWork}
+              maxLength="255"
+              required
+            />
 
-          <input
-            type="number"
-            placeholder="Break"
-            value={this.state.durationBreak}
-            onChange={this.handleChangeDurationBreak}
-            maxLength="255"
-            required
-          />
-          <input type="submit" value="Add block" />
-        </form>
-      </div>
+            <input
+              type="number"
+              placeholder="Break"
+              value={this.state.durationBreak}
+              onChange={this.handleChangeDurationBreak}
+              maxLength="255"
+              required
+            />
+            <input type="submit" value="Add block" />
+          </form>
+        </div>
+      </center>
     );
   }
 }

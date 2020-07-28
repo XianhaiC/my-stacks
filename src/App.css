@@ -15,10 +15,9 @@ html, body {
 
 .block-item-div-or-form{
     margin: 5px;
-    border-radius: 10px;
     padding: 10px; 
     width: 55%;
-    background-color: #FFFFFF;
+    background-color: #F5F5F5;
 }
 
 .block-item-div-or-form:hover{
@@ -33,11 +32,10 @@ html, body {
 }
 
 .block-item-button{
-    background-color: #555555;
     border: none;
     color: white;
     padding: 5px;
-    margin: 2px;
+    margin: 0 2px 0 2px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -45,9 +43,17 @@ html, body {
     float: right;
 }
 
+.block-item-button:hover{
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(31, 31, 31, 0.4);
+}
+
 .block-item-description{
-  margin: 5px;
+  margin: 0;
   padding: 20px;
-  background-color: #EEEEEE;
   color: #222222;
+}
+
+.block-item-description:hover{
+    cursor: pointer;
 }
