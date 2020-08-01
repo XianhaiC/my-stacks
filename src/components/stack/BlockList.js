@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import BlockItem from './BlockItem';
 
-import {sessionBlockFetchData} from '../../redux/actions/sessionActions';
-import {dataBlockCreate} from '../../redux/actions/dataActions';
+import { sessionBlockFetchData } from '../../redux/actions/sessionActions';
+import { dataBlockCreate } from '../../redux/actions/dataActions';
 
 class BlockList extends Component {
   constructor(props) {
@@ -30,19 +30,19 @@ class BlockList extends Component {
   }
 
   handleChangeTask(e) {
-    this.setState({task: e.target.value});
+    this.setState({ task: e.target.value });
   }
 
   handleChangeDescription(e) {
-    this.setState({description: e.target.value});
+    this.setState({ description: e.target.value });
   }
 
   handleChangeDurationWork(e) {
-    this.setState({durationWork: e.target.value});
+    this.setState({ durationWork: e.target.value * 60 });
   }
 
   handleChangeDurationBreak(e) {
-    this.setState({durationBreak: e.target.value});
+    this.setState({ durationBreak: e.target.value * 60 });
   }
 
   handleBlockCreate(e) {
@@ -54,7 +54,7 @@ class BlockList extends Component {
   }
 
   fetchBlocks() {
-    const {stacks, stackFocused, sessionBlockFetchData} = this.props;
+    const { stacks, stackFocused, sessionBlockFetchData } = this.props;
     if (!stacks[stackFocused].loaded) {
       sessionBlockFetchData(stackFocused);
     }
@@ -69,15 +69,15 @@ class BlockList extends Component {
   }
 
   render() {
-    const {stacks, stackFocused} = this.props;
+    const { stacks, stackFocused } = this.props;
 
     if (!stacks[stackFocused].loaded) {
       return (<h3>Loading blocks</h3>);
     }
     const blockItems = stacks[stackFocused].order
-        .map((blockId) =>
-          <BlockItem key={blockId} blockId={blockId} />,
-        );
+      .map((blockId) =>
+        <BlockItem key={blockId} blockId={blockId} />,
+    );
 
     return (
       <center>
@@ -106,19 +106,23 @@ class BlockList extends Component {
             <input
               type="number"
               placeholder="Duration"
-              value={this.state.durationWork}
+              value={this.state.durationWork / 60}
               onChange={this.handleChangeDurationWork}
-              maxLength="255"
+              min="1"
+              max="60"
               required
+              contentEditable='false'
             />
 
             <input
               type="number"
               placeholder="Break"
-              value={this.state.durationBreak}
+              value={this.state.durationBreak / 60}
               onChange={this.handleChangeDurationBreak}
-              maxLength="255"
+              min="1"
+              max="60"
               required
+              contentEditable='false'
             />
             <input type="submit" value="Add block" />
           </form>
