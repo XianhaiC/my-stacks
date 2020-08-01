@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import {
   FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
 } from '../../util/constants';
 
 
-import { dataBlockUpdate, dataStackUpdate, dataBlockDelete }
+import {dataBlockUpdate, dataStackUpdate, dataBlockDelete}
   from '../../redux/actions/dataActions';
 
 class BlockItem extends Component {
@@ -50,48 +50,48 @@ class BlockItem extends Component {
 
   handleMouseEnterBlock() {
     document.body.style.cursor = 'grab';
-    this.setState({ focusState: FOCUS_HOVER });
+    this.setState({focusState: FOCUS_HOVER});
   }
 
   handleMouseLeaveBlock() {
-    this.setState({ focusState: FOCUS_NONE });
+    this.setState({focusState: FOCUS_NONE});
     document.body.style.cursor = ''; // default arrow cursor
   }
 
   handleClickEye() {
-    this.setState({ focusState: FOCUS_INFO });
+    this.setState({focusState: FOCUS_INFO});
   }
 
   handleClickCancel(e) {
     e.preventDefault();
-    this.setState({ focusState: FOCUS_INFO });
+    this.setState({focusState: FOCUS_INFO});
   }
 
   handleClickEdit() {
-    const { blocks, blockId } = this.props;
+    const {blocks, blockId} = this.props;
     this.setState(
-      {
-        focusState: FOCUS_EDIT,
-        task: blocks[blockId].task,
-        durationWork: blocks[blockId].durationWork,
-        durationBreak: blocks[blockId].durationBreak,
-        description: blocks[blockId].description,
-      });
+        {
+          focusState: FOCUS_EDIT,
+          task: blocks[blockId].task,
+          durationWork: blocks[blockId].durationWork,
+          durationBreak: blocks[blockId].durationBreak,
+          description: blocks[blockId].description,
+        });
   }
 
   handleCloseInfo() {
-    this.setState({ focusState: FOCUS_NONE });
+    this.setState({focusState: FOCUS_NONE});
   }
 
   handleIncrementBursts() {
-    const { blocks, blockId } = this.props;
+    const {blocks, blockId} = this.props;
     if (this.state.numBursts < 10) {
       this.handleBurstsUpdate(blocks[blockId].numBursts + 1);
     }
   }
 
   handleDecrementBursts() {
-    const { blocks, blockId } = this.props;
+    const {blocks, blockId} = this.props;
     if (this.state.numBursts > 1) {
       this.handleBurstsUpdate(blocks[blockId].numBursts - 1);
     }
@@ -99,31 +99,31 @@ class BlockItem extends Component {
 
   /* Input boxes change handlers */
   handleChangeEditTask(e) {
-    this.setState({ task: e.target.value });
+    this.setState({task: e.target.value});
   }
 
   handleChangeEditDescription(e) {
     this.setState(
-      { description: e.target.value },
+        {description: e.target.value},
     );
   }
 
   handleChangeEditDurationWork(e) {
     this.setState(
-      { durationWork: e.target.value * 60 },
+        {durationWork: e.target.value * 60},
     );
   }
 
   handleChangeEditDurationBreak(e) {
     this.setState(
-      { durationBreak: e.target.value * 60 },
+        {durationBreak: e.target.value * 60},
     );
   }
 
   handleBlockUpdate(e) {
     e.preventDefault();
-    this.setState({ focusState: FOCUS_INFO });
-    const { blocks, blockId } = this.props;
+    this.setState({focusState: FOCUS_INFO});
+    const {blocks, blockId} = this.props;
     this.props.dataBlockUpdate({
       ...blocks[blockId],
       task: this.state.task,
@@ -134,16 +134,16 @@ class BlockItem extends Component {
   }
 
   handleBurstsUpdate(newBurstsValue) {
-    const { blocks, blockId } = this.props;
+    const {blocks, blockId} = this.props;
     this.props.dataBlockUpdate({
       ...blocks[blockId],
       numBursts: newBurstsValue,
     }, this.props.blockId);
-    this.setState({ numBursts: newBurstsValue });
+    this.setState({numBursts: newBurstsValue});
   }
 
   handleOrderUpdate(newOrder) {
-    const { stacks, stackFocused } = this.props;
+    const {stacks, stackFocused} = this.props;
     this.props.dataStackUpdate({
       ...stacks[stackFocused],
       order: newOrder,
@@ -151,14 +151,14 @@ class BlockItem extends Component {
   }
 
   handleBlockDelete() {
-    const { stackFocused } = this.props;
+    const {stackFocused} = this.props;
     this.props.dataBlockDelete({
 
     }, this.props.blockId, stackFocused);
   }
 
   handleSwapBlocks(currIndex, swapIndex) {
-    const { stacks, stackFocused } = this.props;
+    const {stacks, stackFocused} = this.props;
 
     const blocksOrderNew = [];
     const blocksOrderOld = stacks[stackFocused].order;
@@ -179,7 +179,7 @@ class BlockItem extends Component {
 
   // Finite state machine
   render() {
-    const { blocks, blockId, stacks, stackFocused } = this.props;
+    const {blocks, blockId, stacks, stackFocused} = this.props;
     const blocksOrder = stacks[stackFocused].order;
     const currIndex = blocksOrder.indexOf(blockId);
     let blockItem;
@@ -211,7 +211,7 @@ class BlockItem extends Component {
                 onMouseEnter={this.handleMouseEnterButton}
                 onMouseLeave={this.handleMouseLeaveButton}
                 className="block-item-button"
-                style={{ float: 'left' }}
+                style={{float: 'left'}}
                 onClick={this.handleBlockDelete}>
                 ❌
               </button>
@@ -266,13 +266,13 @@ class BlockItem extends Component {
         blockItem = (
           <center>
             <div className="block-item-div-or-form" >
-              <span style={{ margin: '5px', fontWeight: 'bold' }}>
+              <span style={{margin: '5px', fontWeight: 'bold'}}>
                 {blocks[blockId].task}
               </span>
-              <span style={{ margin: '5px', float: 'right' }}>
+              <span style={{margin: '5px', float: 'right'}}>
                 <b>{blocks[blockId].durationWork / 60}</b> min burst
               </span>
-              <span style={{ margin: '5px', float: 'right' }}>
+              <span style={{margin: '5px', float: 'right'}}>
                 <b>{blocks[blockId].durationBreak / 60}</b> min break
               </span>
               <div className="block-item-description" >
@@ -280,13 +280,13 @@ class BlockItem extends Component {
               </div>
               <button
                 className="block-item-button"
-                style={{ float: 'none', color: 'black' }}
+                style={{float: 'none', color: 'black'}}
                 onClick={this.handleClickEdit}>
                 Edit
               </button>
               <button
                 className="block-item-button"
-                style={{ float: 'none', color: 'black' }}
+                style={{float: 'none', color: 'black'}}
                 onClick={this.handleCloseInfo}>
                 Close
               </button>
@@ -345,12 +345,12 @@ class BlockItem extends Component {
                   className="block-item-button"
                   type="submit"
                   value="Save"
-                  style={{ color: 'black', float: 'right' }}
+                  style={{color: 'black', float: 'right'}}
                 />
                 <button
                   className="block-item-button"
                   onClick={this.handleClickCancel}
-                  style={{ color: 'black', float: 'right' }}>
+                  style={{color: 'black', float: 'right'}}>
                   Cancel
                 </button>
               </div>
