@@ -39,10 +39,10 @@ const StyledContainerInner = styled(StyledContainer)`
 const StyledContainerStack = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
   background: ${props => props.theme.primaryLight};
   transition: all 0.5s ease-in-out;
+  justify-content: space-between;
   flex:
   ${props => props.display === DISPLAY_STACK
       ? '1'
@@ -122,6 +122,7 @@ class StackContainer extends Component {
 }
 
 StackContainer.propTypes = {
+  display: PropTypes.number.isRequired,
   stacks: PropTypes.object,
   stackFocused: PropTypes.string,
   loadingStacks: PropTypes.bool.isRequired,

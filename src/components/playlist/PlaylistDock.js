@@ -140,7 +140,7 @@ class PlaylistDock extends Component {
 
   startTimer() {
     if (this.timer == 0) {
-      this.timer = setInterval(this.countDown, 1);
+      this.timer = setInterval(this.countDown, 1000);
     }
   }
 

@@ -42,3 +42,9 @@ export const StyledPopup = styled.div`
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
 `;
+
+export const StyledDot = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1rem;
+`;

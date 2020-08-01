@@ -15,7 +15,7 @@ const StyledContainer = styled.div`
 const Background = (props) => {
   return (
     <StyledContainer>
-      { props.children }
+      {props.children}
     </StyledContainer>
   );
 };

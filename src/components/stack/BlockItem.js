@@ -1,12 +1,172 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
+import onClickOutside from 'react-onclickoutside';
 
 import {
   FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
 } from '../../util/constants';
 
 import {dataBlockUpdate} from '../../redux/actions/dataActions';
+
+import {StyledBox, StyledDot} from '../common/styles';
+
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
+import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
+import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded';
+
+const StyledBoxButtonsFront = styled(StyledBox)`
+  justify-content: flex-end;
+`
+
+const StyledBoxButtonsEnd = styled(StyledBox)`
+  justify-content: flex-start;
+`
+
+const StyledContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const StyledContainerInner = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  box-shadow:
+  ${props =>
+  props.mode === FOCUS_INFO
+  || props.mode === FOCUS_EDIT
+      ? '0px 0px 20px rgba(0, 0, 0, 0.15)'
+      : 'none'
+  };
+  border-radius: 5px;
+  transition: height 0.5s ease-in-out;
+`
+
+const StyledHLine = styled.hr`
+  border: 1px solid ${props => props.theme.primaryLightDull};
+  background-color: ${props => props.theme.primaryLightDull};
+`
+
+const StyledVLine = styled.div`
+  border: 1px solid ${props => props.theme.primaryDark};
+  background-color: ${props => props.theme.primaryDark};
+  height: 1.5rem;
+`
+
+const StyledContainerRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+const StyledContainerDurations = styled(StyledContainerRow)`
+  position: absolute;
+  right: 0;
+  opacity:
+  ${props => props.mode === FOCUS_INFO
+      ? '1'
+      : '0'
+  };
+  transition: all, 0.2s ease-in-out;
+`
+
+const StyledTextDuration = styled.div`
+  font-weight: 500;
+  padding: 0.8rem 2rem;
+`
+
+const StyledContainerBursts = styled(StyledContainerRow)`
+  position: absolute;
+  padding-right: 1rem;
+  right: 0;
+  opacity:
+  ${props =>
+  props.mode === FOCUS_NONE
+  || props.mode === FOCUS_HOVER
+      ? '1'
+      : '0'
+  };
+  transition: all, 0.2s ease-in-out;
+`
+
+const StyledDotBurst = styled(StyledDot)`
+  margin: 0.2rem;
+  background: ${props => props.theme.secondary};
+`
+
+const StyledFiller = styled.div`
+  flex: 1;
+`
+
+const StyledText = styled.div`
+  font-weight: 500;
+  margin-left: 2rem;
+  padding: 0.8rem 0;
+  color: ${props => props.theme.primaryDark};
+`
+
+const StyledDescription = styled.div`
+  background-color: ${props => props.theme.primaryLightDull};
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom:
+  ${props =>
+  props.mode === FOCUS_INFO
+  || props.mode === FOCUS_EDIT
+      ? '0.8rem'
+      : '0'
+  };
+  padding-top:
+  ${props =>
+  props.mode === FOCUS_INFO
+  || props.mode === FOCUS_EDIT
+      ? '0.8rem'
+      : '0'
+  };
+  height:
+  ${props =>
+  props.mode === FOCUS_INFO
+  || props.mode === FOCUS_EDIT
+      ? '1rem'
+      : '0'
+  };
+  opacity:
+  ${props =>
+  props.mode === FOCUS_INFO
+  || props.mode === FOCUS_EDIT
+      ? '1'
+      : '0'
+  };
+  transition: height, 0.2s ease-in-out,
+  opacity 0.1s ease-in-out,
+  padding-top 0.2s ease-in-out,
+  padding-bottom 0.2s ease-in-out;
+`
+
+const StyledContainerButtonsFront = styled.div`
+  display: flex;
+
+  & > * {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+`
+
+const StyledContainerButtonsBack = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+`
 
 class BlockItem extends Component {
   constructor() {
@@ -23,9 +183,10 @@ class BlockItem extends Component {
       focusState: FOCUS_NONE,
     };
 
+    this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleMouseEnterBlock = this.handleMouseEnterBlock.bind(this);
     this.handleMouseLeaveBlock = this.handleMouseLeaveBlock.bind(this);
-    this.handleClickEye = this.handleClickEye.bind(this);
+    this.handleClickFocus = this.handleClickFocus.bind(this);
     this.handleClickCancel = this.handleClickCancel.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
     this.handleCloseInfo = this.handleCloseInfo.bind(this);
@@ -44,17 +205,23 @@ class BlockItem extends Component {
       this.handleChangeEditDurationBreak.bind(this);
   }
 
+  handleClickOutside(e) {
+    console.log("HOUT")
+    if (this.state.focusState !== FOCUS_EDIT)
+      this.setState({focusState: FOCUS_NONE});
+  }
+
   handleMouseEnterBlock() {
-    document.body.style.cursor = 'grab';
-    this.setState({focusState: FOCUS_HOVER});
+    if (this.state.focusState === FOCUS_NONE)
+      this.setState({focusState: FOCUS_HOVER});
   }
 
   handleMouseLeaveBlock() {
-    this.setState({focusState: FOCUS_NONE});
-    document.body.style.cursor = ''; // default arrow cursor
+    if (this.state.focusState === FOCUS_HOVER)
+      this.setState({focusState: FOCUS_NONE});
   }
 
-  handleClickEye() {
+  handleClickFocus() {
     this.setState({focusState: FOCUS_INFO});
   }
 
@@ -65,8 +232,7 @@ class BlockItem extends Component {
 
   handleClickEdit() {
     const {blocks, blockId} = this.props;
-    this.setState(
-        {
+    this.setState({
           focusState: FOCUS_EDIT,
           task: blocks[blockId].task,
           durationWork: blocks[blockId].durationWork,
@@ -157,6 +323,64 @@ class BlockItem extends Component {
   render() {
     const {blocks, blockId} = this.props;
     let blockItem;
+    let componentBursts = []
+    for (let i = 0; i < blocks[blockId].numBursts; i++)
+      componentBursts.push(
+        <StyledDotBurst key={i} />
+      )
+
+    return (
+      <StyledContainer
+        onMouseEnter={this.handleMouseEnterBlock}
+        onMouseLeave={this.handleMouseLeaveBlock}
+        >
+        <StyledBoxButtonsFront>
+          {this.state.focusState == FOCUS_HOVER &&
+            <StyledContainerButtonsFront>
+              <CloseRoundedIcon />
+              <PlayArrowRoundedIcon />
+            </StyledContainerButtonsFront>
+
+          }
+        </StyledBoxButtonsFront>
+
+        <StyledContainerInner
+          onClick={this.handleClickFocus}
+          mode={this.state.focusState}>
+
+          <StyledContainerRow>
+            <StyledText>{blocks[blockId].task}</StyledText>
+
+            <StyledFiller />
+
+            <StyledContainerDurations mode={this.state.focusState}>
+              <StyledTextDuration>{blocks[blockId].durationWork}m</StyledTextDuration>
+              <StyledVLine />
+              <StyledTextDuration>{blocks[blockId].durationBreak}m</StyledTextDuration>
+            </StyledContainerDurations>
+
+            <StyledContainerBursts mode={this.state.focusState}>
+              {componentBursts}
+            </StyledContainerBursts>
+          </StyledContainerRow>
+
+          <StyledDescription mode={this.state.focusState}>
+            {blocks[blockId].description}
+          </StyledDescription>
+
+          <StyledHLine mode={this.state.focusState} />
+        </StyledContainerInner>
+
+        <StyledBoxButtonsEnd>
+          {this.state.focusState == FOCUS_HOVER &&
+            <StyledContainerButtonsBack>
+              <KeyboardArrowUpRoundedIcon />
+              <KeyboardArrowDownRoundedIcon />
+            </StyledContainerButtonsBack>
+          }
+        </StyledBoxButtonsEnd>
+      </StyledContainer>
+    );
 
     switch (this.state.focusState) {
       case FOCUS_NONE:
@@ -183,7 +407,7 @@ class BlockItem extends Component {
                 onMouseEnter={this.handleMouseEnterButton}
                 onMouseLeave={this.handleMouseLeaveButton}
                 className="block-item-button"
-                onClick={this.handleClickEye}>
+                onClick={this.handleClickFocus}>
                 👁
               </button>
 
@@ -339,4 +563,4 @@ const mapDispatchToProps = {
   dataBlockUpdate,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlockItem);
+export default connect(mapStateToProps, mapDispatchToProps)(onClickOutside(BlockItem));

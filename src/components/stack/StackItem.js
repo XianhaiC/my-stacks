@@ -7,6 +7,8 @@ import {
   stackSetStackFocused,
 } from '../../redux/actions/stackActions';
 
+import {StyledDot} from '../common/styles';
+
 const StyledItem = styled.button`
   width: 100%;
   font-size: 1rem;
@@ -36,10 +38,7 @@ const StyledText = styled.div`
   padding: 0.5em 2em;
 `;
 
-const StyledRoutineIndicator = styled.div`
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 1rem;
+const StyledRoutineIndicator = styled(StyledDot)`
   margin-right: 1.5rem;
   background-color: ${(props) => props.theme.secondary};
 `;
