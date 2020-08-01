@@ -152,21 +152,14 @@ class BlockItem extends Component {
 
   handleBlockDelete() {
     const {stackFocused} = this.props;
-    this.props.dataBlockDelete({
-
-    }, this.props.blockId, stackFocused);
+    this.props.dataBlockDelete(this.props.blockId, stackFocused);
   }
 
   handleSwapBlocks(currIndex, swapIndex) {
     const {stacks, stackFocused} = this.props;
 
-    const blocksOrderNew = [];
-    const blocksOrderOld = stacks[stackFocused].order;
-
-    // perform a deep copy
-    for (let index = 0; index < blocksOrderOld.length; index++) {
-      blocksOrderNew.push(blocksOrderOld[index]);
-    }
+    // deep copy
+    const blocksOrderNew = [...stacks[stackFocused].order];
 
     if (swapIndex < 0 || swapIndex >= blocksOrderNew.length) {
       return;
@@ -316,14 +309,13 @@ class BlockItem extends Component {
                 value={this.state.description}
                 onChange={this.handleChangeEditDescription}
                 maxLength="255"
-                required
               />
 
               <input
                 type="number"
                 placeholder="Duration"
-                value={this.state.durationWork}
-                onChange={this.handleChangeEditDurationWork / 60}
+                value={this.state.durationWork / 60}
+                onChange={this.handleChangeEditDurationWork}
                 maxLength="255"
                 min="1"
                 max="60"

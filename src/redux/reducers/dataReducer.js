@@ -59,8 +59,7 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      const stackId = action.payload.stackId;
-      const blockId = action.payload.blockId;
+      const {stackId, blockId} = action.payload;
 
       newState.stacks[stackId] = {
         ...state.stacks[stackId],
