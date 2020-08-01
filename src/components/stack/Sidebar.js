@@ -16,7 +16,7 @@ import {
 } from '../../redux/actions/stackActions';
 import {dataStackCreate} from '../../redux/actions/dataActions';
 
-import {DISPLAY_STACK} from '../../util/constants'
+import {DISPLAY_STACK} from '../../util/constants';
 
 const StyledContainer = styled.div`
   height: 100%;
@@ -26,10 +26,10 @@ const StyledContainer = styled.div`
   background: ${(props) => props.theme.primaryLightDull};
   width: 17rem;
   left:
-  ${props => props.display === DISPLAY_STACK
-      ? '17rem'
-      : '0'
-      };
+  ${(props) => props.display === DISPLAY_STACK ?
+      '17rem' :
+      '0'
+};
   transition: all 0.5s ease-in-out;
 `;
 

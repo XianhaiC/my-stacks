@@ -14,7 +14,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3rem;
-`
+`;
 
 class BlockList extends Component {
   constructor(props) {
@@ -92,42 +92,42 @@ class BlockList extends Component {
       <StyledContainer>
         {blockItems}
         <form style={{margin: 10, border: '1px solid gray', padding: 5}}
-        onSubmit={this.handleBlockCreate}>
+          onSubmit={this.handleBlockCreate}>
 
-        <input
-        type="text"
-        placeholder="Task"
-        value={this.state.task}
-        onChange={this.handleChangeTask}
-        maxLength="255"
-        required
-      />
+          <input
+            type="text"
+            placeholder="Task"
+            value={this.state.task}
+            onChange={this.handleChangeTask}
+            maxLength="255"
+            required
+          />
 
-        <input
-        type="text"
-        placeholder="Description"
-        value={this.state.description}
-        onChange={this.handleChangeDescription}
-        maxLength="255"
-      />
+          <input
+            type="text"
+            placeholder="Description"
+            value={this.state.description}
+            onChange={this.handleChangeDescription}
+            maxLength="255"
+          />
 
-        <input
-        type="number"
-        placeholder="Duration"
-        value={this.state.durationWork}
-        onChange={this.handleChangeDurationWork}
-        maxLength="255"
-        required
-      />
+          <input
+            type="number"
+            placeholder="Duration"
+            value={this.state.durationWork}
+            onChange={this.handleChangeDurationWork}
+            maxLength="255"
+            required
+          />
 
-        <input
-        type="number"
-        placeholder="Break"
-        value={this.state.durationBreak}
-        onChange={this.handleChangeDurationBreak}
-        maxLength="255"
-        required
-      />
+          <input
+            type="number"
+            placeholder="Break"
+            value={this.state.durationBreak}
+            onChange={this.handleChangeDurationBreak}
+            maxLength="255"
+            required
+          />
           <input type="submit" value="Add block" />
         </form>
       </StyledContainer>

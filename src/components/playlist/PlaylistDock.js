@@ -27,7 +27,7 @@ import {
 import {shuffle} from '../../util/helpers';
 
 const StyledText = styled.div`
-  font-size: 1em;
+  font-size: 1rem;
   font-weight: 500;
   color:
   ${(props) => props.mode === PLAYLIST_MODE_WORK ?
@@ -38,7 +38,7 @@ const StyledText = styled.div`
 `;
 
 const StyledTextTimer = styled(StyledText)`
-  font-size: 5em;
+  font-size: 5rem;
 `;
 
 const StyledTextBreak = styled(StyledText)`

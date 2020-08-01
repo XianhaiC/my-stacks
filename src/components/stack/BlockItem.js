@@ -3,164 +3,196 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import {
   FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
+  BUTTON_SOLID,
+  BUTTON_OUTLINE,
 } from '../../util/constants';
 
 
 import {dataBlockUpdate, dataStackUpdate, dataBlockDelete}
   from '../../redux/actions/dataActions';
 
-import {StyledBox, StyledDot} from '../common/styles';
+import {
+  StyledButton,
+  StyledBox,
+  StyledDot,
+} from '../common/styles';
 
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
-import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded';
-import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded';
+import KeyboardArrowUpRoundedIcon
+  from '@material-ui/icons/KeyboardArrowUpRounded';
+import KeyboardArrowDownRoundedIcon
+  from '@material-ui/icons/KeyboardArrowDownRounded';
 
 const StyledBoxButtonsFront = styled(StyledBox)`
   justify-content: flex-end;
-`
+`;
 
 const StyledBoxButtonsEnd = styled(StyledBox)`
   justify-content: flex-start;
-`
+  align-self: flex-start;
+  padding-top: 0.2rem;
+`;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.a`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const StyledContainerInner = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 70%;
-  box-shadow:
-  ${props =>
-  props.mode === FOCUS_INFO
-  || props.mode === FOCUS_EDIT
-      ? '0px 0px 20px rgba(0, 0, 0, 0.15)'
-      : 'none'
-  };
-  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 0.3rem;
   transition: height 0.5s ease-in-out;
-`
+  box-shadow:
+  ${(props) =>
+  props.mode === FOCUS_INFO ||
+  props.mode === FOCUS_EDIT ?
+      '0px 0px 20px rgba(0, 0, 0, 0.15)' :
+      'none'
+};
+  border:
+  ${(props) => props.mode === FOCUS_EDIT ?
+      `0.11rem solid ${props.theme.secondary}` :
+      'none'
+};
+`;
 
 const StyledHLine = styled.hr`
-  border: 1px solid ${props => props.theme.primaryLightDull};
-  background-color: ${props => props.theme.primaryLightDull};
-`
+  border: 1px solid ${(props) => props.theme.primaryLightDull};
+  width: 100%;
+  background-color: ${(props) => props.theme.primaryLightDull};
+`;
 
 const StyledVLine = styled.div`
-  border: 1px solid ${props => props.theme.primaryDark};
-  background-color: ${props => props.theme.primaryDark};
+  border: 1px solid ${(props) => props.theme.primaryDark};
+  background-color: ${(props) => props.theme.primaryDark};
   height: 1.5rem;
-`
+`;
 
 const StyledContainerRow = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-`
+`;
+
+const StyledContainerCol = styled.div`
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const StyledContainerDurations = styled(StyledContainerRow)`
   position: absolute;
   right: 0;
   opacity:
-  ${props => props.mode === FOCUS_INFO
-      ? '1'
-      : '0'
-  };
-  transition: all, 0.2s ease-in-out;
-`
-
-const StyledTextDuration = styled.div`
-  font-weight: 500;
-  padding: 0.8rem 2rem;
-`
+  ${(props) =>
+  props.mode === FOCUS_INFO ||
+  props.mode === FOCUS_EDIT ?
+      '1' :
+      '0'
+};
+`;
 
 const StyledContainerBursts = styled(StyledContainerRow)`
   position: absolute;
   padding-right: 1rem;
   right: 0;
   opacity:
-  ${props =>
-  props.mode === FOCUS_NONE
-  || props.mode === FOCUS_HOVER
-      ? '1'
-      : '0'
-  };
-  transition: all, 0.2s ease-in-out;
-`
+  ${(props) =>
+  props.mode === FOCUS_NONE ||
+  props.mode === FOCUS_HOVER ?
+      '1' :
+      '0'
+};
+`;
 
 const StyledDotBurst = styled(StyledDot)`
   margin: 0.2rem;
-  background: ${props => props.theme.secondary};
-`
+  background: ${(props) => props.theme.secondary};
+`;
 
 const StyledFiller = styled.div`
   flex: 1;
-`
+`;
 
-const StyledText = styled.div`
-  font-weight: 500;
+const StyledText = styled.input`
+  border 0;
+  font-size: 1rem;
+  font-weight: 600;
+  width: calc(100% - 18rem);
   margin-left: 2rem;
   padding: 0.8rem 0;
-  color: ${props => props.theme.primaryDark};
-`
+  text-overflow: ellipsis;
+  color: ${(props) => props.theme.primaryDark};
+  background: none;
 
-const StyledDescription = styled.div`
-  background-color: ${props => props.theme.primaryLightDull};
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-bottom:
-  ${props =>
-  props.mode === FOCUS_INFO
-  || props.mode === FOCUS_EDIT
-      ? '0.8rem'
-      : '0'
-  };
-  padding-top:
-  ${props =>
-  props.mode === FOCUS_INFO
-  || props.mode === FOCUS_EDIT
-      ? '0.8rem'
-      : '0'
-  };
+  &:focus {
+    outline: none;
+  }
+`;
+
+const StyledTextDuration = styled(StyledText)`
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  width: 4.25rem;
+  margin: 0;
+  text-align: center;
+`;
+
+const StyledDescription = styled(TextareaAutosize)`
+  background-color: ${(props) => props.theme.primaryLightDull};
+  border-radius: 0 0 0.3rem 0.3rem;
+  border: 0;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  overflow: auto;
+  color: ${(props) => props.theme.midtone};
+  padding: 
+  ${(props) =>
+  props.mode === FOCUS_INFO ||
+  props.mode === FOCUS_EDIT ?
+      '0.8rem' :
+      '0'
+} 2rem;
   height:
-  ${props =>
-  props.mode === FOCUS_INFO
-  || props.mode === FOCUS_EDIT
-      ? '1rem'
-      : '0'
-  };
-  opacity:
-  ${props =>
-  props.mode === FOCUS_INFO
-  || props.mode === FOCUS_EDIT
-      ? '1'
-      : '0'
-  };
-  transition: height, 0.2s ease-in-out,
-  opacity 0.1s ease-in-out,
-  padding-top 0.2s ease-in-out,
-  padding-bottom 0.2s ease-in-out;
-`
+  ${(props) =>
+  props.mode === FOCUS_INFO ||
+  props.mode === FOCUS_EDIT ?
+      '1rem' :
+      '0'
+};
+  display:
+  ${(props) =>
+  props.mode === FOCUS_INFO ||
+  props.mode === FOCUS_EDIT ?
+      'block' :
+      'none'
+};
+`;
 
-const StyledContainerButtonsFront = styled.div`
+const StyledContainerFront = styled.div`
   display: flex;
 
   & > * {
     width: 1.25rem !important;
     height: 1.25rem !important;
   }
-`
+`;
 
-const StyledContainerButtonsBack = styled.div`
+const StyledContainerSwap = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -168,7 +200,22 @@ const StyledContainerButtonsBack = styled.div`
     width: 1.25rem !important;
     height: 1.25rem !important;
   }
-`
+`;
+
+const StyledContainerMod = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 1.5rem;
+`;
+
+const StyledButtonMod = styled(StyledButton)`
+  width: 6rem;
+`;
+
+const StyledButtonSave = styled(StyledButtonMod)`
+  margin-bottom: 0.6rem;
+`;
 
 class BlockItem extends Component {
   constructor() {
@@ -195,7 +242,7 @@ class BlockItem extends Component {
     this.handleIncrementBursts = this.handleIncrementBursts.bind(this);
     this.handleDecrementBursts = this.handleDecrementBursts.bind(this);
     this.handleSwapBlocks = this.handleSwapBlocks.bind(this);
-    this.handleBlockUpdate = this.handleBlockUpdate.bind(this);
+    this.handleClickSave = this.handleClickSave.bind(this);
     this.handleBurstsUpdate = this.handleBurstsUpdate.bind(this);
     this.handleOrderUpdate = this.handleOrderUpdate.bind(this);
     this.handleBlockDelete = this.handleBlockDelete.bind(this);
@@ -210,23 +257,29 @@ class BlockItem extends Component {
   }
 
   handleClickOutside(e) {
-    console.log("HOUT")
-    if (this.state.focusState !== FOCUS_EDIT)
+    console.log('HOUT');
+    if (this.state.focusState !== FOCUS_EDIT) {
       this.setState({focusState: FOCUS_NONE});
+    }
   }
 
   handleMouseEnterBlock() {
-    if (this.state.focusState === FOCUS_NONE)
+    if (this.state.focusState === FOCUS_NONE) {
       this.setState({focusState: FOCUS_HOVER});
+    }
   }
 
   handleMouseLeaveBlock() {
-    if (this.state.focusState === FOCUS_HOVER)
+    if (this.state.focusState === FOCUS_HOVER) {
       this.setState({focusState: FOCUS_NONE});
+    }
   }
 
   handleClickFocus() {
-    this.setState({focusState: FOCUS_INFO});
+    if ( this.state.focusState === FOCUS_NONE ||
+      this.state.focusState === FOCUS_HOVER) {
+      this.setState({focusState: FOCUS_INFO});
+    }
   }
 
   handleClickCancel(e) {
@@ -237,12 +290,12 @@ class BlockItem extends Component {
   handleClickEdit() {
     const {blocks, blockId} = this.props;
     this.setState({
-          focusState: FOCUS_EDIT,
-          task: blocks[blockId].task,
-          durationWork: blocks[blockId].durationWork,
-          durationBreak: blocks[blockId].durationBreak,
-          description: blocks[blockId].description,
-        });
+      focusState: FOCUS_EDIT,
+      task: blocks[blockId].task,
+      durationWork: blocks[blockId].durationWork,
+      durationBreak: blocks[blockId].durationBreak,
+      description: blocks[blockId].description,
+    });
   }
 
   handleCloseInfo() {
@@ -286,8 +339,7 @@ class BlockItem extends Component {
     );
   }
 
-  handleBlockUpdate(e) {
-    e.preventDefault();
+  handleClickSave() {
     this.setState({focusState: FOCUS_INFO});
     const {blocks, blockId} = this.props;
     this.props.dataBlockUpdate({
@@ -338,237 +390,150 @@ class BlockItem extends Component {
 
   // Finite state machine
   render() {
-    const {blocks, blockId, stacks, stackFocused} = this.props;
-    const blocksOrder = stacks[stackFocused].order;
-    const currIndex = blocksOrder.indexOf(blockId);
-    let blockItem;
-    let componentBursts = []
-    for (let i = 0; i < blocks[blockId].numBursts; i++)
+    const {blocks, blockId} = this.props;
+
+    const componentBursts = [];
+    for (let i = 0; i < blocks[blockId].numBursts; i++) {
       componentBursts.push(
-        <StyledDotBurst key={i} />
-      )
+          <StyledDotBurst key={i} />,
+      );
+    }
+
+    let componentButtonsEnd = null;
+
+    switch (this.state.focusState) {
+      case FOCUS_HOVER:
+        componentButtonsEnd = (
+          <StyledContainerSwap>
+            <KeyboardArrowUpRoundedIcon />
+            <KeyboardArrowDownRoundedIcon />
+          </StyledContainerSwap>
+        );
+        break;
+
+      case FOCUS_INFO:
+        componentButtonsEnd = (
+          <StyledContainerMod>
+            <StyledButtonMod type={BUTTON_SOLID} onClick={this.handleClickEdit}>
+              Edit
+            </StyledButtonMod>
+          </StyledContainerMod>
+        );
+        break;
+      case FOCUS_EDIT:
+        componentButtonsEnd = (
+          <StyledContainerMod>
+            <StyledButtonSave
+              type={BUTTON_SOLID}
+              onClick={this.handleClickSave}>
+              Save
+            </StyledButtonSave>
+            <StyledButtonMod
+              type={BUTTON_OUTLINE}
+              onClick={this.handleClickCancel}>
+              Cancel
+            </StyledButtonMod>
+          </StyledContainerMod>
+        );
+        break;
+      default:
+        break;
+    }
 
     return (
       <StyledContainer
         onMouseEnter={this.handleMouseEnterBlock}
         onMouseLeave={this.handleMouseLeaveBlock}
-        >
+      >
         <StyledBoxButtonsFront>
           {this.state.focusState == FOCUS_HOVER &&
-            <StyledContainerButtonsFront>
+            <StyledContainerFront>
               <CloseRoundedIcon />
               <PlayArrowRoundedIcon />
-            </StyledContainerButtonsFront>
+            </StyledContainerFront>
 
           }
         </StyledBoxButtonsFront>
 
-        <StyledContainerInner
-          onClick={this.handleClickFocus}
-          mode={this.state.focusState}>
+        <StyledContainerCol>
+          <StyledContainerInner
+            onClick={this.handleClickFocus}
+            mode={this.state.focusState}>
 
-          <StyledContainerRow>
-            <StyledText>{blocks[blockId].task}</StyledText>
-
-            <StyledFiller />
-
-            <StyledContainerDurations mode={this.state.focusState}>
-              <StyledTextDuration>{blocks[blockId].durationWork}m</StyledTextDuration>
-              <StyledVLine />
-              <StyledTextDuration>{blocks[blockId].durationBreak}m</StyledTextDuration>
-            </StyledContainerDurations>
-
-            <StyledContainerBursts mode={this.state.focusState}>
-              {componentBursts}
-            </StyledContainerBursts>
-          </StyledContainerRow>
-
-          <StyledDescription mode={this.state.focusState}>
-            {blocks[blockId].description}
-          </StyledDescription>
-
-          <StyledHLine mode={this.state.focusState} />
-        </StyledContainerInner>
-
-        <StyledBoxButtonsEnd>
-          {this.state.focusState == FOCUS_HOVER &&
-            <StyledContainerButtonsBack>
-              <KeyboardArrowUpRoundedIcon />
-              <KeyboardArrowDownRoundedIcon />
-            </StyledContainerButtonsBack>
-          }
-        </StyledBoxButtonsEnd>
-      </StyledContainer>
-    );
-
-    // when you get response from firebase, update it on firebase,
-
-    switch (this.state.focusState) {
-      case FOCUS_NONE:
-        blockItem = (
-          <center>
-            <div className="block-item-div-or-form"
-              onMouseEnter={this.handleMouseEnterBlock}>
-              <h3 className="burst">{blocks[blockId].numBursts}</h3>
-              {blocks[blockId].task}
-            </div>
-          </center>
-        );
-        break;
-
-      case FOCUS_HOVER:
-        blockItem = (
-          <center>
-            <div className="block-item-div-or-form"
-              onMouseLeave={this.handleMouseLeaveBlock}>
-              <h3 className="burst">{blocks[blockId].numBursts}</h3>
-              {blocks[blockId].task}
-
-              <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
-                className="block-item-button"
-                onClick={this.handleClickFocus}>
-                👁
-              </button>
-
-              <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
-                className="block-item-button"
-                onClick={this.handleIncrementBursts}>
-                ➕
-              </button>
-
-              <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
-                className="block-item-button"
-                onClick={this.handleDecrementBursts}>
-                ➖
-              </button>
-
-              <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
-                className="block-item-button"
-                onClick={() => this.handleSwapBlocks(currIndex, currIndex - 1)}>
-                ☝️
-              </button>
-
-              <button
-                onMouseEnter={this.handleMouseEnterButton}
-                onMouseLeave={this.handleMouseLeaveButton}
-                className="block-item-button"
-                onClick={() => this.handleSwapBlocks(currIndex, currIndex + 1)}>
-                👇
-              </button>
-
-            </div>
-          </center>
-        );
-        break;
-
-      // should not be a form, just displaying info about block item
-      case FOCUS_INFO: // only shows play or up/down buttons
-        blockItem = (
-          <center>
-            <div className="block-item-div-or-form" >
-              <span style={{margin: '5px', fontWeight: 'bold'}}>
-                {blocks[blockId].task}
-              </span>
-              <span style={{margin: '5px', float: 'right'}}>
-                <b>{blocks[blockId].durationWork / 60}</b> min burst
-              </span>
-              <span style={{margin: '5px', float: 'right'}}>
-                <b>{blocks[blockId].durationBreak / 60}</b> min break
-              </span>
-              <div className="block-item-description" >
-                {blocks[blockId].description}
-              </div>
-              <button
-                className="block-item-button"
-                style={{float: 'none', color: 'black'}}
-                onClick={this.handleClickEdit}>
-                Edit
-              </button>
-              <button
-                className="block-item-button"
-                style={{float: 'none', color: 'black'}}
-                onClick={this.handleCloseInfo}>
-                Close
-              </button>
-            </div >
-          </center>
-        );
-        break;
-
-      case FOCUS_EDIT:
-        blockItem = (
-          <center>
-            <form className="block-item-div-or-form"
-              onSubmit={this.handleBlockUpdate}>
-
-              <input
+            <StyledContainerRow>
+              <StyledText
                 type="text"
                 placeholder="Task"
-                value={this.state.task}
+                value={this.state.focusState === FOCUS_EDIT ?
+                    this.state.task :
+                    blocks[blockId].task
+                }
                 onChange={this.handleChangeEditTask}
                 maxLength="255"
                 required
+                disabled={this.state.focusState !== FOCUS_EDIT}
               />
 
-              <input
-                type="text"
-                placeholder="Description"
-                value={this.state.description}
-                onChange={this.handleChangeEditDescription}
-                maxLength="255"
-              />
+              <StyledFiller />
 
-              <input
-                type="number"
-                placeholder="Duration"
-                value={this.state.durationWork / 60}
-                onChange={this.handleChangeEditDurationWork}
-                maxLength="255"
-                min="1"
-                max="60"
-                required
-              />
-
-              <input
-                type="number"
-                placeholder="Break"
-                value={this.state.durationBreak / 60}
-                onChange={this.handleChangeEditDurationBreak}
-                maxLength="255"
-                min="1"
-                max="60"
-                required
-              />
-              <div>
-                <input
-                  className="block-item-button"
-                  type="submit"
-                  value="Save"
-                  style={{color: 'black', float: 'right'}}
+              <StyledContainerDurations mode={this.state.focusState}>
+                <StyledTextDuration
+                  mode={this.state.focusState}
+                  type="text"
+                  placeholder="Duration"
+                  value={this.state.focusState === FOCUS_EDIT ?
+                      this.state.durationWork :
+                      blocks[blockId].durationWork
+                  }
+                  onChange={this.handleChangeEditDurationWork}
+                  maxLength="2"
+                  required
+                  disabled={this.state.focusState !== FOCUS_EDIT}
                 />
-                <button
-                  className="block-item-button"
-                  onClick={this.handleClickCancel}
-                  style={{color: 'black', float: 'right'}}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </center>
-        );
-        break;
-    }
+                <StyledVLine />
+                <StyledTextDuration
+                  mode={this.state.focusState}
+                  type="text"
+                  placeholder="Duration"
+                  value={this.state.focusState === FOCUS_EDIT ?
+                      this.state.durationBreak :
+                      blocks[blockId].durationBreak
+                  }
+                  onChange={this.handleChangeEditDurationBreak}
+                  maxLength="2"
+                  required
+                  disabled={this.state.focusState !== FOCUS_EDIT}
+                />
+              </StyledContainerDurations>
 
-    return (
-      blockItem
+              <StyledContainerBursts mode={this.state.focusState}>
+                {componentBursts}
+              </StyledContainerBursts>
+            </StyledContainerRow>
+
+            <StyledDescription
+              mode={this.state.focusState}
+              placeholder='Description'
+              onChange={this.handleChangeEditDescription}
+              disabled={this.state.focusState !== FOCUS_EDIT}
+            >
+              {this.state.focusState === FOCUS_EDIT ?
+                  this.state.description :
+                  blocks[blockId].description
+              }
+            </StyledDescription>
+
+          </StyledContainerInner>
+          {(this.state.focusState === FOCUS_NONE ||
+              this.state.focusState === FOCUS_HOVER) &&
+            <StyledHLine />
+          }
+        </StyledContainerCol>
+
+        <StyledBoxButtonsEnd>
+          {componentButtonsEnd}
+        </StyledBoxButtonsEnd>
+      </StyledContainer>
     );
   }
 }
@@ -595,4 +560,5 @@ const mapDispatchToProps = {
   dataBlockDelete,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(onClickOutside(BlockItem));
+export default
+connect(mapStateToProps, mapDispatchToProps)(onClickOutside(BlockItem));

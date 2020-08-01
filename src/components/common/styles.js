@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import {BUTTON_SOLID} from '../../util/constants';
+
 export const StyledBox = styled.div`
   flex: 1;
   display: flex;
@@ -11,14 +13,25 @@ export const StyledBoxColumn = styled(StyledBox)`
   flex-direction: column;
 `;
 
-export const StyledButtonOutline = styled.button`
-  border-radius: 0.3rem;
-  border: 0.11rem solid;
+export const StyledButton = styled.a`
+  box-sizing: border-box;
+  border-radius: 0.2rem;
+  border: 0.11rem solid ${(props) => props.theme.secondary};
   font-size: 1rem;
-  font-weight: 600;
-  padding: 0.5rem 1.2rem;
-  color: ${(props) => props.theme.secondary};
-  background: none;
+  font-weight: 500;
+  padding: 0.4rem 1.2rem;
+  min-width: 3rem;
+  text-align: center;
+  color:
+  ${(props) => props.type === BUTTON_SOLID ?
+      props.theme.primaryLight :
+      props.theme.secondary
+};
+  background-color:
+  ${(props) => props.type === BUTTON_SOLID ?
+      props.theme.secondary :
+      'none'
+};
 `;
 
 // we use an <a> element here instead of <button>

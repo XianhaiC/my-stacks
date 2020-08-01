@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
-import {StyledButtonOutline} from '../common/styles';
-
+import {BUTTON_OUTLINE} from '../../util/constants';
+import {StyledButton} from '../common/styles';
 import {playlistEnd} from '../../redux/actions/playlistActions';
 
 const StyledContainer = styled.div`
@@ -18,9 +18,9 @@ const StyledContainer = styled.div`
 const PlaylistEnd = (props) => {
   return (
     <StyledContainer>
-      <StyledButtonOutline onClick={() => props.playlistEnd()}>
+      <StyledButton type={BUTTON_OUTLINE} onClick={() => props.playlistEnd()}>
         End session
-      </StyledButtonOutline>
+      </StyledButton>
     </StyledContainer>
   );
 };

@@ -104,7 +104,10 @@ class StackContainer extends Component {
     return (
       <StyledContainer>
         <StyledContainerText display={display}>
-          {!loadingStacks && <StyledTextName>{stacks[stackFocused].name}</StyledTextName>}
+          {!loadingStacks && <StyledTextName>
+            {stacks[stackFocused].name}
+          </StyledTextName>
+          }
         </StyledContainerText>
         <StyledContainerInner display={display}>
 
