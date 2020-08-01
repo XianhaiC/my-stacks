@@ -104,6 +104,10 @@ export const dataBlockUpdate = (blockData, blockId) => (dispatch) => {
   axios.patch(`/blocks/${blockId}`, blockData)
       .then((response) => {
         console.log(`[INFO] Updated: ${blockId}`);
+        dispatch({
+          type: DATA_SET_BLOCK,
+          payload: response.data,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -115,13 +119,13 @@ export const dataBlockUpdate = (blockData, blockId) => (dispatch) => {
 };
 
 // delete
-export const dataBlockDelete = (blockData, blockId, stackId) =>
+export const dataBlockDelete = (blockId, stackId) =>
   (dispatch) => {
     dispatch({
       type: DATA_DELETE_BLOCK,
       payload: {blockId, stackId},
     });
-    axios.delete(`/blocks/${blockId}`, blockData)
+    axios.delete(`/blocks/${blockId}`)
         .catch((error) => {
           console.log(error);
           dispatch({
