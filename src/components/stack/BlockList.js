@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
 
 import BlockItem from './BlockItem';
 
 import {sessionBlockFetchData} from '../../redux/actions/sessionActions';
 import {dataBlockCreate} from '../../redux/actions/dataActions';
+
+const StyledContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+`
 
 class BlockList extends Component {
   constructor(props) {
@@ -80,54 +89,48 @@ class BlockList extends Component {
         );
 
     return (
-      <center>
-        <div>
-          {blockItems}
-          <form className="block-item-div-or-form"
-            onSubmit={this.handleBlockCreate}>
+      <StyledContainer>
+        {blockItems}
+        <form style={{margin: 10, border: '1px solid gray', padding: 5}}
+        onSubmit={this.handleBlockCreate}>
 
-            <input
-              type="text"
-              placeholder="Task"
-              value={this.state.task}
-              onChange={this.handleChangeTask}
-              maxLength="255"
-              required
-            />
+        <input
+        type="text"
+        placeholder="Task"
+        value={this.state.task}
+        onChange={this.handleChangeTask}
+        maxLength="255"
+        required
+      />
 
-            <input
-              type="text"
-              placeholder="Description"
-              value={this.state.description}
-              onChange={this.handleChangeDescription}
-              maxLength="255"
-            />
+        <input
+        type="text"
+        placeholder="Description"
+        value={this.state.description}
+        onChange={this.handleChangeDescription}
+        maxLength="255"
+      />
 
-            <input
-              type="number"
-              placeholder="Duration"
-              value={this.state.durationWork / 60}
-              onChange={this.handleChangeDurationWork}
-              min="1"
-              max="60"
-              required
-              contentEditable='false'
-            />
+        <input
+        type="number"
+        placeholder="Duration"
+        value={this.state.durationWork}
+        onChange={this.handleChangeDurationWork}
+        maxLength="255"
+        required
+      />
 
-            <input
-              type="number"
-              placeholder="Break"
-              value={this.state.durationBreak / 60}
-              onChange={this.handleChangeDurationBreak}
-              min="1"
-              max="60"
-              required
-              contentEditable='false'
-            />
-            <input type="submit" value="Add block" />
-          </form>
-        </div>
-      </center>
+        <input
+        type="number"
+        placeholder="Break"
+        value={this.state.durationBreak}
+        onChange={this.handleChangeDurationBreak}
+        maxLength="255"
+        required
+      />
+          <input type="submit" value="Add block" />
+        </form>
+      </StyledContainer>
     );
   }
 }

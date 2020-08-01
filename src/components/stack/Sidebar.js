@@ -16,13 +16,21 @@ import {
 } from '../../redux/actions/stackActions';
 import {dataStackCreate} from '../../redux/actions/dataActions';
 
+import {DISPLAY_STACK} from '../../util/constants'
+
 const StyledContainer = styled.div`
-  width: 17rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: ${(props) => props.theme.primaryLightDull};
+  width: 17rem;
+  left:
+  ${props => props.display === DISPLAY_STACK
+      ? '17rem'
+      : '0'
+      };
+  transition: all 0.5s ease-in-out;
 `;
 
 const StyledContainerList = styled(StyledContainer)`
@@ -87,6 +95,7 @@ class Sidebar extends Component {
 
   render() {
     const {
+      display,
       stacks,
       stackSetPopupVisibleStackCreate,
       popupVisibleStackCreate,
@@ -107,12 +116,13 @@ class Sidebar extends Component {
     };
 
     return (
-      <StyledContainer>
+      <StyledContainer display={display}>
         <StyledContainerCloseButton>
           <StyledButtonContainer>
             <ArrowLeftRoundedIcon />
           </StyledButtonContainer>
         </StyledContainerCloseButton>
+
         <StyledContainerList>
           {stackInbox}
           <StyledSeparator>
@@ -122,6 +132,7 @@ class Sidebar extends Component {
           </StyledSeparator>
           {stackItems}
         </StyledContainerList>
+
         <StyledContainerBottomButtons>
           <div>
             <StyledButtonContainer onClick={() => stackSetPopupVisibleStackCreate(!popupVisibleStackCreate)}>
@@ -139,6 +150,7 @@ class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
+  display: PropTypes.number.isRequired,
   stacks: PropTypes.object.isRequired,
   dataStackCreate: PropTypes.func.isRequired,
   popupVisibleStackCreate: PropTypes.bool.isRequired,
@@ -146,6 +158,7 @@ Sidebar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  display: state.session.display,
   stacks: state.data.stacks,
   popupVisibleStackCreate: state.stack.popupVisibleStackCreate,
 });
