@@ -13,8 +13,12 @@ import {
 
 
 import {playlistStart} from '../../redux/actions/playlistActions';
-import {dataBlockUpdate, dataStackUpdate, dataBlockDelete}
-  from '../../redux/actions/dataActions';
+import {
+  dataBlockCreate,
+  dataBlockUpdate,
+  dataStackUpdate,
+  dataBlockDelete,
+} from '../../redux/actions/dataActions';
 
 import {
   StyledButton,
@@ -219,18 +223,18 @@ const StyledButtonSave = styled(StyledButtonMod)`
 `;
 
 class BlockItem extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      task: 'Title',
-      description: 'A basic description should go here.',
-      durationWork: 1500,
-      durationBreak: 600,
+      task: '',
+      description: '',
+      durationWork: 25,
+      durationBreak: 5,
       numBursts: 3,
       stackId: '',
       hover: false,
-      focusState: FOCUS_NONE,
+      focusState: props.blockCreate ? FOCUS_EDIT : FOCUS_NONE,
     };
 
     this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -284,6 +288,13 @@ class BlockItem extends Component {
 
   handleClickCancel(e) {
     e.preventDefault();
+    const {blockCreate, closeBlock} = this.props;
+
+    if (blockCreate) {
+      closeBlock();
+      return;
+    }
+
     this.setState({focusState: FOCUS_INFO});
   }
 
@@ -350,21 +361,43 @@ class BlockItem extends Component {
   }
 
   handleClickSave() {
+    const {
+      blocks,
+      blockId,
+      dataBlockUpdate,
+      blockCreate,
+      closeBlock,
+    } = this.props;
+
+    if (blockCreate) {
+      this.props.dataBlockCreate({
+        task: this.state.task,
+        description: this.state.description,
+        durationWork: this.state.durationWork * 60,
+        durationBreak: this.state.durationBreak * 60,
+        numBursts: this.state.numBursts,
+        stackId: this.props.stackFocused,
+        userId: null,
+        createdAt: null,
+      });
+      closeBlock();
+      return;
+    }
+
     this.setState({focusState: FOCUS_INFO});
-    const {blocks, blockId} = this.props;
-    this.props.dataBlockUpdate({
+    dataBlockUpdate(blockId, {
       ...blocks[blockId],
       task: this.state.task,
       description: this.state.description,
       durationWork: this.state.durationWork * 60,
       durationBreak: this.state.durationBreak * 60,
-    }, this.props.blockId);
+    });
   }
 
   handleClickPlay() {
     const {stacks, stackFocused, blockId, playlistStart} = this.props;
     const order = stacks[stackFocused].order;
-    const index = order.indexOf(blockId)
+    const index = order.indexOf(blockId);
     playlistStart(order.slice(index), false);
   }
 
@@ -395,7 +428,7 @@ class BlockItem extends Component {
     blocksOrderNew[currIndex] = blocksOrderNew[swapIndex];
     blocksOrderNew[swapIndex] = temp;
 
-    this.props.dataStackUpdate({
+    dataStackUpdate({
       ...stacks[stackFocused],
       order: blocksOrderNew,
     }, stackFocused);
@@ -403,13 +436,15 @@ class BlockItem extends Component {
 
   // Finite state machine
   render() {
-    const {blocks, blockId} = this.props;
+    const {blocks, blockId, blockCreate} = this.props;
 
     const componentBursts = [];
-    for (let i = 0; i < blocks[blockId].numBursts; i++) {
-      componentBursts.push(
-          <StyledDotBurst key={i} />,
-      );
+    if (!blockCreate) {
+      for (let i = 0; i < blocks[blockId].numBursts; i++) {
+        componentBursts.push(
+            <StyledDotBurst key={i} />,
+        );
+      }
     }
 
     let componentButtonsEnd = null;
@@ -419,7 +454,7 @@ class BlockItem extends Component {
         componentButtonsEnd = (
           <StyledContainerSwap>
             <KeyboardArrowUpRoundedIcon
-            onClick={() => this.handleClickSwap(true)}
+              onClick={() => this.handleClickSwap(true)}
             />
             <KeyboardArrowDownRoundedIcon
               onClick={() => this.handleClickSwap(false)}
@@ -557,9 +592,12 @@ class BlockItem extends Component {
 
 BlockItem.propTypes = {
   blockId: PropTypes.string.isRequired,
+  blockCreate: PropTypes.bool,
+  closeBlock: PropTypes.func,
   stacks: PropTypes.object.isRequired,
   blocks: PropTypes.object.isRequired,
   stackFocused: PropTypes.string.isRequired,
+  dataBlockCreate: PropTypes.func.isRequired,
   dataBlockUpdate: PropTypes.func.isRequired,
   dataStackUpdate: PropTypes.func.isRequired,
   dataBlockDelete: PropTypes.func.isRequired,
@@ -573,6 +611,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  dataBlockCreate,
   dataBlockUpdate,
   dataStackUpdate,
   dataBlockDelete,

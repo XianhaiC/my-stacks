@@ -44,7 +44,7 @@ export const dataStackUpdate = (stackData, stackId) => (dispatch) => {
     type: DATA_SET_STACK,
     payload: stackData,
   });
-  console.log(stackData);
+
   axios.patch(`stacks/${stackId}`, stackData)
       .then((response) => {
         console.log(`[INFO] stack ${stackId} updated`);
@@ -65,6 +65,11 @@ export const dataStackDelete = () => (dispatch) => {
 
 // create
 export const dataBlockCreate = (blockData) => (dispatch) => {
+  dispatch({
+    type: DATA_SET_BLOCK,
+    payload: blockData,
+  });
+
   axios.post(`/blocks`, blockData)
       .then((res) => {
         console.log('[INFO] Block created', res.data);
@@ -90,9 +95,7 @@ export const dataBlockCreate = (blockData) => (dispatch) => {
 };
 
 // update
-export const dataBlockUpdate = (blockData, blockId) => (dispatch) => {
-  console.log(blockData);
-
+export const dataBlockUpdate = (blockId, blockData) => (dispatch) => {
   dispatch({
     type: DATA_SET_BLOCK,
     payload: {

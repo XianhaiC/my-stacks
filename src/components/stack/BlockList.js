@@ -8,6 +8,10 @@ import BlockItem from './BlockItem';
 import {sessionBlockFetchData} from '../../redux/actions/sessionActions';
 import {dataBlockCreate} from '../../redux/actions/dataActions';
 
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+
+import {StyledButtonContainer} from '../common/styles';
+
 const StyledContainer = styled.div`
   width: 100%;
   display: flex;
@@ -16,50 +20,26 @@ const StyledContainer = styled.div`
   margin-top: 3rem;
 `;
 
+const StyledContainerCreate = styled.div`
+  display: flex;
+  width: 70%;
+`;
+
 class BlockList extends Component {
   constructor(props) {
     super(props);
 
     // these states should go inside of BlockItem.js
     this.state = {
-      task: '',
-      description: '',
-      durationWork: 1500,
-      durationBreak: 600,
-      numBursts: 3,
-      stackId: '',
+      blockCreateOpen: false,
     };
 
-    this.handleChangeTask = this.handleChangeTask.bind(this);
-    this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    this.handleChangeDurationWork = this.handleChangeDurationWork.bind(this);
-    this.handleChangeDurationBreak = this.handleChangeDurationBreak.bind(this);
-    this.handleBlockCreate = this.handleBlockCreate.bind(this);
     this.fetchBlocks = this.fetchBlocks.bind(this);
+    this.closeBlock = this.closeBlock.bind(this);
   }
 
-  handleChangeTask(e) {
-    this.setState({task: e.target.value});
-  }
-
-  handleChangeDescription(e) {
-    this.setState({description: e.target.value});
-  }
-
-  handleChangeDurationWork(e) {
-    this.setState({durationWork: e.target.value * 60});
-  }
-
-  handleChangeDurationBreak(e) {
-    this.setState({durationBreak: e.target.value * 60});
-  }
-
-  handleBlockCreate(e) {
-    e.preventDefault();
-    this.props.dataBlockCreate({
-      ...this.state,
-      stackId: this.props.stackFocused,
-    });
+  closeBlock() {
+    this.setState({blockCreateOpen: false});
   }
 
   fetchBlocks() {
@@ -83,53 +63,35 @@ class BlockList extends Component {
     if (!stacks[stackFocused].loaded) {
       return (<h3>Loading blocks</h3>);
     }
+
     const blockItems = stacks[stackFocused].order
         .map((blockId) =>
           <BlockItem key={blockId} blockId={blockId} />,
         );
 
+    const styleIconAdd = {
+      fontSize: '2rem',
+    };
+
+    const componentCreateBlock = this.state.blockCreateOpen ?
+      (
+        <BlockItem blockCreate={true} closeBlock={this.closeBlock} />
+      ) :
+      (
+        <StyledContainerCreate>
+          <StyledButtonContainer
+            onClick={() => this.setState({blockCreateOpen: true})}
+          >
+            <AddRoundedIcon style={styleIconAdd} />
+            Add block
+          </StyledButtonContainer>
+        </StyledContainerCreate>
+      );
+
     return (
       <StyledContainer>
         {blockItems}
-        <form style={{margin: 10, border: '1px solid gray', padding: 5}}
-          onSubmit={this.handleBlockCreate}>
-
-          <input
-            type="text"
-            placeholder="Task"
-            value={this.state.task}
-            onChange={this.handleChangeTask}
-            maxLength="255"
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Description"
-            value={this.state.description}
-            onChange={this.handleChangeDescription}
-            maxLength="255"
-          />
-
-          <input
-            type="number"
-            placeholder="Duration"
-            value={this.state.durationWork}
-            onChange={this.handleChangeDurationWork}
-            maxLength="255"
-            required
-          />
-
-          <input
-            type="number"
-            placeholder="Break"
-            value={this.state.durationBreak}
-            onChange={this.handleChangeDurationBreak}
-            maxLength="255"
-            required
-          />
-          <input type="submit" value="Add block" />
-        </form>
+        {componentCreateBlock}
       </StyledContainer>
     );
   }
