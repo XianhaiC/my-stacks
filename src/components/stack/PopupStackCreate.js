@@ -61,7 +61,7 @@ PopupStackCreate.propTypes = {
   stacks: PropTypes.object.isRequired,
   dataStackCreate: PropTypes.func.isRequired,
   popupVisibleStackCreate: PropTypes.bool.isRequired,
-  stackSetPopupVisibleStackCreate: PropTypes.bool.isRequired,
+  stackSetPopupVisibleStackCreate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

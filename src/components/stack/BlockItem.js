@@ -12,6 +12,7 @@ import {
 } from '../../util/constants';
 
 
+import {playlistStart} from '../../redux/actions/playlistActions';
 import {dataBlockUpdate, dataStackUpdate, dataBlockDelete}
   from '../../redux/actions/dataActions';
 
@@ -238,13 +239,13 @@ class BlockItem extends Component {
     this.handleClickFocus = this.handleClickFocus.bind(this);
     this.handleClickCancel = this.handleClickCancel.bind(this);
     this.handleClickEdit = this.handleClickEdit.bind(this);
-    this.handleCloseInfo = this.handleCloseInfo.bind(this);
     this.handleIncrementBursts = this.handleIncrementBursts.bind(this);
     this.handleDecrementBursts = this.handleDecrementBursts.bind(this);
-    this.handleSwapBlocks = this.handleSwapBlocks.bind(this);
+    this.handleClickSwap = this.handleClickSwap.bind(this);
+    this.swapBlocks = this.swapBlocks.bind(this);
     this.handleClickSave = this.handleClickSave.bind(this);
+    this.handleClickPlay = this.handleClickPlay.bind(this);
     this.handleBurstsUpdate = this.handleBurstsUpdate.bind(this);
-    this.handleOrderUpdate = this.handleOrderUpdate.bind(this);
     this.handleBlockDelete = this.handleBlockDelete.bind(this);
 
     this.handleChangeEditTask = this.handleChangeEditTask.bind(this);
@@ -257,7 +258,6 @@ class BlockItem extends Component {
   }
 
   handleClickOutside(e) {
-    console.log('HOUT');
     if (this.state.focusState !== FOCUS_EDIT) {
       this.setState({focusState: FOCUS_NONE});
     }
@@ -292,14 +292,10 @@ class BlockItem extends Component {
     this.setState({
       focusState: FOCUS_EDIT,
       task: blocks[blockId].task,
-      durationWork: blocks[blockId].durationWork,
-      durationBreak: blocks[blockId].durationBreak,
+      durationWork: blocks[blockId].durationWork / 60,
+      durationBreak: blocks[blockId].durationBreak / 60,
       description: blocks[blockId].description,
     });
-  }
-
-  handleCloseInfo() {
-    this.setState({focusState: FOCUS_NONE});
   }
 
   handleIncrementBursts() {
@@ -307,6 +303,20 @@ class BlockItem extends Component {
     if (this.state.numBursts < 10) {
       this.handleBurstsUpdate(blocks[blockId].numBursts + 1);
     }
+  }
+
+  handleDecrementBursts() {
+    const {blocks, blockId} = this.props;
+    if (this.state.numBursts > 1) {
+      this.handleBurstsUpdate(blocks[blockId].numBursts - 1);
+    }
+  }
+
+  handleClickSwap(up) {
+    const {stacks, stackFocused, blockId} = this.props;
+    const dir = up ? -1 : 1;
+    const index = stacks[stackFocused].order.indexOf(blockId);
+    this.swapBlocks(index, index + dir);
   }
 
   handleDecrementBursts() {
@@ -329,13 +339,13 @@ class BlockItem extends Component {
 
   handleChangeEditDurationWork(e) {
     this.setState(
-        {durationWork: e.target.value * 60},
+        {durationWork: e.target.value},
     );
   }
 
   handleChangeEditDurationBreak(e) {
     this.setState(
-        {durationBreak: e.target.value * 60},
+        {durationBreak: e.target.value},
     );
   }
 
@@ -346,9 +356,16 @@ class BlockItem extends Component {
       ...blocks[blockId],
       task: this.state.task,
       description: this.state.description,
-      durationWork: this.state.durationWork,
-      durationBreak: this.state.durationBreak,
+      durationWork: this.state.durationWork * 60,
+      durationBreak: this.state.durationBreak * 60,
     }, this.props.blockId);
+  }
+
+  handleClickPlay() {
+    const {stacks, stackFocused, blockId, playlistStart} = this.props;
+    const order = stacks[stackFocused].order;
+    const index = order.indexOf(blockId)
+    playlistStart(order.slice(index), false);
   }
 
   handleBurstsUpdate(newBurstsValue) {
@@ -360,21 +377,13 @@ class BlockItem extends Component {
     this.setState({numBursts: newBurstsValue});
   }
 
-  handleOrderUpdate(newOrder) {
-    const {stacks, stackFocused} = this.props;
-    this.props.dataStackUpdate({
-      ...stacks[stackFocused],
-      order: newOrder,
-    }, this.props.stackFocused);
-  }
-
   handleBlockDelete() {
     const {stackFocused} = this.props;
     this.props.dataBlockDelete(this.props.blockId, stackFocused);
   }
 
-  handleSwapBlocks(currIndex, swapIndex) {
-    const {stacks, stackFocused} = this.props;
+  swapBlocks(currIndex, swapIndex) {
+    const {stacks, stackFocused, dataStackUpdate} = this.props;
 
     // deep copy
     const blocksOrderNew = [...stacks[stackFocused].order];
@@ -385,7 +394,11 @@ class BlockItem extends Component {
     const temp = blocksOrderNew[currIndex];
     blocksOrderNew[currIndex] = blocksOrderNew[swapIndex];
     blocksOrderNew[swapIndex] = temp;
-    this.handleOrderUpdate(blocksOrderNew);
+
+    this.props.dataStackUpdate({
+      ...stacks[stackFocused],
+      order: blocksOrderNew,
+    }, stackFocused);
   }
 
   // Finite state machine
@@ -405,8 +418,12 @@ class BlockItem extends Component {
       case FOCUS_HOVER:
         componentButtonsEnd = (
           <StyledContainerSwap>
-            <KeyboardArrowUpRoundedIcon />
-            <KeyboardArrowDownRoundedIcon />
+            <KeyboardArrowUpRoundedIcon
+            onClick={() => this.handleClickSwap(true)}
+            />
+            <KeyboardArrowDownRoundedIcon
+              onClick={() => this.handleClickSwap(false)}
+            />
           </StyledContainerSwap>
         );
         break;
@@ -448,8 +465,8 @@ class BlockItem extends Component {
         <StyledBoxButtonsFront>
           {this.state.focusState == FOCUS_HOVER &&
             <StyledContainerFront>
-              <CloseRoundedIcon />
-              <PlayArrowRoundedIcon />
+              <CloseRoundedIcon onClick={this.handleBlockDelete} />
+              <PlayArrowRoundedIcon onClick={this.handleClickPlay}/>
             </StyledContainerFront>
 
           }
@@ -483,7 +500,7 @@ class BlockItem extends Component {
                   placeholder="Duration"
                   value={this.state.focusState === FOCUS_EDIT ?
                       this.state.durationWork :
-                      blocks[blockId].durationWork
+                      `${blocks[blockId].durationWork / 60}m`
                   }
                   onChange={this.handleChangeEditDurationWork}
                   maxLength="2"
@@ -494,10 +511,10 @@ class BlockItem extends Component {
                 <StyledTextDuration
                   mode={this.state.focusState}
                   type="text"
-                  placeholder="Duration"
+                  placeholder="Break"
                   value={this.state.focusState === FOCUS_EDIT ?
                       this.state.durationBreak :
-                      blocks[blockId].durationBreak
+                      `${blocks[blockId].durationBreak / 60}m`
                   }
                   onChange={this.handleChangeEditDurationBreak}
                   maxLength="2"
@@ -546,6 +563,7 @@ BlockItem.propTypes = {
   dataBlockUpdate: PropTypes.func.isRequired,
   dataStackUpdate: PropTypes.func.isRequired,
   dataBlockDelete: PropTypes.func.isRequired,
+  playlistStart: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -558,6 +576,7 @@ const mapDispatchToProps = {
   dataBlockUpdate,
   dataStackUpdate,
   dataBlockDelete,
+  playlistStart,
 };
 
 export default

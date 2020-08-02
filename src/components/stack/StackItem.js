@@ -51,7 +51,6 @@ class StackItem extends Component {
   }
 
   handleClick() {
-    console.log('CLICK');
     this.setState({click: !this.state.click});
   }
 
@@ -66,7 +65,6 @@ class StackItem extends Component {
 
     if (loadingStacks) return null;
 
-    console.log('STACK ITEM', stackFocused, stacks);
     return (
       <StyledItem focused={stackId === stackFocused}
         onClick={() => stackSetStackFocused(stackId)}>
