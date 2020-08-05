@@ -24,13 +24,13 @@ export const StyledButton = styled.a`
   text-align: center;
   color:
   ${(props) => props.type === BUTTON_SOLID ?
-      props.theme.primaryLight :
-      props.theme.secondary
+    props.theme.primaryLight :
+    props.theme.secondary
 };
   background-color:
   ${(props) => props.type === BUTTON_SOLID ?
-      props.theme.secondary :
-      'none'
+    props.theme.secondary :
+    'none'
 };
 `;
 
@@ -60,4 +60,99 @@ export const StyledDot = styled.div`
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 1rem;
+`;
+
+/* login page styled components */
+export const StyledWrapper = styled.section`
+  background-color: #FFFFFF;
+  width: 30rem;
+  margin: 7rem 0 0 10rem;
+  position: fixed;
+  border-radius: 0.75rem;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+  align-items: center;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+`;
+
+export const StyledInput = styled.input`
+  width: 20rem;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 5%;
+  border: 1rem;
+  font-size: 1rem;
+  background: #EEEEEE;
+  &:focus {
+      outline: none;
+  }
+`;
+
+export const StyledSubmit = styled.input`
+  width: 50%;
+  border-radius: 0.75rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1rem;
+  font-size: 1rem;
+  background: #4CD2B2;
+  color: white;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+export const StyledForm = styled.form`
+  text-align: center;
+`;
+
+export const StyledGreeting = styled.div`
+  font-size: 1.5rem;
+  text-align: center;
+  color: #333333;
+  padding: 1rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+export const StyledCaption = styled.div`
+  font-size: 1.5rem;
+  text-align: center;
+  color: #AAAAAA;
+  font-family: 'Roboto', sans-serif;
+`;
+
+export const StyledError = styled.div`
+  font-size: 1rem;
+  text-align: center;
+  color: red;
+`;
+
+export const StyledDiv = styled.div`
+  width: 30rem;
+  margin: 7rem 0 0 10rem;
+  position: fixed;
+  text-align: center;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+`;
+
+export const StyledTitle = styled.div`
+  text-align: middle;
+  font-size: 3rem;
+  color: black;
+`;
+
+export const StyledLinkButton = styled.button`
+  width: 10rem;
+  border-radius: 0.75rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1rem;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  background: #4CD2B2;
+  color: white;
+  &:hover{
+    cursor: pointer;
+  }
 `;

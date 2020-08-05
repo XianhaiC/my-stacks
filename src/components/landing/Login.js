@@ -2,6 +2,16 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import {
+  StyledWrapper,
+  StyledInput,
+  StyledSubmit,
+  StyledForm,
+  StyledGreeting,
+  StyledCaption,
+  StyledError,
+} from '../common/styles';
+
 import {sessionUserLogin} from '../../redux/actions/sessionActions';
 
 class Login extends Component {
@@ -32,10 +42,19 @@ class Login extends Component {
 
   render() {
     if (this.props.loadingLanding) return (<h3>Loading</h3>);
+    console.log(this.props.errors.general);
+
+    let errorMessage = <StyledError></StyledError>;
+    if (Object.keys(this.props.errors).length !== 0) {
+      errorMessage = <StyledError>{this.props.errors.general}</StyledError>;
+    }
+
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
+      <StyledWrapper>
+        <StyledGreeting>Welcome!</StyledGreeting>
+        <StyledCaption>Let's get things done today.</StyledCaption>
+        <StyledForm onSubmit={this.handleSubmit}>
+          <StyledInput
             type="text"
             placeholder="Email"
             value={this.state.email}
@@ -45,7 +64,7 @@ class Login extends Component {
             title="Must provide a valid email"
             required />
 
-          <input
+          <StyledInput
             type="password"
             placeholder="Password"
             value={this.state.password}
@@ -53,11 +72,11 @@ class Login extends Component {
             pattern=".{6,}"
             title="Must contain at least 6 or more characters"
             required />
+          {errorMessage}
+          <StyledSubmit type="submit" value="Login" />
 
-          <input type="submit" value="Submit"/>
-
-        </form>
-      </div>
+        </StyledForm>
+      </StyledWrapper >
     );
   }
 }
@@ -65,11 +84,13 @@ class Login extends Component {
 Login.propTypes = {
   sessionUserLogin: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
   loadingLanding: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   loadingLanding: state.session.loadingLanding,
+  errors: state.session.errors,
 });
 
 const mapDispatchToProps = {
