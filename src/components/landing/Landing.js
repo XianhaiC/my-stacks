@@ -1,13 +1,15 @@
 import React from 'react';
+import {StyledDiv, StyledTitle} from '../common/styles';
 
 import LinkButton from '../../util/LinkButton';
 
 const LandingDisplay = (props) => {
   return (
-    <div>
+    <StyledDiv>
+      <StyledTitle>MyStacks</StyledTitle>
       <LinkButton to='/login'>Login</LinkButton>
       <LinkButton to='/signup'>Signup</LinkButton>
-    </div>
+    </StyledDiv>
   );
 };
 
