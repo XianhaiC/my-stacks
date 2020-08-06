@@ -11,6 +11,7 @@ import {
   BUTTON_OUTLINE,
 } from '../../util/constants';
 
+import NumBursts from './NumBursts';
 
 import {playlistStart} from '../../redux/actions/playlistActions';
 import {
@@ -403,10 +404,10 @@ class BlockItem extends Component {
 
   handleBurstsUpdate(newBurstsValue) {
     const {blocks, blockId} = this.props;
-    this.props.dataBlockUpdate({
+    this.props.dataBlockUpdate(blockId, {
       ...blocks[blockId],
       numBursts: newBurstsValue,
-    }, this.props.blockId);
+    });
     this.setState({numBursts: newBurstsValue});
   }
 
@@ -558,9 +559,11 @@ class BlockItem extends Component {
                 />
               </StyledContainerDurations>
 
-              <StyledContainerBursts mode={this.state.focusState}>
-                {componentBursts}
-              </StyledContainerBursts>
+              <NumBursts
+                focusState={this.state.focusState}
+                blockId={blockId}
+                handleBurstsUpdate={this.handleBurstsUpdate}
+              />
             </StyledContainerRow>
 
             <StyledDescription

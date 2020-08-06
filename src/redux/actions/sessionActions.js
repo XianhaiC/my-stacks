@@ -49,6 +49,7 @@ export const sessionUserSignup = (newUserData, history) => (dispatch) => {
         setAuthorizationHeader(res.data.token);
 
         dispatch(sessionUserFetchData());
+        dispatch({type: SESSION_SET_AUTHENTICATED});
         dispatch({type: SESSION_ERRORS_SET, payload: {}});
       })
       .catch((err) => {
