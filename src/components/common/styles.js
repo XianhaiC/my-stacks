@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-import {BUTTON_SOLID} from '../../util/constants';
+import {
+  BUTTON_SOLID,
+  BUTTON_GRAY,
+} from '../../util/constants';
 
 export const StyledBox = styled.div`
   flex: 1;
@@ -16,21 +19,26 @@ export const StyledBoxColumn = styled(StyledBox)`
 export const StyledButton = styled.a`
   box-sizing: border-box;
   border-radius: 0.2rem;
-  border: 0.11rem solid ${(props) => props.theme.secondary};
+  border: 0.11rem solid ${(props) =>
+    props.type === BUTTON_GRAY ? 'gray' : props.theme.secondary};
   font-size: 1rem;
   font-weight: 500;
   padding: 0.4rem 1.2rem;
   min-width: 3rem;
   text-align: center;
   color:
-  ${(props) => props.type === BUTTON_SOLID ?
-    props.theme.primaryLight :
-    props.theme.secondary
+  ${(props) =>
+    props.type === BUTTON_SOLID ?
+      props.theme.primaryLight :
+      props.theme.secondary
 };
   background-color:
-  ${(props) => props.type === BUTTON_SOLID ?
-    props.theme.secondary :
-    'none'
+  ${(props) =>
+    props.type === BUTTON_SOLID ?
+      props.theme.secondary :
+      props.type === BUTTON_GRAY ?
+        'gray' :
+        'none'
 };
 `;
 
@@ -72,7 +80,6 @@ export const StyledWrapper = styled.section`
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
   align-items: center;
   text-align: center;
-  font-family: 'Roboto', sans-serif;
 `;
 
 export const StyledInput = styled.input`
@@ -111,14 +118,12 @@ export const StyledGreeting = styled.div`
   text-align: center;
   color: #333333;
   padding: 1rem;
-  font-family: 'Roboto', sans-serif;
 `;
 
 export const StyledCaption = styled.div`
   font-size: 1.5rem;
   text-align: center;
   color: #AAAAAA;
-  font-family: 'Roboto', sans-serif;
 `;
 
 export const StyledError = styled.div`
@@ -133,26 +138,74 @@ export const StyledDiv = styled.div`
   position: fixed;
   text-align: center;
   font-size: 1rem;
-  font-family: 'Roboto', sans-serif;
 `;
 
 export const StyledTitle = styled.div`
   text-align: middle;
   font-size: 3rem;
-  color: black;
+  color: white;
+  font-weight: bold;
+  margin: 3rem;
 `;
 
-export const StyledLinkButton = styled.button`
-  width: 10rem;
-  border-radius: 0.75rem;
-  margin: 1rem;
-  padding: 1rem;
-  border: 1rem;
-  font-size: 1rem;
-  font-family: Arial, sans-serif;
-  background: #4CD2B2;
-  color: white;
-  &:hover{
-    cursor: pointer;
+/* login page background styled components */
+export const StyledArea = styled.div`
+  background: linear-gradient(152deg, rgba(227,84,84,1) 0%, rgba(29,100,106,1) 57%, rgba(140,164,216,1) 100%);
+  background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
+  width: 100%;
+  height: 100vh;
+`;
+
+export const StyledCircles = styled.ul`
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+export const StyledCircle = styled.li`
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  animation-delay: 0s;
+  animation: animate 30s linear infinite;
+  &:nth-child(1){
+    left: 25rem;
+    width: 10rem;
+    height: 5rem;
+    bottom: -30rem;
+    animation-delay: 0s;
+  }
+  &:nth-child(2){
+    left: 26rem;
+    width: 10rem;
+    height: 5rem;
+    bottom: -26rem;
+    animation-delay: 0s;
+  }
+  &:nth-child(3){
+    left: 27rem;
+    width: 10rem;
+    height: 5rem;
+    bottom: -22rem;
+    animation-delay: 0s;
+  }
+  &:nth-child(4){
+    left: 28rem;
+    width: 10rem;
+    height: 5rem;
+    bottom: -18rem;
+    animation-delay: 0s;
+  }
+  &:nth-child(5){
+    left: 29rem;
+    width: 10rem;
+    height: 5rem;
+    bottom: -14rem;
+    animation-delay: 0s;
   }
 `;

@@ -10,6 +10,7 @@ import {
   StyledGreeting,
   StyledCaption,
   StyledError,
+  StyledArea,
 } from '../common/styles';
 
 import {sessionUserLogin} from '../../redux/actions/sessionActions';
@@ -50,33 +51,35 @@ class Login extends Component {
     }
 
     return (
-      <StyledWrapper>
-        <StyledGreeting>Welcome!</StyledGreeting>
-        <StyledCaption>Let's get things done today.</StyledCaption>
-        <StyledForm onSubmit={this.handleSubmit}>
-          <StyledInput
-            type="text"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={this.handleChangeEmail}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-            maxLength="255"
-            title="Must provide a valid email"
-            required />
+      <StyledArea>
+        <StyledWrapper>
+          <StyledGreeting>Welcome!</StyledGreeting>
+          <StyledCaption>Let's get things done today.</StyledCaption>
+          <StyledForm onSubmit={this.handleSubmit}>
+            <StyledInput
+              type="text"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={this.handleChangeEmail}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              maxLength="255"
+              title="Must provide a valid email"
+              required />
 
-          <StyledInput
-            type="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleChangePassword}
-            pattern=".{6,}"
-            title="Must contain at least 6 or more characters"
-            required />
-          {errorMessage}
-          <StyledSubmit type="submit" value="Login" />
+            <StyledInput
+              type="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleChangePassword}
+              pattern=".{6,}"
+              title="Must contain at least 6 or more characters"
+              required />
+            {errorMessage}
+            <StyledSubmit type="submit" value="Login" />
 
-        </StyledForm>
-      </StyledWrapper >
+          </StyledForm>
+        </StyledWrapper >
+      </StyledArea>
     );
   }
 }

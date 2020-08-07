@@ -23,6 +23,7 @@ export const PATH_SIGNUP = '/signup';
 // styling
 export const BUTTON_SOLID = 0;
 export const BUTTON_OUTLINE = 1;
+export const BUTTON_GRAY = 2;
 
 // etc
 export const EMAIL_REGEX =

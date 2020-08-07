@@ -61,15 +61,15 @@ const StyledContainerInner = styled.div`
   transition: height 0.5s ease-in-out;
   box-shadow:
   ${(props) =>
-  props.mode === FOCUS_INFO ||
-  props.mode === FOCUS_EDIT ?
+    props.mode === FOCUS_INFO ||
+      props.mode === FOCUS_EDIT ?
       '0px 0px 20px rgba(0, 0, 0, 0.15)' :
       'none'
 };
   border:
   ${(props) => props.mode === FOCUS_EDIT ?
-      `0.11rem solid ${props.theme.secondary}` :
-      'none'
+    `0.11rem solid ${props.theme.secondary}` :
+    'none'
 };
 `;
 
@@ -102,8 +102,8 @@ const StyledContainerDurations = styled(StyledContainerRow)`
   right: 0;
   opacity:
   ${(props) =>
-  props.mode === FOCUS_INFO ||
-  props.mode === FOCUS_EDIT ?
+    props.mode === FOCUS_INFO ||
+      props.mode === FOCUS_EDIT ?
       '1' :
       '0'
 };
@@ -115,8 +115,8 @@ const StyledContainerBursts = styled(StyledContainerRow)`
   right: 0;
   opacity:
   ${(props) =>
-  props.mode === FOCUS_NONE ||
-  props.mode === FOCUS_HOVER ?
+    props.mode === FOCUS_NONE ||
+      props.mode === FOCUS_HOVER ?
       '1' :
       '0'
 };
@@ -168,22 +168,22 @@ const StyledDescription = styled(TextareaAutosize)`
   color: ${(props) => props.theme.midtone};
   padding: 
   ${(props) =>
-  props.mode === FOCUS_INFO ||
-  props.mode === FOCUS_EDIT ?
+    props.mode === FOCUS_INFO ||
+      props.mode === FOCUS_EDIT ?
       '0.8rem' :
       '0'
 } 2rem;
   height:
   ${(props) =>
-  props.mode === FOCUS_INFO ||
-  props.mode === FOCUS_EDIT ?
+    props.mode === FOCUS_INFO ||
+      props.mode === FOCUS_EDIT ?
       '1rem' :
       '0'
 };
   display:
   ${(props) =>
-  props.mode === FOCUS_INFO ||
-  props.mode === FOCUS_EDIT ?
+    props.mode === FOCUS_INFO ||
+      props.mode === FOCUS_EDIT ?
       'block' :
       'none'
 };
@@ -281,7 +281,7 @@ class BlockItem extends Component {
   }
 
   handleClickFocus() {
-    if ( this.state.focusState === FOCUS_NONE ||
+    if (this.state.focusState === FOCUS_NONE ||
       this.state.focusState === FOCUS_HOVER) {
       this.setState({focusState: FOCUS_INFO});
     }
@@ -502,7 +502,7 @@ class BlockItem extends Component {
           {this.state.focusState == FOCUS_HOVER &&
             <StyledContainerFront>
               <CloseRoundedIcon onClick={this.handleBlockDelete} />
-              <PlayArrowRoundedIcon onClick={this.handleClickPlay}/>
+              <PlayArrowRoundedIcon onClick={this.handleClickPlay} />
             </StyledContainerFront>
 
           }
@@ -518,8 +518,8 @@ class BlockItem extends Component {
                 type="text"
                 placeholder="Task"
                 value={this.state.focusState === FOCUS_EDIT ?
-                    this.state.task :
-                    blocks[blockId].task
+                  this.state.task :
+                  blocks[blockId].task
                 }
                 onChange={this.handleChangeEditTask}
                 maxLength="255"
@@ -535,8 +535,8 @@ class BlockItem extends Component {
                   type="text"
                   placeholder="Duration"
                   value={this.state.focusState === FOCUS_EDIT ?
-                      this.state.durationWork :
-                      `${blocks[blockId].durationWork / 60}m`
+                    this.state.durationWork :
+                    `${blocks[blockId].durationWork / 60}m`
                   }
                   onChange={this.handleChangeEditDurationWork}
                   maxLength="2"
@@ -549,8 +549,8 @@ class BlockItem extends Component {
                   type="text"
                   placeholder="Break"
                   value={this.state.focusState === FOCUS_EDIT ?
-                      this.state.durationBreak :
-                      `${blocks[blockId].durationBreak / 60}m`
+                    this.state.durationBreak :
+                    `${blocks[blockId].durationBreak / 60}m`
                   }
                   onChange={this.handleChangeEditDurationBreak}
                   maxLength="2"
@@ -573,14 +573,14 @@ class BlockItem extends Component {
               disabled={this.state.focusState !== FOCUS_EDIT}
             >
               {this.state.focusState === FOCUS_EDIT ?
-                  this.state.description :
-                  blocks[blockId].description
+                this.state.description :
+                blocks[blockId].description
               }
             </StyledDescription>
 
           </StyledContainerInner>
           {(this.state.focusState === FOCUS_NONE ||
-              this.state.focusState === FOCUS_HOVER) &&
+            this.state.focusState === FOCUS_HOVER) &&
             <StyledHLine />
           }
         </StyledContainerCol>
