@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyledLinkButton} from '../components/common/styles';
 import {withRouter} from 'react-router';
+import styled from 'styled-components';
+import {StyledButton} from '../components/common/styles';
 
+const StyledLinkButton = styled(StyledButton)`
+  color: white;
+  margin: 1rem;
+  &:hover{
+    cursor: pointer;
+  }
+`;
 
-const LinkButton = (props) => {
+export const LinkButton = (props) => {
   const {
     history,
     staticContext,
@@ -14,7 +22,7 @@ const LinkButton = (props) => {
     ...rest
   } = props;
   return (
-    <StyledLinkButton
+    <StyledLinkButton type={props.type}
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);

@@ -21,11 +21,11 @@ const StyledContainerBursts = styled.div`
   right: 0;
   opacity:
   ${(props) =>
-  props.mode === FOCUS_NONE ||
-  props.mode === FOCUS_HOVER ?
+    props.mode === FOCUS_NONE ||
+      props.mode === FOCUS_HOVER ?
       '1' :
       '0'
-  };
+};
 `;
 
 const StyledDotContainer = styled.div`
@@ -41,7 +41,7 @@ const StyledDotBurst = styled(StyledDot)`
 
 const StyledDotDim = styled(StyledDot)`
   margin: 0.2rem;
-  background: ${props => props.theme.primaryLightDull};
+  background: ${(props) => props.theme.primaryLightDull};
 `;
 
 class NumBursts extends Component {
@@ -51,7 +51,7 @@ class NumBursts extends Component {
     this.state = {
       numBurstsDim: 0,
       focusStatePrev: 0,
-    }
+    };
 
     this.addDim = this.addDim.bind(this);
     this.handleClickDot = this.handleClickDot.bind(this);
@@ -63,10 +63,9 @@ class NumBursts extends Component {
       if (focusState === FOCUS_HOVER) {
         this.setState({
           numBurstsDim: blocks[blockId].numBursts >= 10 ? 0 : 1,
-          focusStatePrev: focusState
+          focusStatePrev: focusState,
         });
-      }
-      else {
+      } else {
         this.setState({numBurstsDim: 0, focusStatePrev: focusState});
       }
     }
@@ -74,7 +73,7 @@ class NumBursts extends Component {
 
   addDim() {
     const {blockId, blocks} = this.props;
-    let total = blocks[blockId].numBursts + this.state.numBurstsDim;
+    const total = blocks[blockId].numBursts + this.state.numBurstsDim;
 
     if (total >= 10) return;
     this.setState({numBurstsDim: this.state.numBurstsDim + 1});
@@ -83,9 +82,9 @@ class NumBursts extends Component {
   handleClickDot(index, e) {
     e.stopPropagation();
     const {blockId, handleBurstsUpdate, blocks} = this.props;
-    let total = blocks[blockId].numBursts + this.state.numBurstsDim;
+    const total = blocks[blockId].numBursts + this.state.numBurstsDim;
     handleBurstsUpdate(total - index);
-    console.log("NEW DOTS", total - index, total, index);
+    console.log('NEW DOTS', total - index, total, index);
     this.setState({numBurstsDim: index});
   }
 
@@ -93,28 +92,28 @@ class NumBursts extends Component {
     const {focusState, blockId, handleBurstsUpdate, blocks} = this.props;
     const componentBursts = [];
 
-    var i = 0;
+    let i = 0;
     for (; i < this.state.numBurstsDim; i++) {
-      let index = i;
+      const index = i;
       const boundClickDot = this.handleClickDot.bind(this, index);
       componentBursts.push(
-        <StyledDotContainer onMouseEnter={i === 0 ? this.addDim : null}
-          onClick={boundClickDot}
-          key={i}>
-          <StyledDotDim />
-        </StyledDotContainer>
+          <StyledDotContainer onMouseEnter={i === 0 ? this.addDim : null}
+            onClick={boundClickDot}
+            key={i}>
+            <StyledDotDim />
+          </StyledDotContainer>,
       );
     }
 
     for (; i < blocks[blockId].numBursts + this.state.numBurstsDim; i++) {
-      let index = i;
+      const index = i;
       const boundClickDot = this.handleClickDot.bind(this, index);
       componentBursts.push(
-        <StyledDotContainer
-          onClick={boundClickDot}
-          key={i}>
-          <StyledDotBurst/>
-        </StyledDotContainer>
+          <StyledDotContainer
+            onClick={boundClickDot}
+            key={i}>
+            <StyledDotBurst />
+          </StyledDotContainer>,
       );
     }
 
