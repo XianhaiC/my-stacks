@@ -8,7 +8,7 @@ import {
 } from '../common/styles';
 
 import {
-  FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
+  FOCUS_NONE, FOCUS_HOVER,
 } from '../../util/constants';
 
 import {dataBlockUpdate} from '../../redux/actions/dataActions';
@@ -89,7 +89,7 @@ class NumBursts extends Component {
   }
 
   render() {
-    const {focusState, blockId, handleBurstsUpdate, blocks} = this.props;
+    const {focusState, blockId, blocks} = this.props;
     const componentBursts = [];
 
     let i = 0;

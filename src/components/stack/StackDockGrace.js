@@ -7,7 +7,7 @@ import onClickOutside from 'react-onclickoutside';
 import {dataStackUpdate} from '../../redux/actions/dataActions';
 
 import {
-  FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
+  FOCUS_NONE, FOCUS_EDIT,
 } from '../../util/constants';
 
 const StyledText = styled.input`
@@ -32,12 +32,12 @@ const StyledText = styled.input`
   props.mode === FOCUS_EDIT ?
       '0px 0px 20px rgba(0, 0, 0, 0.15)' :
       'none'
-  };
+};
   border:
   ${(props) => props.mode === FOCUS_EDIT ?
       `0.11rem solid ${props.theme.secondary}` :
       'none'
-  };
+};
 `;
 
 class StackDockGrace extends Component {
@@ -64,7 +64,7 @@ class StackDockGrace extends Component {
 
   handleClickEdit() {
     const {stacks, stackFocused} = this.props;
-    console.log("EDIT");
+    console.log('EDIT');
     this.setState({
       focusState: FOCUS_EDIT,
       durationGrace: stacks[stackFocused].durationGrace / 60,
@@ -111,6 +111,7 @@ class StackDockGrace extends Component {
 StackDockGrace.propTypes = {
   stacks: PropTypes.object.isRequired,
   stackFocused: PropTypes.string.isRequired,
+  dataStackUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

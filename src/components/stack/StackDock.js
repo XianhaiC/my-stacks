@@ -10,7 +10,7 @@ import {playlistStart} from '../../redux/actions/playlistActions';
 import ShuffleRoundedIcon from '@material-ui/icons/ShuffleRounded';
 import LoopRoundedIcon from '@material-ui/icons/LoopRounded';
 
-import {StyledBox, StyledButton} from '../common/styles'
+import {StyledBox, StyledButton} from '../common/styles';
 import {BUTTON_SOLID} from '../../util/constants';
 
 const StyledContainer = styled.div`
@@ -19,11 +19,11 @@ const StyledContainer = styled.div`
   align-content: center;
   height: 3rem;
   padding-bottom: 3rem;
-`
+`;
 const StyledBoxRight = styled(StyledBox)`
   justify-content: flex-end;
   padding-right: 3rem;
-`
+`;
 
 const StyledButtonIcon = styled(StyledButton)`
   display: flex;
@@ -34,7 +34,7 @@ const StyledButtonIcon = styled(StyledButton)`
   padding: 0.4rem 0.4rem;
   margin-left: 1.5rem;
   min-width: initial;
-`
+`;
 
 class StackDock extends Component {
   constructor() {
@@ -61,15 +61,16 @@ class StackDock extends Component {
   }
 
   render() {
-    let style = {
+    const style = {
       fontSize: '1.15rem',
-    }
+    };
     return (
       <StyledContainer>
         <StyledBox />
 
         <StyledBox>
-          <StyledButton type={BUTTON_SOLID} onClick={this.handleClickStart}>Start session</StyledButton>
+          <StyledButton type={BUTTON_SOLID}
+            onClick={this.handleClickStart}>Start session</StyledButton>
           <StyledButtonIcon onClick={this.handleClickShuffle}>
             <ShuffleRoundedIcon style={style}/>
           </StyledButtonIcon>

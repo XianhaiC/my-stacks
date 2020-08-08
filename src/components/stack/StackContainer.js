@@ -6,10 +6,16 @@ import styled from 'styled-components';
 import BlockList from './BlockList';
 import StackDock from './StackDock';
 import PlaylistContainer from '../playlist/PlaylistContainer';
+import PopupOptionsStack from '../popups/PopupOptionsStack';
 
-import {StyledBoxColumn} from '../common/styles';
+import {StyledBoxColumn, StyledButtonContainer} from '../common/styles';
+
+import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 
 import {DISPLAY_STACK} from '../../util/constants';
+
+import {stackSetPopupVisibleOptionsStack}
+  from '../../redux/actions/stackActions';
 
 const StyledBoxDynamic = styled(StyledBoxColumn)`
   flex:
@@ -62,6 +68,8 @@ const StyledContainerStack = styled.div`
 
 const StyledContainerText = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   flex:
   ${(props) => props.display === DISPLAY_STACK ?
       '0 1 auto' :
@@ -82,6 +90,16 @@ const StyledTextName = styled.div`
 `;
 
 class StackContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleClickOptions = this.handleClickOptions.bind(this);
+  }
+
+  handleClickOptions() {
+    this.props.stackSetPopupVisibleOptionsStack(true);
+  }
+
   render() {
     const {
       display,
@@ -100,13 +118,20 @@ class StackContainer extends Component {
         </Fragment>
       );
 
-
     return (
       <StyledContainer>
         <StyledContainerText display={display}>
-          {!loadingStacks && <StyledTextName>
-            {stacks[stackFocused].name}
-          </StyledTextName>
+          {!loadingStacks &&
+            <Fragment>
+              <StyledTextName>
+                {stacks[stackFocused].name}
+              </StyledTextName>
+              <StyledButtonContainer
+                onClick={this.handleClickOptions} light={true}>
+                <MoreVertRoundedIcon />
+                <PopupOptionsStack />
+              </StyledButtonContainer>
+            </Fragment>
           }
         </StyledContainerText>
         <StyledContainerInner display={display}>
@@ -130,6 +155,7 @@ StackContainer.propTypes = {
   stackFocused: PropTypes.string,
   loadingStacks: PropTypes.bool.isRequired,
   loadingBlocks: PropTypes.bool.isRequired,
+  stackSetPopupVisibleOptionsStack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -140,4 +166,8 @@ const mapStateToProps = (state) => ({
   loadingBlocks: state.session.loadingBlocks,
 });
 
-export default connect(mapStateToProps)(StackContainer);
+const mapDispatchToProps = {
+  stackSetPopupVisibleOptionsStack,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StackContainer);

@@ -17,6 +17,7 @@ export const StyledBoxColumn = styled(StyledBox)`
 `;
 
 export const StyledButton = styled.a`
+  cursor: pointer;
   box-sizing: border-box;
   border-radius: 0.3rem;
   border: 0.11rem solid
@@ -31,24 +32,32 @@ export const StyledButton = styled.a`
     props.type === BUTTON_SOLID ?
       props.theme.primaryLight :
       (props.alt ? props.theme.secondaryAlt : props.theme.secondary)
-  };
+};
   background-color:
   ${(props) => props.type === BUTTON_SOLID ?
       (props.alt ? props.theme.secondaryAlt : props.theme.secondary) :
       'none'
-  };
+};
 `;
 
 // we use an <a> element here instead of <button>
 // due to the line-height issues with <button>
 export const StyledButtonContainer = styled.a`
+  position: relative;
   outline: none;
+  cursor: pointer;
+  white-space: nowrap;
   border: none;
   background: none;
   display: flex;
   align-items: center;
   padding: 0.5rem;
   margin: 0.5rem;
+  color:
+  ${(props) => props.light ?
+      props.theme.primaryLight :
+      props.theme.primaryDark
+};
 `;
 
 export const StyledPopup = styled.div`
@@ -59,6 +68,27 @@ export const StyledPopup = styled.div`
   background: ${(props) => props.theme.primaryLight};
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
+`;
+
+export const StyledPopupMenu = styled(StyledPopup)`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  top: 0;
+  color: ${(props) => props.theme.primaryDark};
+  padding: 0.5rem 0;
+`;
+
+export const StyledMenuItem = styled.div`
+  padding: 0.5rem 2rem;
+  width: 10rem;
+  font-weight: 500;
+
+  &:hover {
+    background: ${(props) => props.theme.primaryLightDull};
+    cursor: pointer;
+  }
 `;
 
 export const StyledDot = styled.div`

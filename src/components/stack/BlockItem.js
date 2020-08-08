@@ -109,19 +109,6 @@ const StyledContainerDurations = styled(StyledContainerRow)`
 };
 `;
 
-const StyledContainerBursts = styled(StyledContainerRow)`
-  position: absolute;
-  padding-right: 1rem;
-  right: 0;
-  opacity:
-  ${(props) =>
-    props.mode === FOCUS_NONE ||
-      props.mode === FOCUS_HOVER ?
-      '1' :
-      '0'
-};
-`;
-
 const StyledDotBurst = styled(StyledDot)`
   margin: 0.2rem;
   background: ${(props) => props.theme.secondary};
@@ -559,11 +546,13 @@ class BlockItem extends Component {
                 />
               </StyledContainerDurations>
 
-              <NumBursts
-                focusState={this.state.focusState}
-                blockId={blockId}
-                handleBurstsUpdate={this.handleBurstsUpdate}
-              />
+              {!blockCreate &&
+                <NumBursts
+                  focusState={this.state.focusState}
+                  blockId={blockId}
+                  handleBurstsUpdate={this.handleBurstsUpdate}
+                />
+              }
             </StyledContainerRow>
 
             <StyledDescription

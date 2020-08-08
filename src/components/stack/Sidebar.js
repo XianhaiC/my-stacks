@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
 import StackItem from './StackItem';
+import PopupOptionsSidebar from '../popups/PopupOptionsSidebar';
 
 import ArrowLeftRoundedIcon from '@material-ui/icons/ArrowLeftRounded';
+import ArrowRightRoundedIcon from '@material-ui/icons/ArrowRightRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
@@ -13,24 +15,26 @@ import {StyledButtonContainer} from '../common/styles';
 
 import {
   stackSetPopupVisibleStackCreate,
+  stackSetPopupVisibleOptionsSidebar,
 } from '../../redux/actions/stackActions';
 import {dataStackCreate} from '../../redux/actions/dataActions';
 
-import {DISPLAY_STACK} from '../../util/constants';
-
 const StyledContainer = styled.div`
+  position: relative;
+  z-index: 1;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: ${(props) => props.theme.primaryLightDull};
-  width: 17rem;
-  left:
-  ${(props) => props.display === DISPLAY_STACK ?
+  overflow: hidden;
+  width:
+  ${(props) => props.visible ?
       '17rem' :
       '0'
 };
-  transition: all 0.5s ease-in-out;
+};
+  transition: all 0.25s ease-in-out;
 `;
 
 const StyledContainerList = styled(StyledContainer)`
@@ -61,6 +65,22 @@ const StyledContainerCloseButton = styled.div`
   height: 4rem;
 `;
 
+const StyledContainerOpenButton = styled(StyledContainerCloseButton)`
+  position: absolute;
+  top: 0;
+  color: ${(props) => props.theme.primaryLight};
+  display: 
+  ${(props) => props.visible ?
+      'block' :
+      'none'
+};
+  transition: opacity 0.25s ease-in-out;
+`;
+
+const StyledButtonContainerOpen = styled(StyledButtonContainer)`
+  color: ${(props) => props.theme.primaryLight};
+`;
+
 const StyledContainerBottomButtons = styled(StyledContainerCloseButton)`
   justify-content: space-between;
 `;
@@ -74,11 +94,13 @@ class Sidebar extends Component {
       isRoutine: false,
       backgroundColor: 'default',
       durationGrace: 900,
+      sidebarVisible: true,
     };
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleStackCreate = this.handleStackCreate.bind(this);
     this.handleClickOptions = this.handleClickOptions.bind(this);
+    this.handleClickToggle = this.handleClickToggle.bind(this);
   }
 
   handleChangeName(e) {
@@ -91,6 +113,11 @@ class Sidebar extends Component {
   }
 
   handleClickOptions() {
+    this.props.stackSetPopupVisibleOptionsSidebar(true);
+  }
+
+  handleClickToggle() {
+    this.setState({sidebarVisible: !this.state.sidebarVisible});
   }
 
   render() {
@@ -116,35 +143,46 @@ class Sidebar extends Component {
     };
 
     return (
-      <StyledContainer display={display}>
-        <StyledContainerCloseButton>
-          <StyledButtonContainer>
-            <ArrowLeftRoundedIcon />
-          </StyledButtonContainer>
-        </StyledContainerCloseButton>
+      <Fragment>
+        <StyledContainerOpenButton visible={!this.state.sidebarVisible} >
+          <StyledButtonContainerOpen onClick={this.handleClickToggle} >
+            <ArrowRightRoundedIcon />
+          </StyledButtonContainerOpen>
+        </StyledContainerOpenButton>
 
-        <StyledContainerList>
-          {stackInbox}
-          <StyledSeparator>
-            <StyledDot />
-            <StyledDot />
-            <StyledDot />
-          </StyledSeparator>
-          {stackItems}
-        </StyledContainerList>
-
-        <StyledContainerBottomButtons>
-          <div>
-            <StyledButtonContainer onClick={() => stackSetPopupVisibleStackCreate(!popupVisibleStackCreate)}>
-              <AddRoundedIcon style={styleIconAdd} />
-              Add stack
+        <StyledContainer visible={this.state.sidebarVisible} display={display}>
+          <StyledContainerCloseButton>
+            <StyledButtonContainer onClick={this.handleClickToggle} >
+              <ArrowLeftRoundedIcon />
             </StyledButtonContainer>
-          </div>
-          <StyledButtonContainer>
-            <SettingsRoundedIcon />
-          </StyledButtonContainer>
-        </StyledContainerBottomButtons>
-      </StyledContainer>
+          </StyledContainerCloseButton>
+
+
+          <StyledContainerList>
+            {stackInbox}
+            <StyledSeparator>
+              <StyledDot />
+              <StyledDot />
+              <StyledDot />
+            </StyledSeparator>
+            {stackItems}
+          </StyledContainerList>
+
+          <StyledContainerBottomButtons>
+            <div>
+              <StyledButtonContainer onClick={() => stackSetPopupVisibleStackCreate(!popupVisibleStackCreate)}>
+                <AddRoundedIcon style={styleIconAdd} />
+                Add stack
+              </StyledButtonContainer>
+            </div>
+
+            <StyledButtonContainer>
+              <SettingsRoundedIcon onClick={this.handleClickOptions} />
+              <PopupOptionsSidebar />
+            </StyledButtonContainer>
+          </StyledContainerBottomButtons>
+        </StyledContainer>
+      </Fragment>
     );
   }
 }
@@ -155,6 +193,7 @@ Sidebar.propTypes = {
   dataStackCreate: PropTypes.func.isRequired,
   popupVisibleStackCreate: PropTypes.bool.isRequired,
   stackSetPopupVisibleStackCreate: PropTypes.func.isRequired,
+  stackSetPopupVisibleOptionsSidebar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -166,6 +205,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   dataStackCreate,
   stackSetPopupVisibleStackCreate,
+  stackSetPopupVisibleOptionsSidebar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
