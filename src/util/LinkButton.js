@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import {StyledButton} from '../components/common/styles';
 
 const StyledLinkButton = styled(StyledButton)`
+  margin: 0.5rem;
+  color: white;
 `;
 
 export const LinkButton = (props) => {
@@ -17,7 +19,7 @@ export const LinkButton = (props) => {
     ...rest
   } = props;
   return (
-    <StyledButton type={props.type}
+    <StyledLinkButton type={props.type}
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);

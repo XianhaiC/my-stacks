@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import {
   BUTTON_SOLID,
+  BUTTON_GRAY,
 } from '../../util/constants';
 
 export const StyledBox = styled.div`
@@ -34,8 +35,8 @@ export const StyledButton = styled.a`
 };
   background-color:
   ${(props) => props.type === BUTTON_SOLID ?
-      (props.alt ? props.theme.secondaryAlt : props.theme.secondary) :
-      'none'
+    (props.alt ? props.theme.secondaryAlt : props.theme.secondary) :
+    'none'
 };
 `;
 
@@ -54,8 +55,8 @@ export const StyledButtonContainer = styled.a`
   margin: 0.5rem;
   color:
   ${(props) => props.light ?
-      props.theme.primaryLight :
-      props.theme.primaryDark
+    props.theme.primaryLight :
+    props.theme.primaryDark
 };
 `;
 
@@ -176,8 +177,7 @@ export const StyledTitle = styled.div`
 
 /* login page background styled components */
 export const StyledArea = styled.div`
-  background: linear-gradient(152deg, rgba(227,84,84,1) 0%, rgba(29,100,106,1) 57%, rgba(140,164,216,1) 100%);
-  background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
+  background: linear-gradient(0deg, rgba(36, 39, 65, 1) 10rem, rgba(255, 255, 255, 1) 10rem, rgba(36, 39, 65, 1) 40rem);
   width: 100%;
   height: 100vh;
 `;
@@ -200,38 +200,43 @@ export const StyledCircle = styled.li`
   animation-delay: 0s;
   animation: animate 30s linear infinite;
   &:nth-child(1){
-    left: 25rem;
-    width: 10rem;
-    height: 5rem;
-    bottom: -30rem;
+    left: 10.5rem;
+    width: 4rem;
+    height: 2rem;
+    bottom: -9rem;
     animation-delay: 0s;
   }
   &:nth-child(2){
-    left: 26rem;
-    width: 10rem;
-    height: 5rem;
-    bottom: -26rem;
+    left: 11.5rem;
+    width: 4rem;
+    height: 2rem;
+    bottom: -8rem;
     animation-delay: 0s;
   }
   &:nth-child(3){
-    left: 27rem;
-    width: 10rem;
-    height: 5rem;
-    bottom: -22rem;
+    left: 12.5rem;
+    width: 4rem;
+    height: 2rem;
+    bottom: -7rem;
     animation-delay: 0s;
   }
   &:nth-child(4){
-    left: 28rem;
-    width: 10rem;
-    height: 5rem;
-    bottom: -18rem;
+    left: 13.5rem;
+    width: 4rem;
+    height: 2rem;
+    bottom: -6rem;
     animation-delay: 0s;
   }
   &:nth-child(5){
-    left: 29rem;
-    width: 10rem;
-    height: 5rem;
-    bottom: -14rem;
+    left: 14.5rem;
+    width: 4rem;
+    height: 2rem;
+    bottom: -5rem;
     animation-delay: 0s;
   }
+`;
+
+export const StyledImage = styled.img`
+  width: 36rem;
+  height: 11rem;
 `;
