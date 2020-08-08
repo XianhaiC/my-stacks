@@ -9,6 +9,7 @@ import {
 
 import LinkButton from '../../util/LinkButton';
 import {BUTTON_SOLID, BUTTON_GRAY} from '../../util/constants';
+
 const LandingDisplay = (props) => {
   return (
     <StyledArea>

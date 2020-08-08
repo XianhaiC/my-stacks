@@ -5,11 +5,6 @@ import styled from 'styled-components';
 import {StyledButton} from '../components/common/styles';
 
 const StyledLinkButton = styled(StyledButton)`
-  color: white;
-  margin: 1rem;
-  &:hover{
-    cursor: pointer;
-  }
 `;
 
 export const LinkButton = (props) => {
@@ -22,7 +17,7 @@ export const LinkButton = (props) => {
     ...rest
   } = props;
   return (
-    <StyledLinkButton type={props.type}
+    <StyledButton type={props.type}
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);
