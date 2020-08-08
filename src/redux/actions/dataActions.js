@@ -39,7 +39,7 @@ export const dataStackCreate = (stackData) => (dispatch) => {
 };
 
 // update
-export const dataStackUpdate = (stackData, stackId) => (dispatch) => {
+export const dataStackUpdate = (stackId, stackData) => (dispatch) => {
   dispatch({
     type: DATA_SET_STACK,
     payload: stackData,

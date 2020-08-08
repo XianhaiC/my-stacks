@@ -18,9 +18,9 @@ export const StyledBoxColumn = styled(StyledBox)`
 
 export const StyledButton = styled.a`
   box-sizing: border-box;
-  border-radius: 0.2rem;
-  border: 0.11rem solid ${(props) =>
-    props.type === BUTTON_GRAY ? 'gray' : props.theme.secondary};
+  border-radius: 0.3rem;
+  border: 0.11rem solid
+  ${(props) => props.alt ? props.theme.secondaryAlt : props.theme.secondary};
   font-size: 1rem;
   font-weight: 500;
   padding: 0.4rem 1.2rem;
@@ -30,16 +30,13 @@ export const StyledButton = styled.a`
   ${(props) =>
     props.type === BUTTON_SOLID ?
       props.theme.primaryLight :
-      props.theme.secondary
-};
+      (props.alt ? props.theme.secondaryAlt : props.theme.secondary)
+  };
   background-color:
-  ${(props) =>
-    props.type === BUTTON_SOLID ?
-      props.theme.secondary :
-      props.type === BUTTON_GRAY ?
-        'gray' :
-        'none'
-};
+  ${(props) => props.type === BUTTON_SOLID ?
+      (props.alt ? props.theme.secondaryAlt : props.theme.secondary) :
+      'none'
+  };
 `;
 
 // we use an <a> element here instead of <button>
