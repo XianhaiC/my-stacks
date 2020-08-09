@@ -416,10 +416,10 @@ class BlockItem extends Component {
     blocksOrderNew[currIndex] = blocksOrderNew[swapIndex];
     blocksOrderNew[swapIndex] = temp;
 
-    dataStackUpdate({
+    dataStackUpdate(stackFocused, {
       ...stacks[stackFocused],
       order: blocksOrderNew,
-    }, stackFocused);
+    });
   }
 
   // Finite state machine
