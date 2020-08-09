@@ -84,7 +84,6 @@ class NumBursts extends Component {
     const {blockId, handleBurstsUpdate, blocks} = this.props;
     const total = blocks[blockId].numBursts + this.state.numBurstsDim;
     handleBurstsUpdate(total - index);
-    console.log('NEW DOTS', total - index, total, index);
     this.setState({numBurstsDim: index});
   }
 

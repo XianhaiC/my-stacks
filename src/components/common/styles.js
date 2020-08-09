@@ -68,6 +68,7 @@ export const StyledPopup = styled.div`
   background: ${(props) => props.theme.primaryLight};
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
+  padding: 0.5rem 0;
 `;
 
 export const StyledPopupMenu = styled(StyledPopup)`
@@ -77,7 +78,6 @@ export const StyledPopupMenu = styled(StyledPopup)`
   left: 0;
   top: 0;
   color: ${(props) => props.theme.primaryDark};
-  padding: 0.5rem 0;
 `;
 
 export const StyledMenuItem = styled.div`

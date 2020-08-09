@@ -170,7 +170,10 @@ class Sidebar extends Component {
 
           <StyledContainerBottomButtons>
             <div>
-              <StyledButtonContainer onClick={() => stackSetPopupVisibleStackCreate(!popupVisibleStackCreate)}>
+              <StyledButtonContainer
+                onClick={() =>
+                    stackSetPopupVisibleStackCreate(true)
+              }>
                 <AddRoundedIcon style={styleIconAdd} />
                 Add stack
               </StyledButtonContainer>

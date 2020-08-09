@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Background from '../common/Background';
 import Sidebar from './Sidebar';
 import StackContainer from './StackContainer';
-import PopupStackCreate from './PopupStackCreate';
+import PopupStackCreate from '../popups/PopupStackCreate';
 
 const StyledContainer = styled.div`
   display: flex;

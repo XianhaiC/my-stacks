@@ -10,7 +10,7 @@ import {
   stackSetPopupVisibleOptionsStack,
   stackSetStackFocused,
 }
-  from '../../redux/actions/stackActions';
+from '../../redux/actions/stackActions';
 import {
   dataStackDelete,
   dataStackBlocksDelete,
@@ -34,35 +34,46 @@ class PopupOptionsStack extends Component {
     this.props.stackSetPopupVisibleOptionsStack(false);
   }
 
-  handleClickClear() {
+  handleClickClear(e) {
+    e.stopPropagation();
     const {stackFocused, dataStackBlocksDelete} = this.props;
 
     this.props.dataStackBlocksDelete(stackFocused);
+    this.props.stackSetPopupVisibleOptionsStack(false);
   }
 
-  handleClickDelete() {
+  handleClickDelete(e) {
+    e.stopPropagation();
     const {stacks, stackFocused, dataStackDelete} = this.props;
     let stackInboxId = Object.values(stacks).find((stack) => {
       return stack.isInbox;
     }).id;
     this.props.stackSetStackFocused(stackInboxId);
     this.props.dataStackDelete(stackFocused);
+    this.props.stackSetPopupVisibleOptionsStack(false);
   }
 
-  handleClickEdit() {
-
+  handleClickEdit(e) {
+    e.stopPropagation();
+    this.props.stackSetPopupVisibleOptionsStack(false);
   }
 
   render() {
     if (!this.props.popupVisibleOptionsStack) return null;
+    const {stacks, stackFocused} = this.props;
     return (
       <StyledPopupMenuOptions>
         <StyledMenuItem onClick={this.handleClickClear}>
           Clear stack
         </StyledMenuItem>
-        <StyledMenuItem onClick={this.handleClickDelete}>
-          Delete stack
-        </StyledMenuItem>
+
+        {
+          !stacks[stackFocused].isInbox &&
+          <StyledMenuItem onClick={this.handleClickDelete}>
+            Delete stack
+          </StyledMenuItem>
+        }
+
         <StyledMenuItem onClick={this.handleClickEdit}>
           Edit stack
         </StyledMenuItem>
@@ -95,5 +106,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    onClickOutside(PopupOptionsStack),
+  onClickOutside(PopupOptionsStack),
 );
