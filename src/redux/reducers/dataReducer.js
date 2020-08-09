@@ -1,9 +1,11 @@
 import {
   DATA_SET_STACKS,
   DATA_SET_STACK,
+  DATA_DELETE_STACK,
   DATA_SET_BLOCKS,
   DATA_SET_BLOCK,
   DATA_DELETE_BLOCK,
+  DATA_DELETE_STACK_BLOCKS,
   DATA_CLEAR,
 } from '../types';
 
@@ -30,6 +32,24 @@ export default (state = INITIAL_STATE, action) => {
       };
 
       newState.stacks[action.payload.id] = action.payload;
+      return newState;
+
+    case DATA_DELETE_STACK:
+      newState = {
+        ...state,
+        blocks: {
+          ...state.blocks,
+        },
+        stacks: {
+          ...state.stacks,
+        },
+      };
+
+      newState.stacks[action.payload].order.forEach(blockId =>
+        delete newState.blocks[blockId]
+      )
+      delete newState.stacks[action.payload];
+
       return newState;
 
     case DATA_SET_BLOCKS:
@@ -67,6 +87,27 @@ export default (state = INITIAL_STATE, action) => {
       };
 
       delete newState.blocks[blockId];
+
+      return newState;
+
+    case DATA_DELETE_STACK_BLOCKS:
+      newState = {
+        ...state,
+        blocks: {
+          ...state.blocks,
+        },
+        stacks: {
+          ...state.stacks,
+        },
+      };
+
+      console.log("DELETE")
+      console.log(newState.stacks)
+      console.log(action.payload)
+      newState.stacks[action.payload].order.forEach(blockId =>
+        delete newState.blocks[blockId]
+      )
+      newState.stacks[action.payload].order = [];
 
       return newState;
 

@@ -82,7 +82,7 @@ export const sessionUserFetchData = () => (dispatch) => {
         // add a 'loaded' flag to each stack
         // this is necessary for lazy loading each stack's blocks
         // find the inbox stack while we're at it too
-        Object.values(res.data.stacks).find((stack) => {
+        Object.values(res.data.stacks).forEach((stack) => {
           if (stack.isInbox) stackInboxId = stack.id;
           stack.loaded = false;
         });

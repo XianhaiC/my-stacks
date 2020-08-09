@@ -11,10 +11,12 @@ export const SESSION_ERRORS_SET = 'SESSION_ERRORS_SET';
 // data
 export const DATA_SET_STACKS = 'DATA_SET_STACKS';
 export const DATA_SET_STACK = 'DATA_SET_STACK';
+export const DATA_DELETE_STACK = 'DATA_DELETE_STACK';
 export const DATA_SET_BLOCKS = 'DATA_SET_BLOCKS';
 export const DATA_SET_BLOCK = 'DATA_SET_BLOCK';
-export const DATA_CLEAR = 'DATA_CLEAR';
 export const DATA_DELETE_BLOCK = 'DATA_DELETE_BLOCK';
+export const DATA_DELETE_STACK_BLOCKS = 'DATA_DELETE_STACK_BLOCKS';
+export const DATA_CLEAR = 'DATA_CLEAR';
 
 // displayPlaylist
 export const PLAYLIST_SET_MODE = 'PLAYLIST_SET_MODE';
