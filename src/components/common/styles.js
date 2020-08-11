@@ -133,6 +133,7 @@ export const StyledSubmit = styled.input`
   font-size: 1rem;
   background: #4CD2B2;
   color: white;
+  outline: none;
   &:hover{
     cursor: pointer;
   }
