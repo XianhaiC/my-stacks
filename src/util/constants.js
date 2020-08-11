@@ -26,6 +26,7 @@ export const BUTTON_OUTLINE = 1;
 export const BUTTON_GRAY = 2;
 
 // etc
+export const REPOSITORY_URL = 'https://github.com/XianhaiC/my-stacks';
 export const EMAIL_REGEX =
   '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
 export const STACK_COLORS = [
