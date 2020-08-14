@@ -45,9 +45,9 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      newState.stacks[action.payload].order.forEach(blockId =>
-        delete newState.blocks[blockId]
-      )
+      newState.stacks[action.payload].order.forEach((blockId) =>
+        delete newState.blocks[blockId],
+      );
       delete newState.stacks[action.payload];
 
       return newState;
@@ -101,12 +101,9 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      console.log("DELETE")
-      console.log(newState.stacks)
-      console.log(action.payload)
-      newState.stacks[action.payload].order.forEach(blockId =>
-        delete newState.blocks[blockId]
-      )
+      newState.stacks[action.payload].order.forEach((blockId) =>
+        delete newState.blocks[blockId],
+      );
       newState.stacks[action.payload].order = [];
 
       return newState;

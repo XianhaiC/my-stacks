@@ -125,7 +125,6 @@ class Sidebar extends Component {
       display,
       stacks,
       stackSetPopupVisibleStackCreate,
-      popupVisibleStackCreate,
     } = this.props;
 
     let stackInbox;
@@ -172,8 +171,8 @@ class Sidebar extends Component {
             <div>
               <StyledButtonContainer
                 onClick={() =>
-                    stackSetPopupVisibleStackCreate(true)
-              }>
+                  stackSetPopupVisibleStackCreate(true)
+                }>
                 <AddRoundedIcon style={styleIconAdd} />
                 Add stack
               </StyledButtonContainer>

@@ -40,4 +40,4 @@ export const STACK_COLORS = [
   '#BD0000',
   '#797979',
   '#212121',
-]
+];

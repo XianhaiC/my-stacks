@@ -78,7 +78,7 @@ class StackDock extends Component {
 
         <StyledBoxRight>
           <StackDockGrace />
-          <StyledButtonIcon alt={true}>
+          <StyledButtonIcon alt='true'>
             <LoopRoundedIcon style={style}/>
           </StyledButtonIcon>
         </StyledBoxRight>

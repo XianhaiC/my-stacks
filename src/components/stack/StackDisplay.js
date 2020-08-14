@@ -5,6 +5,7 @@ import Background from '../common/Background';
 import Sidebar from './Sidebar';
 import StackContainer from './StackContainer';
 import PopupStackCreate from '../popups/PopupStackCreate';
+import PopupStackUpdate from '../popups/PopupStackUpdate';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ const StackDisplay = (props) => {
         <Sidebar />
         <StackContainer />
         <PopupStackCreate />
+        <PopupStackUpdate />
       </StyledContainer>
     </Background>
   );

@@ -65,6 +65,7 @@ export const StyledPopup = styled.div`
   z-index: 1;
   left: 50%;
   top: 20%;
+  transform: translateX(-50%);
   background: ${(props) => props.theme.primaryLight};
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
@@ -74,6 +75,7 @@ export const StyledPopup = styled.div`
 export const StyledPopupMenu = styled(StyledPopup)`
   position: absolute;
   display: flex;
+  transform: none;
   flex-direction: column;
   left: 0;
   top: 0;

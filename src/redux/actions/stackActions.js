@@ -3,7 +3,7 @@ import {
   STACK_SET_POPUP_VISIBLE_OPTIONS_SIDEBAR,
   STACK_SET_POPUP_VISIBLE_OPTIONS_STACK,
   STACK_SET_POPUP_VISIBLE_STACK_CREATE,
-  STACK_SET_POPUP_VISIBLE_STACK_EDIT,
+  STACK_SET_POPUP_VISIBLE_STACK_UPDATE,
 } from '../types';
 
 export const stackSetSiderbarVisible = () => (dispatch) => {
@@ -26,6 +26,6 @@ export const stackSetPopupVisibleStackCreate = (visible) => (dispatch) => {
   dispatch({type: STACK_SET_POPUP_VISIBLE_STACK_CREATE, payload: visible});
 };
 
-export const stackSetPopupVisibleStackEdit = (visible) => (dispatch) => {
-  dispatch({type: STACK_SET_POPUP_VISIBLE_STACK_EDIT, payload: visible});
+export const stackSetPopupVisibleStackUpdate = (visible) => (dispatch) => {
+  dispatch({type: STACK_SET_POPUP_VISIBLE_STACK_UPDATE, payload: visible});
 };

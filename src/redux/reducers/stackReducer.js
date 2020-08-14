@@ -4,7 +4,7 @@ import {
   STACK_SET_POPUP_VISIBLE_OPTIONS_SIDEBAR,
   STACK_SET_POPUP_VISIBLE_OPTIONS_STACK,
   STACK_SET_POPUP_VISIBLE_STACK_CREATE,
-  STACK_SET_POPUP_VISIBLE_STACK_EDIT,
+  STACK_SET_POPUP_VISIBLE_STACK_UPDATE,
   STACK_CLEAR,
 } from '../types';
 
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   popupVisibleOptionsSidebar: false,
   popupVisibleOptionsStack: false,
   popupVisibleStackCreate: false,
-  popupVisibleStackEdit: false,
+  popupVisibleStackUpdate: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -49,10 +49,10 @@ export default (state = INITIAL_STATE, action) => {
         popupVisibleStackCreate: action.payload,
       };
 
-    case STACK_SET_POPUP_VISIBLE_STACK_EDIT:
+    case STACK_SET_POPUP_VISIBLE_STACK_UPDATE:
       return {
         ...state,
-        popupVisibleStackEdit: action.payload,
+        popupVisibleStackUpdate: action.payload,
       };
 
     case STACK_CLEAR:

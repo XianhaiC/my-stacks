@@ -8,9 +8,10 @@ import {StyledPopupMenu, StyledMenuItem} from '../common/styles';
 
 import {
   stackSetPopupVisibleOptionsStack,
+  stackSetPopupVisibleStackUpdate,
   stackSetStackFocused,
 }
-from '../../redux/actions/stackActions';
+  from '../../redux/actions/stackActions';
 import {
   dataStackDelete,
   dataStackBlocksDelete,
@@ -36,25 +37,38 @@ class PopupOptionsStack extends Component {
 
   handleClickClear(e) {
     e.stopPropagation();
-    const {stackFocused, dataStackBlocksDelete} = this.props;
+    const {
+      stackFocused,
+      dataStackBlocksDelete,
+      stackSetPopupVisibleOptionsStack,
+    } = this.props;
 
-    this.props.dataStackBlocksDelete(stackFocused);
-    this.props.stackSetPopupVisibleOptionsStack(false);
+    dataStackBlocksDelete(stackFocused);
+    stackSetPopupVisibleOptionsStack(false);
   }
 
   handleClickDelete(e) {
     e.stopPropagation();
-    const {stacks, stackFocused, dataStackDelete} = this.props;
-    let stackInboxId = Object.values(stacks).find((stack) => {
+    const {
+      stacks,
+      stackFocused,
+      stackSetStackFocused,
+      stackSetPopupVisibleOptionsStack,
+      dataStackDelete,
+    } = this.props;
+
+    const stackInboxId = Object.values(stacks).find((stack) => {
       return stack.isInbox;
     }).id;
-    this.props.stackSetStackFocused(stackInboxId);
-    this.props.dataStackDelete(stackFocused);
-    this.props.stackSetPopupVisibleOptionsStack(false);
+
+    stackSetStackFocused(stackInboxId);
+    dataStackDelete(stackFocused);
+    stackSetPopupVisibleOptionsStack(false);
   }
 
   handleClickEdit(e) {
     e.stopPropagation();
+    this.props.stackSetPopupVisibleStackUpdate(true);
     this.props.stackSetPopupVisibleOptionsStack(false);
   }
 
@@ -87,6 +101,7 @@ PopupOptionsStack.propTypes = {
   stackFocused: PropTypes.string.isRequired,
   popupVisibleOptionsStack: PropTypes.bool.isRequired,
   stackSetPopupVisibleOptionsStack: PropTypes.func.isRequired,
+  stackSetPopupVisibleStackUpdate: PropTypes.func.isRequired,
   stackSetStackFocused: PropTypes.func.isRequired,
   dataStackDelete: PropTypes.func.isRequired,
   dataStackBlocksDelete: PropTypes.func.isRequired,
@@ -100,11 +115,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   stackSetPopupVisibleOptionsStack,
+  stackSetPopupVisibleStackUpdate,
   stackSetStackFocused,
   dataStackDelete,
   dataStackBlocksDelete,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  onClickOutside(PopupOptionsStack),
+    onClickOutside(PopupOptionsStack),
 );

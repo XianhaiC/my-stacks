@@ -46,5 +46,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {stackSetPopupVisibleOptionsSidebar})(
-    onClickOutside(PopupOptionsSidebar)
+    onClickOutside(PopupOptionsSidebar),
 );

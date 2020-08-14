@@ -79,7 +79,7 @@ StackItem.propTypes = {
   stackId: PropTypes.string.isRequired,
   loadingStacks: PropTypes.bool.isRequired,
   stacks: PropTypes.object.isRequired,
-  stackFocused: PropTypes.string.isRequired,
+  stackFocused: PropTypes.string,
   stackSetStackFocused: PropTypes.func.isRequired,
 };
 

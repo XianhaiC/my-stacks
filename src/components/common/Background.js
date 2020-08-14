@@ -8,18 +8,18 @@ const StyledContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   background-size: cover;
-  background: ${props => props.background};
+  background: ${(props) => props.background};
   height: 100%;
 `;
 
-//background: linear-gradient(152deg, rgba(227,84,84,1) 0%, rgba(29,100,106,1) 57%, rgba(140,164,216,1) 100%);
+// background: linear-gradient(152deg, rgba(227,84,84,1) 0%, rgba(29,100,106,1) 57%, rgba(140,164,216,1) 100%);
 const Background = (props) => {
   const {stacks, stackFocused} = props;
 
   return (
-    <StyledContainer background={stackFocused !== null
-        ? stacks[stackFocused].backgroundColor
-        : 'white'}
+    <StyledContainer background={stackFocused !== null ?
+        stacks[stackFocused].backgroundColor :
+        'white'}
     >
       {props.children}
     </StyledContainer>
@@ -29,7 +29,7 @@ const Background = (props) => {
 Background.propTypes = {
   children: PropTypes.node.isRequired,
   stacks: PropTypes.object.isRequired,
-  stackFocused: PropTypes.string.isRequired,
+  stackFocused: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
