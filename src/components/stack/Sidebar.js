@@ -13,7 +13,10 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
 import {StyledButtonContainer} from '../common/styles';
 
+import {DISPLAY_STACK} from '../../util/constants';
+
 import {
+  stackSetSiderbarVisible,
   stackSetPopupVisibleStackCreate,
   stackSetPopupVisibleOptionsSidebar,
 } from '../../redux/actions/stackActions';
@@ -65,20 +68,16 @@ const StyledContainerCloseButton = styled.div`
   height: 4rem;
 `;
 
-const StyledContainerOpenButton = styled(StyledContainerCloseButton)`
+const StyledButtonContainerOpen = styled(StyledButtonContainer)`
   position: absolute;
   top: 0;
   color: ${(props) => props.theme.primaryLight};
   display: 
-  ${(props) => props.visible ?
+  ${(props) => props.visible && props.display === DISPLAY_STACK ?
       'block' :
       'none'
 };
   transition: opacity 0.25s ease-in-out;
-`;
-
-const StyledButtonContainerOpen = styled(StyledButtonContainer)`
-  color: ${(props) => props.theme.primaryLight};
 `;
 
 const StyledContainerBottomButtons = styled(StyledContainerCloseButton)`
@@ -117,7 +116,9 @@ class Sidebar extends Component {
   }
 
   handleClickToggle() {
-    this.setState({sidebarVisible: !this.state.sidebarVisible});
+    // this.setState({sidebarVisible: !this.props.sidebarVisible});
+    const {stackSetSiderbarVisible, sidebarVisible} = this.props;
+    stackSetSiderbarVisible(!sidebarVisible);
   }
 
   render() {
@@ -143,13 +144,14 @@ class Sidebar extends Component {
 
     return (
       <Fragment>
-        <StyledContainerOpenButton visible={!this.state.sidebarVisible} >
-          <StyledButtonContainerOpen onClick={this.handleClickToggle} >
-            <ArrowRightRoundedIcon />
-          </StyledButtonContainerOpen>
-        </StyledContainerOpenButton>
+        <StyledButtonContainerOpen
+          visible={!this.props.sidebarVisible}
+          display={display}
+          onClick={this.handleClickToggle} >
+          <ArrowRightRoundedIcon />
+        </StyledButtonContainerOpen>
 
-        <StyledContainer visible={this.state.sidebarVisible} display={display}>
+        <StyledContainer visible={this.props.sidebarVisible} display={display}>
           <StyledContainerCloseButton>
             <StyledButtonContainer onClick={this.handleClickToggle} >
               <ArrowLeftRoundedIcon />
@@ -192,8 +194,10 @@ class Sidebar extends Component {
 Sidebar.propTypes = {
   display: PropTypes.number.isRequired,
   stacks: PropTypes.object.isRequired,
+  sidebarVisible: PropTypes.bool.isRequired,
   dataStackCreate: PropTypes.func.isRequired,
   popupVisibleStackCreate: PropTypes.bool.isRequired,
+  stackSetSiderbarVisible: PropTypes.func.isRequired,
   stackSetPopupVisibleStackCreate: PropTypes.func.isRequired,
   stackSetPopupVisibleOptionsSidebar: PropTypes.func.isRequired,
 };
@@ -201,11 +205,13 @@ Sidebar.propTypes = {
 const mapStateToProps = (state) => ({
   display: state.session.display,
   stacks: state.data.stacks,
+  sidebarVisible: state.stack.sidebarVisible,
   popupVisibleStackCreate: state.stack.popupVisibleStackCreate,
 });
 
 const mapDispatchToProps = {
   dataStackCreate,
+  stackSetSiderbarVisible,
   stackSetPopupVisibleStackCreate,
   stackSetPopupVisibleOptionsSidebar,
 };

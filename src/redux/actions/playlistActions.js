@@ -8,6 +8,7 @@ import {
   PLAYLIST_ADD_COMPLETED_BLOCKS,
   PLAYLIST_CLEAR_COMPLETED_BLOCKS,
   PLAYLIST_SET_INITIAL_SHUFFLE,
+  STACK_SET_SIDEBAR_VISIBLE,
 } from '../types';
 
 import {
@@ -84,6 +85,10 @@ export const playlistStart = (blockIds, shuffle) => (dispatch) => {
   dispatch({
     type: SESSION_SET_DISPLAY,
     payload: DISPLAY_PLAYLIST,
+  });
+  dispatch({
+    type: STACK_SET_SIDEBAR_VISIBLE,
+    payload: false,
   });
   dispatch(playlistSetMode(PLAYLIST_MODE_WORK));
   dispatch(playlistSetFocusInitial(blockIds));

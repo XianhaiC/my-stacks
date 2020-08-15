@@ -15,26 +15,31 @@ import {
 } from '../../util/constants';
 
 const StyledContainer = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 80%;
+  height: 100%;
   width: 100%;
-  flex:
+  opacity:
   ${(props) => props.display === DISPLAY_STACK ?
       '0' :
       '1'
+};
+  visibility:
+  ${(props) => props.display === DISPLAY_STACK ?
+      'hidden' :
+      'visible'
 };
   background:
   ${(props) => props.mode === PLAYLIST_MODE_WORK ?
       props.theme.primaryLight :
       props.theme.primaryDark
 };
-  transition: all 0.5s ease-in-out;
+  transition: all 0.4s ease-in-out;
 `;
 
 const PlaylistContainer = (props) => {
-  if (props.display === DISPLAY_STACK) return null;
   return (
     <StyledContainer display={props.display} mode={props.playlistMode}>
       <StyledBox>

@@ -1,4 +1,5 @@
 import {
+  STACK_SET_SIDEBAR_VISIBLE,
   STACK_SET_STACK_FOCUSED,
   STACK_SET_POPUP_VISIBLE_OPTIONS_SIDEBAR,
   STACK_SET_POPUP_VISIBLE_OPTIONS_STACK,
@@ -6,8 +7,8 @@ import {
   STACK_SET_POPUP_VISIBLE_STACK_UPDATE,
 } from '../types';
 
-export const stackSetSiderbarVisible = () => (dispatch) => {
-  // TODO
+export const stackSetSiderbarVisible = (visible) => (dispatch) => {
+  dispatch({type: STACK_SET_SIDEBAR_VISIBLE, payload: visible});
 };
 
 export const stackSetStackFocused = (stack) => (dispatch) => {

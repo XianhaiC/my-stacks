@@ -19,6 +19,8 @@ import {
 } from '../../redux/actions/playlistActions';
 
 import {
+  DISPLAY_STACK,
+  DISPLAY_PLAYLIST,
   PLAYLIST_MODE_WORK,
   PLAYLIST_MODE_BREAK,
   PLAYLIST_MODE_GRACE,
@@ -70,6 +72,7 @@ class PlaylistDock extends Component {
       enabledPause: false,
       enabledShuffle: false,
       burstCurrent: 0,
+      displayPrev: DISPLAY_STACK,
     };
 
     this.timer = 0;
@@ -274,7 +277,18 @@ class PlaylistDock extends Component {
   componentDidMount() {
     // set enabled_shuffle to begin_shuffled redux variable,
     // which is set by the handlers for the start session buttons
-    this.startNextBlock();
+    // this.startNextBlock();
+  }
+
+  componentDidUpdate() {
+    const {display} = this.props;
+    if (display !== this.state.displayPrev) {
+      if (display === DISPLAY_PLAYLIST) {
+        this.startNextBlock();
+      }
+
+      this.setState({displayPrev: display});
+    }
   }
 
   componentWillUnmount() {
@@ -284,9 +298,7 @@ class PlaylistDock extends Component {
 
   render() {
     const {
-      stacks,
       playlistMode,
-      stackFocused,
       theme,
     } = this.props;
 
@@ -310,10 +322,6 @@ class PlaylistDock extends Component {
       <Fragment>
         <StyledBox />
         <StyledBoxColumn>
-          <StyledText mode={playlistMode}>
-            {stacks[stackFocused].name}
-          </StyledText>
-
           <StyledTextTimer mode={playlistMode}>
             {minutes}:{seconds}
           </StyledTextTimer>
@@ -345,12 +353,13 @@ PlaylistDock.propTypes = {
   theme: PropTypes.object.isRequired,
   blocks: PropTypes.object.isRequired,
   stacks: PropTypes.object.isRequired,
+  stackFocused: PropTypes.string.isRequired,
   playlistMode: PropTypes.number.isRequired,
   focusInitial: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,
   focusFinished: PropTypes.array.isRequired,
   focusCurrent: PropTypes.string,
-  stackFocused: PropTypes.string.isRequired,
+  display: PropTypes.number.isRequired,
   playlistSetMode: PropTypes.func.isRequired,
   playlistSetFocusFinished: PropTypes.func.isRequired,
   playlistSetFocusRemaining: PropTypes.func.isRequired,
@@ -362,12 +371,13 @@ PlaylistDock.propTypes = {
 const mapStateToProps = (state) => ({
   blocks: state.data.blocks,
   stacks: state.data.stacks,
+  stackFocused: state.stack.stackFocused,
   playlistMode: state.playlist.playlistMode,
   focusInitial: state.playlist.focusInitial,
   focusRemaining: state.playlist.focusRemaining,
   focusFinished: state.playlist.focusFinished,
   focusCurrent: state.playlist.focusCurrent,
-  stackFocused: state.stack.stackFocused,
+  display: state.session.display,
 });
 
 const mapDispatchToProps = {

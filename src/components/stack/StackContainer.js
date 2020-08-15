@@ -23,7 +23,7 @@ const StyledBoxDynamic = styled(StyledBoxColumn)`
       '0' :
       '1'
 };
-  transition: all 0.5s ease-in-out;
+  transition: all 0.4s ease-in-out;
 `;
 
 const StyledContainer = styled.div`
@@ -35,11 +35,15 @@ const StyledContainer = styled.div`
 `;
 
 const StyledContainerInner = styled(StyledContainer)`
+  position: relative;
+  background: ${(props) => props.theme.primaryLight};
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   height:
   ${(props) => props.display === DISPLAY_STACK ?
-      '100%' :
+      'calc(100% - 8rem)' :
       '80%'
 };
+  transition: all 0.4s ease-in-out;
 `;
 
 const StyledContainerStack = styled.div`
@@ -47,39 +51,23 @@ const StyledContainerStack = styled.div`
   flex-direction: column;
   width: 100%;
   background: ${(props) => props.theme.primaryLight};
-  transition: all 0.5s ease-in-out;
   justify-content: space-between;
-  flex:
+  height: 100%;
+  opacity:
   ${(props) => props.display === DISPLAY_STACK ?
       '1' :
       '0'
 };
-  height:
-  ${(props) => props.display === DISPLAY_STACK ?
-      '100%' :
-      '0'
-};
-  visibility:
-  ${(props) => props.display === DISPLAY_STACK ?
-      'visible' :
-      'hidden'
-};
+  transition: all 0.4s ease-in-out;
 `;
 
 const StyledContainerText = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  flex:
-  ${(props) => props.display === DISPLAY_STACK ?
-      '0 1 auto' :
-      '1'
-};
-  height:
-  ${(props) => props.display === DISPLAY_STACK ?
-      '8rem' :
-      'auto'
-};
+  flex: 1;
+  height: auto;
+  transition: all 0.4s ease-in-out;
 `;
 
 const StyledTextName = styled.div`
@@ -87,6 +75,14 @@ const StyledTextName = styled.div`
   font-weight: 500;
   margin: auto 0 0.5rem 7rem;
   color: ${(props) => props.theme.primaryLight};
+`;
+
+const StyledButtonContainerOptions = styled(StyledButtonContainer)`
+  visibility:
+  ${(props) => props.display === DISPLAY_STACK ?
+      'visible' :
+      'hidden'
+};
 `;
 
 class StackContainer extends Component {
@@ -126,11 +122,12 @@ class StackContainer extends Component {
               <StyledTextName>
                 {stacks[stackFocused].name}
               </StyledTextName>
-              <StyledButtonContainer
+              <StyledButtonContainerOptions
+                display={display}
                 onClick={this.handleClickOptions} light={true}>
                 <MoreVertRoundedIcon />
                 <PopupOptionsStack />
-              </StyledButtonContainer>
+              </StyledButtonContainerOptions>
             </Fragment>
           }
         </StyledContainerText>
