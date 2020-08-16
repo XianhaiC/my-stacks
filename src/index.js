@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import App from './App';
 
-axios.defaults.baseURL = process.env.REACT_APP_FIREBASE_URL
+axios.defaults.baseURL = process.env.REACT_APP_FIREBASE_URL;
 
 ReactDOM.render(
     <React.StrictMode>

@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import onClickOutside from 'react-onclickoutside';
 import styled from 'styled-components';
 
-import { StyledPopupMenu, StyledMenuItem } from '../common/styles';
-import { REPOSITORY_URL } from '../../util/constants';
+import {StyledPopupMenu, StyledMenuItem} from '../common/styles';
+import {REPOSITORY_URL} from '../../util/constants';
 
-import { stackSetPopupVisibleOptionsSidebar }
+import {stackSetPopupVisibleOptionsSidebar}
   from '../../redux/actions/stackActions';
 
-import { sessionUserLogout } from '../../redux/actions/sessionActions';
+import {sessionUserLogout} from '../../redux/actions/sessionActions';
 
 
 const StyledPopupMenuOptions = styled(StyledPopupMenu)`
@@ -72,5 +72,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  onClickOutside(PopupOptionsSidebar),
+    onClickOutside(PopupOptionsSidebar),
 );

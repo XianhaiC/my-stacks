@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {
-  StyledWrapper,
+  StyledPopupContainer,
   StyledInput,
   StyledSubmit,
   StyledForm,
   StyledGreeting,
   StyledCaption,
   StyledError,
-  StyledArea,
 } from '../common/styles';
 
 import {sessionUserLogin} from '../../redux/actions/sessionActions';
@@ -43,7 +42,7 @@ class Login extends Component {
 
   render() {
     if (this.props.loadingLanding) return (<h3>Loading</h3>);
-    console.log(this.props.errors.general);
+    // console.log(this.props.errors.general);
 
     let errorMessage = <StyledError></StyledError>;
     if (Object.keys(this.props.errors).length !== 0) {
@@ -51,35 +50,33 @@ class Login extends Component {
     }
 
     return (
-      <StyledArea>
-        <StyledWrapper>
-          <StyledGreeting>Welcome!</StyledGreeting>
-          <StyledCaption>Let's get things done today.</StyledCaption>
-          <StyledForm onSubmit={this.handleSubmit}>
-            <StyledInput
-              type="text"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChangeEmail}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-              maxLength="255"
-              title="Must provide a valid email"
-              required />
+      <StyledPopupContainer>
+        <StyledGreeting>Welcome!</StyledGreeting>
+        <StyledCaption>Let&apos;s get things done today.</StyledCaption>
+        <StyledForm onSubmit={this.handleSubmit}>
+          <StyledInput
+            type="text"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleChangeEmail}
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            maxLength="255"
+            title="Must provide a valid email"
+            required />
 
-            <StyledInput
-              type="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChangePassword}
-              pattern=".{6,}"
-              title="Must contain at least 6 or more characters"
-              required />
-            {errorMessage}
-            <StyledSubmit type="submit" value="Login" />
+          <StyledInput
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleChangePassword}
+            pattern=".{6,}"
+            title="Must contain at least 6 or more characters"
+            required />
+          {errorMessage}
+          <StyledSubmit type="submit" value="Login" />
 
-          </StyledForm>
-        </StyledWrapper >
-      </StyledArea>
+        </StyledForm>
+      </StyledPopupContainer >
     );
   }
 }
