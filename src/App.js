@@ -13,6 +13,7 @@ import Signup from './components/landing/Signup';
 import Display from './components/Display';
 
 import './App.css';
+import {theme} from './styles/theme.js';
 
 import {
   sessionUserLogout,
@@ -26,19 +27,8 @@ import {
 
 import {PATH_ROOT} from './util/constants';
 
-const theme = {
-  primaryDark: '#242741',
-  primaryDarkDull: '#C3C6DE',
-  primaryLight: '#FFFFFF',
-  primaryLightDull: '#F4F4F4',
-  primaryLightSelected: '#E8E8E8',
-  midtone: '#3C4271',
-  secondary: '#4CD2B2',
-  secondaryAlt: '#FF8541',
 
-};
-
-axios.defaults.baseURL = process.env.REACT_APP_FIREBASE_URL
+let authenticated;
 const token = localStorage.userToken;
 
 if (token) {

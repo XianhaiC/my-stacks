@@ -17,20 +17,21 @@ const reducers = combineReducers({
   playlist: playlistReducer,
 });
 
-let composeArgs = [
+const composeArgs = [
   applyMiddleware(...middleware),
-]
+];
 
-if (process.env.REACT_APP_DEBUG_REDUX !== false)
+if (process.env.REACT_APP_DEBUG_REDUX !== false) {
   composeArgs.push(
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__(),
+  );
+}
 
 const store = createStore(
-  reducers,
-  INITIAL_STATE,
-  compose(...composeArgs),
+    reducers,
+    INITIAL_STATE,
+    compose(...composeArgs),
 );
 
 export default store;

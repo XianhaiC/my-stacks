@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {
-  StyledWrapper,
+  StyledPopupContainer,
   StyledInput,
   StyledSubmit,
   StyledForm,
   StyledGreeting,
   StyledCaption,
   StyledError,
-  StyledArea,
 } from '../common/styles';
 
 import {sessionUserSignup} from '../../redux/actions/sessionActions';
@@ -105,42 +104,40 @@ class Signup extends Component {
       <StyledError>{this.state.passwordError}</StyledError>;
 
     return (
-      <StyledArea>
-        <StyledWrapper>
-          <StyledGreeting>Welcome!</StyledGreeting>
-          <StyledCaption>Let's get things done today.</StyledCaption>
-          <StyledForm onSubmit={this.handleSubmit}>
-            <StyledInput
-              type="text"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChangeEmail}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-              maxLength="255"
-              title="Must provide a valid email"
-              required />
+      <StyledPopupContainer>
+        <StyledGreeting>Welcome!</StyledGreeting>
+        <StyledCaption>Let&apos;s get things done today.</StyledCaption>
+        <StyledForm onSubmit={this.handleSubmit}>
+          <StyledInput
+            type="text"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleChangeEmail}
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            maxLength="255"
+            title="Must provide a valid email"
+            required />
 
-            <StyledInput
-              type="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChangePassword}
-              title="Input a valid password that meets the requirements"
-              required />
+          <StyledInput
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleChangePassword}
+            title="Input a valid password that meets the requirements"
+            required />
 
-            <StyledInput
-              type="password"
-              placeholder="Confirm password"
-              value={this.state.passwordConfirm}
-              onChange={this.handleChangePasswordConfirm}
-              required />
-            {passwordRequirementsMessage}
-            {passwordsMatchingMessage}
-            {duplicateEmailMessage}
-            <StyledSubmit type="submit" value="Submit" />
-          </StyledForm>
-        </StyledWrapper>
-      </StyledArea>
+          <StyledInput
+            type="password"
+            placeholder="Confirm password"
+            value={this.state.passwordConfirm}
+            onChange={this.handleChangePasswordConfirm}
+            required />
+          {passwordRequirementsMessage}
+          {passwordsMatchingMessage}
+          {duplicateEmailMessage}
+          <StyledSubmit type="submit" value="Submit" />
+        </StyledForm>
+      </StyledPopupContainer>
     );
   }
 }

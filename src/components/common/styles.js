@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 import {
   BUTTON_SOLID,
@@ -36,6 +36,26 @@ export const StyledButton = styled.a`
   ${(props) => props.type === BUTTON_SOLID ?
     (props.alt ? props.theme.secondaryAlt : props.theme.secondary) :
     'none'
+};
+`;
+
+export const StyledLandingButton = styled.button`
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 0.3rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  width: 8rem;
+  text-align: center;
+  color: ${(props) => props.type === BUTTON_SOLID ?
+    props.theme.primaryLight : props.theme.primaryDark
+};
+  background-color:
+  ${(props) => props.type === BUTTON_SOLID ?
+    props.theme.secondary : props.theme.primaryLight
 };
 `;
 
@@ -98,16 +118,20 @@ export const StyledDot = styled.div`
   border-radius: 1rem;
 `;
 
-/* login page styled components */
-export const StyledWrapper = styled.section`
-  background-color: #FFFFFF;
+/* landing page styled components */
+export const StyledPopupContainer = styled.section`
+  background: ${(props) => props.theme.primaryLight};
   width: 30rem;
-  margin: 7rem 0 0 10rem;
+  margin: 22rem 0 0 10rem;
   position: fixed;
   border-radius: 0.75rem;
-  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+  box-shadow: 0px 11px 35px 2px ${(props) => props.theme.boxShadow};
   align-items: center;
   text-align: center;
+`;
+
+export const StyledButtonWrapper = styled.div`
+  text-align: left;
 `;
 
 export const StyledInput = styled.input`
@@ -117,7 +141,7 @@ export const StyledInput = styled.input`
   margin: 5%;
   border: 1rem;
   font-size: 1rem;
-  background: #EEEEEE;
+  background: ${(props) => props.theme.landingInput};
   &:focus {
       outline: none;
   }
@@ -130,7 +154,7 @@ export const StyledSubmit = styled.input`
   padding: 1rem;
   border: 1rem;
   font-size: 1rem;
-  background: #4CD2B2;
+  background: ${(props) => props.theme.secondary};
   color: white;
   outline: none;
   &:hover{
@@ -145,100 +169,99 @@ export const StyledForm = styled.form`
 export const StyledGreeting = styled.div`
   font-size: 1.5rem;
   text-align: center;
-  color: #333333;
+  color: ${(props) => props.theme.greetingTitle};
   padding: 1rem;
 `;
 
 export const StyledCaption = styled.div`
   font-size: 1.5rem;
   text-align: center;
-  color: #AAAAAA;
+  color: ${(props) => props.theme.greetingCaption};
 `;
 
 export const StyledError = styled.div`
   font-size: 1rem;
   text-align: center;
-  color: red;
+  color: ${(props) => props.theme.errorMessage};
 `;
 
-export const StyledDiv = styled.div`
-  width: 30rem;
-  margin: 7rem 0 0 10rem;
-  position: fixed;
-  text-align: center;
-  font-size: 1rem;
-`;
 
 export const StyledTitle = styled.div`
-  text-align: middle;
+  text-align: left;
   font-size: 3rem;
-  color: white;
+  color: ${(props) => props.theme.primaryDark};
   font-weight: bold;
-  margin: 3rem;
+  margin: -1rem;
 `;
 
-/* login page background styled components */
-export const StyledArea = styled.div`
-  background: linear-gradient(0deg, rgba(36, 39, 65, 1) 10rem, rgba(255, 255, 255, 1) 10rem, rgba(36, 39, 65, 1) 40rem);
+export const StyledBody = styled.body`
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  position: fixed;
+  border-bottom: 15rem solid ${(props) => props.theme.primaryDark};
+  margin: -15rem 0 0 0;
 `;
 
-export const StyledCircles = styled.ul`
+export const StyledLandingBackground = styled.div`
+  background: ${(props) => props.theme.primaryDark};
+  width: 100%;
+  height: 20rem;
+`;
+
+export const StyledAnimatedStacks = styled.ul`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   overflow: hidden;
 `;
 
-export const StyledCircle = styled.li`
-  position: absolute;
-  display: block;
-  list-style: none;
-  width: 20px;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  animation-delay: 0s;
-  animation: animate 30s linear infinite;
-  &:nth-child(1){
-    left: 10.5rem;
-    width: 4rem;
-    height: 2rem;
-    bottom: -9rem;
-    animation-delay: 0s;
+/* landing page animation */
+export const StyledWave = keyframes`
+  0%{
+      border-radius: 0.25rem;
+      height: 0rem;
+      margin: 0rem;
+      opacity: 0.9;
   }
-  &:nth-child(2){
-    left: 11.5rem;
-    width: 4rem;
-    height: 2rem;
-    bottom: -8rem;
-    animation-delay: 0s;
+  
+  50%{
+      border-radius: 0.25rem;
+      height: 4rem;
+      margin: 0rem;
+      opacity: 0.6;
   }
-  &:nth-child(3){
-    left: 12.5rem;
-    width: 4rem;
-    height: 2rem;
-    bottom: -7rem;
-    animation-delay: 0s;
-  }
-  &:nth-child(4){
-    left: 13.5rem;
-    width: 4rem;
-    height: 2rem;
-    bottom: -6rem;
-    animation-delay: 0s;
-  }
-  &:nth-child(5){
-    left: 14.5rem;
-    width: 4rem;
-    height: 2rem;
-    bottom: -5rem;
-    animation-delay: 0s;
+
+  100%{
+      height: 0rem;
+      border-radius: 0.25rem;
+      margin: 0rem;
+      opacity: 0.9;
   }
 `;
 
-export const StyledImage = styled.img`
-  width: 36rem;
-  height: 11rem;
+export const StyledAnimatedStack = styled.li`
+  position: absolute;
+  list-style: none;
+  height: 0;
+  background: ${(props) => props.theme.primaryLight};
+  animation-delay: 0s;
+  animation: ${StyledWave} 7s infinite;
+  &:nth-child(1){
+    width: 100%;
+    bottom: ${(props) => props.offset};
+    animation-delay: 1s;
+    background: ${(props) => props.theme.secondary};
+  }
+  &:nth-child(2){
+    width: 100%;
+    bottom: ${(props) => props.offset};
+    animation-delay: 2s;
+    background: ${(props) => props.theme.secondaryAlt};
+  }
+  &:nth-child(3){
+    width: 100%;
+    bottom: ${(props) => props.offset};
+    animation-delay: 3s;
+    background: ${(props) => props.theme.primaryLight};
+  }
 `;

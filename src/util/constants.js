@@ -24,6 +24,20 @@ export const PATH_SIGNUP = '/signup';
 export const BUTTON_SOLID = 0;
 export const BUTTON_OUTLINE = 1;
 
+// animation
+export const WAVE_SPEED_ONE = '10s';
+export const WAVE_SPEED_TWO = '8s';
+export const WAVE_SPEED_THREE = '12s';
+
+export const WAVE_OFFSET_ONE = '-15rem';
+export const WAVE_OFFSET_TWO = '-15rem';
+export const WAVE_OFFSET_THREE = '-15rem';
+
+// landing page states
+export const LANDING = 0;
+export const LOGIN = 1;
+export const SIGNUP = 2;
+
 // etc
 export const REPOSITORY_URL = 'https://github.com/XianhaiC/my-stacks';
 export const STACK_COLORS = [

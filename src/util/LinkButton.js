@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
-import styled from 'styled-components';
-import {StyledButton} from '../components/common/styles';
-
-const StyledLinkButton = styled(StyledButton)`
-  margin: 0.5rem;
-  color: white;
-`;
+import {StyledLandingButton} from '../components/common/styles';
 
 export const LinkButton = (props) => {
   const {
@@ -19,7 +13,7 @@ export const LinkButton = (props) => {
     ...rest
   } = props;
   return (
-    <StyledLinkButton type={props.type}
+    <StyledLandingButton type={props.type}
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);
