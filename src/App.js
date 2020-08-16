@@ -38,8 +38,7 @@ const theme = {
 
 };
 
-
-let authenticated;
+axios.defaults.baseURL = process.env.REACT_APP_FIREBASE_URL
 const token = localStorage.userToken;
 
 if (token) {

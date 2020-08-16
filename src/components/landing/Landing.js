@@ -9,7 +9,7 @@ import {
   StyledImage,
 } from '../common/styles';
 import LinkButton from '../../util/LinkButton';
-import {BUTTON_SOLID, BUTTON_GRAY} from '../../util/constants';
+import {BUTTON_SOLID} from '../../util/constants';
 
 const StyledMessage = styled(StyledCaption)`
   color: black;
@@ -33,7 +33,7 @@ const LandingDisplay = (props) => {
           <StyledImage src="mystacks_demo.PNG" />
         </StyledDemo>
         <LinkButton to='/login' type={BUTTON_SOLID}>Login</LinkButton>
-        <LinkButton to='/signup' type={BUTTON_GRAY}>Signup</LinkButton>
+        <LinkButton to='/signup'>Signup</LinkButton>
         <StyledMessage>Create a stack</StyledMessage>
         <StyledMessage>Fill it with tasks</StyledMessage>
         <StyledMessage>

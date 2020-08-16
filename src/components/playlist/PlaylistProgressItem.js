@@ -37,18 +37,14 @@ const StyledCard = styled.div`
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
         return 'none';
-        break;
       case PLAYLIST_ITEM_CURRENT:
         return props.mode === PLAYLIST_MODE_WORK ?
           props.theme.primaryDark :
           props.theme.primaryLight;
-        break;
       case PLAYLIST_ITEM_REMAINING:
         return props.theme.midtone;
-        break;
       default:
         return 'none';
-        break;
     }
   }};
 
@@ -57,16 +53,12 @@ const StyledCard = styled.div`
     switch (props.state) {
       case PLAYLIST_ITEM_FINISHED:
         return `${5 - 9 * props.index}rem`;
-        break;
       case PLAYLIST_ITEM_CURRENT:
         return 'calc(100% - 12rem)';
-        break;
       case PLAYLIST_ITEM_REMAINING:
         return `calc(100% - 3rem + ${9 * props.index}rem)`;
-        break;
       default:
         return '0%';
-        break;
     }
   }};
 
@@ -77,10 +69,8 @@ const StyledCard = styled.div`
         return `0.11rem solid ${props.done ?
             props.theme.secondary :
             props.theme.secondaryAlt}`;
-        break;
       default:
         return 'none';
-        break;
     }
   }};
   transition: all 0.5s ease-in-out;
@@ -141,8 +131,8 @@ const StyledContainerIcon = styled.div`
   display:
   ${(props) =>
       props.state === PLAYLIST_ITEM_FINISHED ||
-      props.state === PLAYLIST_ITEM_CURRENT &&
-      props.mode === PLAYLIST_MODE_GRACE ?
+      (props.state === PLAYLIST_ITEM_CURRENT &&
+      props.mode === PLAYLIST_MODE_GRACE) ?
         'block' : 'none'
 };
 `;

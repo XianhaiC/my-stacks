@@ -318,13 +318,6 @@ class BlockItem extends Component {
     this.swapBlocks(index, index + dir);
   }
 
-  handleDecrementBursts() {
-    const {blocks, blockId} = this.props;
-    if (this.state.numBursts > 1) {
-      this.handleBurstsUpdate(blocks[blockId].numBursts - 1);
-    }
-  }
-
   /* Input boxes change handlers */
   handleChangeEditTask(e) {
     this.setState({task: e.target.value});
@@ -486,7 +479,7 @@ class BlockItem extends Component {
         onMouseLeave={this.handleMouseLeaveBlock}
       >
         <StyledBoxButtonsFront>
-          {this.state.focusState == FOCUS_HOVER &&
+          {this.state.focusState === FOCUS_HOVER &&
             <StyledContainerFront>
               <CloseRoundedIcon onClick={this.handleBlockDelete} />
               <PlayArrowRoundedIcon onClick={this.handleClickPlay} />

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import {
   BUTTON_SOLID,
-  BUTTON_GRAY,
 } from '../../util/constants';
 
 export const StyledBox = styled.div`

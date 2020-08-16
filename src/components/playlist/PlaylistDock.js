@@ -146,7 +146,7 @@ class PlaylistDock extends Component {
   // ----- helpers
 
   startTimer() {
-    if (this.timer == 0) {
+    if (this.timer === 0) {
       this.timer = setInterval(this.countDown, 1000);
     }
   }
@@ -163,7 +163,7 @@ class PlaylistDock extends Component {
     });
 
     // Check if we're at zero.
-    if (seconds == 0) {
+    if (seconds === 0) {
       this.cancelTimer();
       this.transitionMode();
     }
@@ -253,6 +253,7 @@ class PlaylistDock extends Component {
         break;
       case PLAYLIST_MODE_GRACE:
         this.setState({modeTimeRemaining: stacks[stackFocused].durationGrace});
+        break;
       default:
         break;
     }
