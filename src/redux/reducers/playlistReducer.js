@@ -4,6 +4,7 @@ import {
   PLAYLIST_SET_FOCUS_FINISHED,
   PLAYLIST_SET_FOCUS_REMAINING,
   PLAYLIST_SET_FOCUS_CURRENT,
+  PLAYLIST_SET_BURST_CURRENT,
   PLAYLIST_ADD_COMPLETED_BLOCKS,
   PLAYLIST_CLEAR_COMPLETED_BLOCKS,
   PLAYLIST_SET_INITIAL_SHUFFLE,
@@ -18,6 +19,7 @@ const INITIAL_STATE = {
   focusFinished: [],
   focusRemaining: [],
   focusCurrent: null,
+  burstCurrent: 0,
   completedBlocks: {},
   initialShuffle: false,
 };
@@ -52,6 +54,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         focusCurrent: action.payload,
+      };
+
+    case PLAYLIST_SET_BURST_CURRENT:
+      return {
+        ...state,
+        burstCurrent: action.payload,
       };
 
     case PLAYLIST_ADD_COMPLETED_BLOCKS:

@@ -38,11 +38,7 @@ const StyledContainerInner = styled(StyledContainer)`
   position: relative;
   background: ${(props) => props.theme.primaryLight};
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-  height:
-  ${(props) => props.display === DISPLAY_STACK ?
-      'calc(100% - 8rem)' :
-      '80%'
-};
+  height: calc(100% - 8rem);
   transition: all 0.4s ease-in-out;
 `;
 
@@ -140,7 +136,6 @@ class StackContainer extends Component {
           <PlaylistContainer />
 
         </StyledContainerInner>
-        <StyledBoxDynamic display={display}/>
       </StyledContainer>
     );
   }

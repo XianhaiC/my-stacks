@@ -21,9 +21,9 @@ class PopupStackUpdate extends Component {
 
   handleStackUpdate(state) {
     const {name} = state;
-    const {stacks, stackFocused} = this.props;
+    const {stacks, stackFocused, dataStackUpdate} = this.props;
     if (!name || name === '') return;
-    this.props.dataStackUpdate(stackFocused, {
+    dataStackUpdate(stackFocused, {
       ...stacks[stackFocused],
       'name': state.name,
       'backgroundColor': state.backgroundColor,

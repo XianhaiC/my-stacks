@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 import StackDockGrace from './StackDockGrace';
 
+import {dataStackUpdate} from '../../redux/actions/dataActions';
 import {playlistStart} from '../../redux/actions/playlistActions';
 
 import ShuffleRoundedIcon from '@material-ui/icons/ShuffleRounded';
 import LoopRoundedIcon from '@material-ui/icons/LoopRounded';
 
 import {StyledBox, StyledButton} from '../common/styles';
-import {BUTTON_SOLID} from '../../util/constants';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -42,6 +42,7 @@ class StackDock extends Component {
 
     this.handleClickStart = this.handleClickStart.bind(this);
     this.handleClickShuffle = this.handleClickShuffle.bind(this);
+    this.handleClickRoutine = this.handleClickRoutine.bind(this);
     this.playlistPreprocess = this.playlistPreprocess.bind(this);
   }
 
@@ -53,6 +54,15 @@ class StackDock extends Component {
     this.playlistPreprocess(false);
   }
 
+  handleClickRoutine() {
+    const {stacks, stackFocused, dataStackUpdate} = this.props;
+    let stack = stacks[stackFocused];
+    dataStackUpdate(stackFocused, {
+      ...stack,
+      'isRoutine': !stack.isRoutine,
+    });
+  }
+
   // ----- helpers
 
   playlistPreprocess(shuffle) {
@@ -61,6 +71,8 @@ class StackDock extends Component {
   }
 
   render() {
+    const {stacks, stackFocused} = this.props;
+
     const style = {
       fontSize: '1.15rem',
     };
@@ -69,7 +81,7 @@ class StackDock extends Component {
         <StyledBox />
 
         <StyledBox>
-          <StyledButton type={BUTTON_SOLID}
+          <StyledButton solid={true}
             onClick={this.handleClickStart}>Start session</StyledButton>
           <StyledButtonIcon onClick={this.handleClickShuffle}>
             <ShuffleRoundedIcon style={style}/>
@@ -78,7 +90,8 @@ class StackDock extends Component {
 
         <StyledBoxRight>
           <StackDockGrace />
-          <StyledButtonIcon alt='true'>
+          <StyledButtonIcon alt='true' solid={stacks[stackFocused].isRoutine}
+            onClick={this.handleClickRoutine} >
             <LoopRoundedIcon style={style}/>
           </StyledButtonIcon>
         </StyledBoxRight>
@@ -90,6 +103,7 @@ class StackDock extends Component {
 StackDock.propTypes = {
   stacks: PropTypes.object.isRequired,
   stackFocused: PropTypes.string.isRequired,
+  dataStackUpdate: PropTypes.func.isRequired,
   playlistStart: PropTypes.func.isRequired,
 };
 
@@ -98,4 +112,9 @@ const mapStateToProps = (state) => ({
   stackFocused: state.stack.stackFocused,
 });
 
-export default connect(mapStateToProps, {playlistStart})(StackDock);
+const mapDispatchToProps = {
+  dataStackUpdate,
+  playlistStart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StackDock);

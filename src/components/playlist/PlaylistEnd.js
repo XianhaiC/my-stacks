@@ -18,7 +18,7 @@ const StyledContainer = styled.div`
 const PlaylistEnd = (props) => {
   return (
     <StyledContainer>
-      <StyledButton type={BUTTON_OUTLINE} onClick={() => props.playlistEnd()}>
+      <StyledButton solid={false} onClick={() => props.playlistEnd()}>
         End session
       </StyledButton>
     </StyledContainer>

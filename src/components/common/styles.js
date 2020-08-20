@@ -7,6 +7,7 @@ import {
 export const StyledBox = styled.div`
   flex: 1;
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
 `;
@@ -27,13 +28,12 @@ export const StyledButton = styled.a`
   min-width: 3rem;
   text-align: center;
   color:
-  ${(props) =>
-    props.type === BUTTON_SOLID ?
+  ${(props) => props.solid ?
       props.theme.primaryLight :
       (props.alt ? props.theme.secondaryAlt : props.theme.secondary)
 };
   background-color:
-  ${(props) => props.type === BUTTON_SOLID ?
+  ${(props) => props.solid ?
     (props.alt ? props.theme.secondaryAlt : props.theme.secondary) :
     'none'
 };

@@ -69,7 +69,7 @@ class StackItem extends Component {
       <StyledItem focused={stackId === stackFocused}
         onClick={() => stackSetStackFocused(stackId)}>
         <StyledText>{stacks[stackId].name}</StyledText>
-        <StyledRoutineIndicator />
+        {stacks[stackId].isRoutine && <StyledRoutineIndicator />}
       </StyledItem>
     );
   }

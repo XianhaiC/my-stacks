@@ -7,13 +7,14 @@ import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import ShuffleRoundedIcon from '@material-ui/icons/ShuffleRounded';
 
-import {StyledBox, StyledBoxColumn} from '../common/styles';
+import {StyledButton, StyledBox, StyledBoxColumn} from '../common/styles';
 
 import {
   playlistSetMode,
   playlistSetFocusFinished,
   playlistSetFocusRemaining,
   playlistSetFocusCurrent,
+  playlistSetBurstCurrent,
   playlistCheckoff,
   playlistEnd,
 } from '../../redux/actions/playlistActions';
@@ -44,6 +45,7 @@ const StyledTextTimer = styled(StyledText)`
 `;
 
 const StyledTextBreak = styled(StyledText)`
+  position: fixed;
   visibility:
   ${(props) => props.mode === PLAYLIST_MODE_WORK ?
       'hidden' :
@@ -54,14 +56,42 @@ const StyledTextBreak = styled(StyledText)`
       '0' :
       '1'
 };
+  bottom: 8rem;
+  left: 50%;
+  transform: translateX(-50%);
 `;
+
+const StyledBoxBottom = styled(StyledBoxColumn)`
+  display: relative;
+  justify-content: flex-end;
+  padding-bottom: 8rem;
+`
 
 const StyledContainerButton = styled.div`
   display: flex;
   justify-content: center;
   color: ${(props) => props.theme.primaryLight};
-  padding: 1.5rem;
 `;
+
+const StyledContainerSkip = styled.div`
+  display: flex;
+  padding: 0 1.5rem;
+  visibility:
+  ${(props) => props.mode === PLAYLIST_MODE_WORK ?
+      'visible' :
+      'hidden'
+};
+  opacity:
+  ${(props) => props.mode === PLAYLIST_MODE_WORK ?
+      '1' :
+      '0'
+};
+`;
+
+const StyledButtonSkip = styled(StyledButton)`
+  margin: 0.5rem;
+  min-width: 5rem;
+`
 
 class PlaylistDock extends Component {
   constructor() {
@@ -71,7 +101,6 @@ class PlaylistDock extends Component {
       modeTimeRemaining: 0,
       enabledPause: false,
       enabledShuffle: false,
-      burstCurrent: 0,
       displayPrev: DISPLAY_STACK,
     };
 
@@ -138,16 +167,20 @@ class PlaylistDock extends Component {
   }
 
   handleClickSkip() {
+    this.props.playlistCheckoff(false);
+    this.startNextBlock();
   }
 
   handleClickFinish() {
+    this.props.playlistCheckoff(true);
+    this.startNextBlock();
   }
 
   // ----- helpers
 
   startTimer() {
     if (this.timer === 0) {
-      this.timer = setInterval(this.countDown, 1000);
+      this.timer = setInterval(this.countDown, 10);
     }
   }
 
@@ -197,7 +230,9 @@ class PlaylistDock extends Component {
       blocks,
       playlistMode,
       focusCurrent,
+      burstCurrent,
       playlistCheckoff,
+      playlistSetBurstCurrent,
       playlistEnd,
     } = this.props;
 
@@ -206,11 +241,11 @@ class PlaylistDock extends Component {
 
     switch (playlistMode) {
       case PLAYLIST_MODE_WORK:
-        newBurstCurrent = this.state.burstCurrent + 1;
+        newBurstCurrent = burstCurrent + 1;
         if (newBurstCurrent === blocks[focusCurrent].numBursts) {
           nextMode = PLAYLIST_MODE_GRACE;
         } else {
-          this.setState({burstCurrent: newBurstCurrent});
+          playlistSetBurstCurrent(newBurstCurrent);
           nextMode = PLAYLIST_MODE_BREAK;
         }
 
@@ -226,10 +261,6 @@ class PlaylistDock extends Component {
 
       case PLAYLIST_MODE_GRACE:
         playlistCheckoff(false);
-        if (this.playlistStackEmpty()) {
-          playlistEnd();
-          return;
-        }
         this.startNextBlock();
         break;
 
@@ -262,15 +293,25 @@ class PlaylistDock extends Component {
   }
 
   startNextBlock() {
-    const {blocks} = this.props;
+    const {
+      blocks,
+      playlistSetMode,
+      playlistSetBurstCurrent,
+      playlistEnd,
+    } = this.props;
+
+    if (this.playlistStackEmpty()) {
+      playlistEnd();
+      return;
+    }
 
     const nextBlock = this.playlistStackPop();
     this.setState({
       modeTimeRemaining: blocks[nextBlock].durationWork,
-      burstCurrent: 0,
     });
     this.startTimer();
-    this.props.playlistSetMode(PLAYLIST_MODE_WORK);
+    playlistSetBurstCurrent(0);
+    playlistSetMode(PLAYLIST_MODE_WORK);
   }
 
   // ----- lifecycle methods
@@ -342,9 +383,17 @@ class PlaylistDock extends Component {
           </StyledContainerButton>
         </StyledBoxColumn>
 
-        <StyledBox>
+        <StyledBoxBottom>
           <StyledTextBreak mode={playlistMode}>Taking a break</StyledTextBreak>
-        </StyledBox>
+          <StyledContainerSkip mode={playlistMode}>
+            <StyledButtonSkip solid={false} onClick={this.handleClickSkip}>
+              skip
+            </StyledButtonSkip>
+            <StyledButtonSkip solid={false} onClick={this.handleClickFinish}>
+              finish
+            </StyledButtonSkip>
+          </StyledContainerSkip>
+        </StyledBoxBottom>
       </Fragment>
     );
   }
@@ -365,6 +414,7 @@ PlaylistDock.propTypes = {
   playlistSetFocusFinished: PropTypes.func.isRequired,
   playlistSetFocusRemaining: PropTypes.func.isRequired,
   playlistSetFocusCurrent: PropTypes.func.isRequired,
+  playlistSetBurstCurrent: PropTypes.func.isRequired,
   playlistCheckoff: PropTypes.func.isRequired,
   playlistEnd: PropTypes.func.isRequired,
 };
@@ -378,6 +428,7 @@ const mapStateToProps = (state) => ({
   focusRemaining: state.playlist.focusRemaining,
   focusFinished: state.playlist.focusFinished,
   focusCurrent: state.playlist.focusCurrent,
+  burstCurrent: state.playlist.burstCurrent,
   display: state.session.display,
 });
 
@@ -386,6 +437,7 @@ const mapDispatchToProps = {
   playlistSetFocusFinished,
   playlistSetFocusRemaining,
   playlistSetFocusCurrent,
+  playlistSetBurstCurrent,
   playlistCheckoff,
   playlistEnd,
 };

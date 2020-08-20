@@ -134,7 +134,7 @@ class PopupStack extends Component {
           </StyledContainerColor>
 
           <StyledButtonCreate onClick={this.handleClickSubmit}
-            type={BUTTON_SOLID}>
+            solid={true}>
             OK
           </StyledButtonCreate>
         </StyledForm>

@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled, {withTheme} from 'styled-components';
 
+import {
+  StyledDot,
+} from '../common/styles';
+
 import DoneOutlineOutlinedIcon from '@material-ui/icons/DoneOutlineOutlined';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {playlistCheckoff} from '../../redux/actions/playlistActions';
@@ -38,7 +42,7 @@ const StyledCard = styled.div`
       case PLAYLIST_ITEM_FINISHED:
         return 'none';
       case PLAYLIST_ITEM_CURRENT:
-        return props.mode === PLAYLIST_MODE_WORK ?
+        return props.mode !== PLAYLIST_MODE_GRACE ?
           props.theme.primaryDark :
           props.theme.primaryLight;
       case PLAYLIST_ITEM_REMAINING:
@@ -137,6 +141,31 @@ const StyledContainerIcon = styled.div`
 };
 `;
 
+const StyledDotContainer = styled.div`
+  height: 2.6rem;
+  align-items: center;
+  display:
+  ${(props) =>
+      props.state === PLAYLIST_ITEM_CURRENT &&
+      props.mode !== PLAYLIST_MODE_GRACE ?
+        'flex' : 'none'
+};
+`;
+
+const StyledDotBurst = styled(StyledDot)`
+  margin: 0.2rem;
+  background: ${(props) => props.theme.secondary};
+`;
+
+const StyledDotBurstCurrent = styled(StyledDot)`
+  margin: 0.2rem;
+  background: ${(props) => props.theme.secondaryAlt};
+`;
+
+const StyledDotDim = styled(StyledDot)`
+  margin: 0.2rem;
+  background: ${(props) => props.theme.midtone};
+`;
 
 class PlaylistProgressItem extends Component {
   constructor(props) {
@@ -169,6 +198,7 @@ class PlaylistProgressItem extends Component {
       playlistMode,
       focusFinished,
       focusRemaining,
+      burstCurrent,
       completedBlocks,
       playlistCheckoff,
     } = this.props;
@@ -208,6 +238,19 @@ class PlaylistProgressItem extends Component {
       );
     }
 
+    let componentDots = [];
+    for (let i = 0; i < blocks[blockId].numBursts; i++) {
+      let dot;
+      if (i < burstCurrent)
+        dot = (<StyledDotBurst key={i} />);
+      else if (i === burstCurrent)
+        dot = (<StyledDotBurstCurrent key={i} />);
+      else
+        dot = (<StyledDotDim key={i} />);
+
+      componentDots.push(dot);
+    }
+
     return (
       <StyledCard
         state={itemState}
@@ -224,6 +267,9 @@ class PlaylistProgressItem extends Component {
         <StyledContainerIcon state={itemState} mode={playlistMode}>
           {componentIcons}
         </StyledContainerIcon>
+        <StyledDotContainer state={itemState} mode={playlistMode}>
+          {componentDots}
+        </StyledDotContainer>
 
       </StyledCard>
     );
@@ -246,6 +292,7 @@ const mapStateToProps = (state) => ({
   playlistMode: state.playlist.playlistMode,
   focusFinished: state.playlist.focusFinished,
   focusRemaining: state.playlist.focusRemaining,
+  burstCurrent: state.playlist.burstCurrent,
   completedBlocks: state.playlist.completedBlocks,
 });
 

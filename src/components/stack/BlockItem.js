@@ -447,7 +447,7 @@ class BlockItem extends Component {
       case FOCUS_INFO:
         componentButtonsEnd = (
           <StyledContainerMod>
-            <StyledButtonMod type={BUTTON_SOLID} onClick={this.handleClickEdit}>
+            <StyledButtonMod solid={true} onClick={this.handleClickEdit}>
               Edit
             </StyledButtonMod>
           </StyledContainerMod>
@@ -457,7 +457,7 @@ class BlockItem extends Component {
         componentButtonsEnd = (
           <StyledContainerMod>
             <StyledButtonSave
-              type={BUTTON_SOLID}
+              solid={true}
               onClick={this.handleClickSave}>
               Save
             </StyledButtonSave>

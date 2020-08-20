@@ -5,6 +5,7 @@ import {
   PLAYLIST_SET_FOCUS_FINISHED,
   PLAYLIST_SET_FOCUS_REMAINING,
   PLAYLIST_SET_FOCUS_CURRENT,
+  PLAYLIST_SET_BURST_CURRENT,
   PLAYLIST_ADD_COMPLETED_BLOCKS,
   PLAYLIST_CLEAR_COMPLETED_BLOCKS,
   PLAYLIST_SET_INITIAL_SHUFFLE,
@@ -52,6 +53,13 @@ export const playlistSetFocusCurrent = (blockId) => (dispatch) => {
   });
 };
 
+export const playlistSetBurstCurrent = (burstCurrent) => (dispatch) => {
+  dispatch({
+    type: PLAYLIST_SET_BURST_CURRENT,
+    payload: burstCurrent,
+  });
+};
+
 export const playlistAddCompletedBlocks = (blockId) => (dispatch) => {
   dispatch({
     type: PLAYLIST_ADD_COMPLETED_BLOCKS,
@@ -95,6 +103,8 @@ export const playlistStart = (blockIds, shuffle) => (dispatch) => {
   dispatch(playlistSetFocusFinished([]));
   dispatch(playlistSetFocusRemaining(blockIds));
   dispatch(playlistSetFocusCurrent(null));
+  dispatch(playlistSetBurstCurrent(0));
+  dispatch(playlistClearCompletedBlock());
   dispatch({
     type: PLAYLIST_SET_INITIAL_SHUFFLE,
     payload: shuffle,
@@ -106,8 +116,4 @@ export const playlistEnd = () => (dispatch) => {
     type: SESSION_SET_DISPLAY,
     payload: DISPLAY_STACK,
   });
-  dispatch(playlistSetFocusInitial([]));
-  dispatch(playlistSetFocusFinished([]));
-  dispatch(playlistSetFocusRemaining([]));
-  dispatch(playlistSetFocusCurrent(null));
 };
