@@ -27,10 +27,7 @@ import {
 
 import {PATH_ROOT} from './util/constants';
 
-
-let authenticated;
 const token = localStorage.userToken;
-
 if (token) {
   const decodedToken = jwtDecode(token);
   console.log('[INFO] User session exists', decodedToken);

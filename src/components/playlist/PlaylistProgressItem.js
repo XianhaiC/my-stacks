@@ -12,6 +12,7 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import {playlistCheckoff} from '../../redux/actions/playlistActions';
 
 import {
+  DISPLAY_PLAYLIST,
   PLAYLIST_MODE_WORK,
   PLAYLIST_MODE_GRACE,
   PLAYLIST_ITEM_FINISHED,
@@ -200,8 +201,12 @@ class PlaylistProgressItem extends Component {
       focusRemaining,
       burstCurrent,
       completedBlocks,
+      display,
       playlistCheckoff,
     } = this.props;
+
+    if (display !== DISPLAY_PLAYLIST)
+      return null;
 
     let itemState;
     let itemIndex;
@@ -284,6 +289,7 @@ PlaylistProgressItem.propTypes = {
   focusFinished: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,
   completedBlocks: PropTypes.object.isRequired,
+  display: PropTypes.number.isRequired,
   playlistCheckoff: PropTypes.func.isRequired,
 };
 
@@ -294,6 +300,7 @@ const mapStateToProps = (state) => ({
   focusRemaining: state.playlist.focusRemaining,
   burstCurrent: state.playlist.burstCurrent,
   completedBlocks: state.playlist.completedBlocks,
+  display: state.session.display,
 });
 
 export default

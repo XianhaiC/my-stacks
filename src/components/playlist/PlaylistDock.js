@@ -233,7 +233,6 @@ class PlaylistDock extends Component {
       burstCurrent,
       playlistCheckoff,
       playlistSetBurstCurrent,
-      playlistEnd,
     } = this.props;
 
     let nextMode;
@@ -301,6 +300,7 @@ class PlaylistDock extends Component {
     } = this.props;
 
     if (this.playlistStackEmpty()) {
+      this.cancelTimer();
       playlistEnd();
       return;
     }
@@ -340,6 +340,7 @@ class PlaylistDock extends Component {
 
   render() {
     const {
+      display,
       playlistMode,
       theme,
     } = this.props;

@@ -6,6 +6,7 @@ import {
   DATA_SET_BLOCK,
   DATA_DELETE_BLOCK,
   DATA_DELETE_STACK_BLOCKS,
+  DATA_DELETE_STACK_BLOCKS_MULTIPLE,
   DATA_CLEAR,
 } from '../types';
 
@@ -105,6 +106,27 @@ export default (state = INITIAL_STATE, action) => {
         delete newState.blocks[blockId],
       );
       newState.stacks[action.payload].order = [];
+
+      return newState;
+
+    case DATA_DELETE_STACK_BLOCKS_MULTIPLE:
+      newState = {
+        ...state,
+        blocks: {
+          ...state.blocks,
+        },
+        stacks: {
+          ...state.stacks,
+        },
+      };
+
+      action.payload.blockIds.forEach(blockId =>
+        delete newState.blocks[blockId],
+      );
+
+      var order = newState.stacks[action.payload.stackId].order;
+      newState.stacks[action.payload.stackId].order = 
+        order.filter(blockId => !action.payload.blockIds.includes(blockId));
 
       return newState;
 

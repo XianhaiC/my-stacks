@@ -418,6 +418,7 @@ class BlockItem extends Component {
   // Finite state machine
   render() {
     const {blocks, blockId, blockCreate} = this.props;
+    console.log("RENDER BLOCK ITEM", blockId, blocks);
 
     const componentBursts = [];
     if (!blockCreate) {

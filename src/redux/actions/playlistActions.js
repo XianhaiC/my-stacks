@@ -1,4 +1,8 @@
 import {
+  dataStackBlocksDeleteMultiple,
+} from './dataActions';
+
+import {
   SESSION_SET_DISPLAY,
   PLAYLIST_SET_MODE,
   PLAYLIST_SET_FOCUS_INITIAL,
@@ -111,9 +115,26 @@ export const playlistStart = (blockIds, shuffle) => (dispatch) => {
   });
 };
 
-export const playlistEnd = () => (dispatch) => {
+export const playlistEnd = () => (dispatch, getState) => {
   dispatch({
     type: SESSION_SET_DISPLAY,
     payload: DISPLAY_STACK,
   });
+
+  let playlistState = getState().playlist;
+  let stackState = getState().stack;
+  let dataState = getState().data;
+
+  let stackFocused = stackState.stackFocused;
+  let isRoutine = dataState.stacks[stackState.stackFocused].isRoutine;
+
+  if (isRoutine) return;
+
+  // delete completed blocks if it's not a routine 
+  let completedBlocks = playlistState.completedBlocks;
+
+  dispatch(dataStackBlocksDeleteMultiple(
+    stackFocused,
+    Object.keys(completedBlocks),
+  ));
 };

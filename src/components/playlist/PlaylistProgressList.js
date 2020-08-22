@@ -10,6 +10,7 @@ import {
 } from '../../redux/actions/playlistActions';
 
 import {
+  DISPLAY_PLAYLIST,
   PLAYLIST_MODE_BREAK,
 } from '../../util/constants';
 
@@ -29,7 +30,10 @@ const StyledContainer = styled.div`
 
 class PlaylistProgressList extends Component {
   render() {
-    const {playlistMode, focusInitial} = this.props;
+    const {display, playlistMode, focusInitial} = this.props;
+
+    if (display !== DISPLAY_PLAYLIST)
+      return null;
 
     const blocksList = Object.values(focusInitial).map((blockId) =>
       <PlaylistProgressItem
@@ -51,6 +55,7 @@ PlaylistProgressList.propTypes = {
   focusFinished: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,
   focusCurrent: PropTypes.string,
+  display: PropTypes.number.isRequired,
   playlistCheckoff: PropTypes.func.isRequired,
 };
 
@@ -60,6 +65,7 @@ const mapStateToProps = (state) => ({
   focusFinished: state.playlist.focusFinished,
   focusRemaining: state.playlist.focusRemaining,
   focusCurrent: state.playlist.focusCurrent,
+  display: state.session.display,
 });
 
 const mapDispatchToProps = {

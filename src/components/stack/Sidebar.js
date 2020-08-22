@@ -180,8 +180,8 @@ class Sidebar extends Component {
               </StyledButtonContainer>
             </div>
 
-            <StyledButtonContainer>
-              <SettingsRoundedIcon onClick={this.handleClickOptions} />
+            <StyledButtonContainer onClick={this.handleClickOptions}>
+              <SettingsRoundedIcon />
               <PopupOptionsSidebar />
             </StyledButtonContainer>
           </StyledContainerBottomButtons>
