@@ -12,10 +12,6 @@ import {
   StyledAnimatedStack,
   StyledBody,
 } from '../common/styles';
-<<<<<<< HEAD
-import LinkButton from '../../util/LinkButton';
-import { BUTTON_SOLID } from '../../util/constants';
-=======
 
 import {
   WAVE_SPEED_ONE,
@@ -35,7 +31,6 @@ import {theme} from '../../styles/theme.js';
 import LinkButton from '../../util/LinkButton';
 import Login from './Login.js';
 import Signup from './Signup.js';
->>>>>>> Refactor landing page
 
 const StyledCenterContainer = styled.div`
   width: 30rem;
