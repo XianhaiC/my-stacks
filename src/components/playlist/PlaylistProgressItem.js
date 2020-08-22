@@ -205,8 +205,9 @@ class PlaylistProgressItem extends Component {
       playlistCheckoff,
     } = this.props;
 
-    if (display !== DISPLAY_PLAYLIST)
+    if (display !== DISPLAY_PLAYLIST) {
       return null;
+    }
 
     let itemState;
     let itemIndex;
@@ -243,15 +244,16 @@ class PlaylistProgressItem extends Component {
       );
     }
 
-    let componentDots = [];
+    const componentDots = [];
     for (let i = 0; i < blocks[blockId].numBursts; i++) {
       let dot;
-      if (i < burstCurrent)
+      if (i < burstCurrent) {
         dot = (<StyledDotBurst key={i} />);
-      else if (i === burstCurrent)
+      } else if (i === burstCurrent) {
         dot = (<StyledDotBurstCurrent key={i} />);
-      else
+      } else {
         dot = (<StyledDotDim key={i} />);
+      }
 
       componentDots.push(dot);
     }
@@ -288,6 +290,7 @@ PlaylistProgressItem.propTypes = {
   playlistMode: PropTypes.number.isRequired,
   focusFinished: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,
+  burstCurrent: PropTypes.number.isRequired,
   completedBlocks: PropTypes.object.isRequired,
   display: PropTypes.number.isRequired,
   playlistCheckoff: PropTypes.func.isRequired,

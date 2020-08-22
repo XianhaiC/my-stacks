@@ -32,8 +32,9 @@ class PlaylistProgressList extends Component {
   render() {
     const {display, playlistMode, focusInitial} = this.props;
 
-    if (display !== DISPLAY_PLAYLIST)
+    if (display !== DISPLAY_PLAYLIST) {
       return null;
+    }
 
     const blocksList = Object.values(focusInitial).map((blockId) =>
       <PlaylistProgressItem

@@ -25,6 +25,10 @@ const StyledContainerCreate = styled.div`
   width: 70%;
 `;
 
+const StyledButtonContainerAdd = styled(StyledButtonContainer)`
+  color: ${(props) => props.theme.secondary};
+`;
+
 class BlockList extends Component {
   constructor(props) {
     super(props);
@@ -79,12 +83,12 @@ class BlockList extends Component {
       ) :
       (
         <StyledContainerCreate>
-          <StyledButtonContainer
+          <StyledButtonContainerAdd
             onClick={() => this.setState({blockCreateOpen: true})}
           >
             <AddRoundedIcon style={styleIconAdd} />
-            Add block
-          </StyledButtonContainer>
+            Add task
+          </StyledButtonContainerAdd>
         </StyledContainerCreate>
       );
 

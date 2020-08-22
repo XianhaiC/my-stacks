@@ -5,9 +5,15 @@ import styled, {withTheme} from 'styled-components';
 
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
+import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import ShuffleRoundedIcon from '@material-ui/icons/ShuffleRounded';
 
-import {StyledButton, StyledBox, StyledBoxColumn} from '../common/styles';
+import {
+  StyledButton,
+  StyledButtonContainer,
+  StyledBox,
+  StyledBoxColumn,
+} from '../common/styles';
 
 import {
   playlistSetMode,
@@ -56,7 +62,7 @@ const StyledTextBreak = styled(StyledText)`
       '0' :
       '1'
 };
-  bottom: 8rem;
+  bottom: 9rem;
   left: 50%;
   transform: translateX(-50%);
 `;
@@ -65,9 +71,9 @@ const StyledBoxBottom = styled(StyledBoxColumn)`
   display: relative;
   justify-content: flex-end;
   padding-bottom: 8rem;
-`
+`;
 
-const StyledContainerButton = styled.div`
+const StyledContainerButtonControl = styled.div`
   display: flex;
   justify-content: center;
   color: ${(props) => props.theme.primaryLight};
@@ -86,12 +92,13 @@ const StyledContainerSkip = styled.div`
       '1' :
       '0'
 };
+  transition: all 0.5s ease-in-out;
 `;
 
 const StyledButtonSkip = styled(StyledButton)`
   margin: 0.5rem;
   min-width: 5rem;
-`
+`;
 
 class PlaylistDock extends Component {
   constructor() {
@@ -180,7 +187,7 @@ class PlaylistDock extends Component {
 
   startTimer() {
     if (this.timer === 0) {
-      this.timer = setInterval(this.countDown, 10);
+      this.timer = setInterval(this.countDown, 1000);
     }
   }
 
@@ -228,6 +235,8 @@ class PlaylistDock extends Component {
   transitionMode() {
     const {
       blocks,
+      stacks,
+      stackFocused,
       playlistMode,
       focusCurrent,
       burstCurrent,
@@ -243,6 +252,9 @@ class PlaylistDock extends Component {
         newBurstCurrent = burstCurrent + 1;
         if (newBurstCurrent === blocks[focusCurrent].numBursts) {
           nextMode = PLAYLIST_MODE_GRACE;
+          if (stacks[stackFocused].isRoutine) {
+            playlistCheckoff(true);
+          }
         } else {
           playlistSetBurstCurrent(newBurstCurrent);
           nextMode = PLAYLIST_MODE_BREAK;
@@ -266,7 +278,6 @@ class PlaylistDock extends Component {
       default:
         break;
     }
-    console.log('NEXT MODE', nextMode);
   }
 
   // note that this also starts a new timer, so make sure to call
@@ -317,15 +328,18 @@ class PlaylistDock extends Component {
   // ----- lifecycle methods
 
   componentDidMount() {
-    // set enabled_shuffle to begin_shuffled redux variable,
+    // set enabledShuffle to begin_shuffled redux variable,
     // which is set by the handlers for the start session buttons
     // this.startNextBlock();
   }
 
   componentDidUpdate() {
-    const {display} = this.props;
+    const {display, initialShuffle} = this.props;
     if (display !== this.state.displayPrev) {
       if (display === DISPLAY_PLAYLIST) {
+        if (initialShuffle) {
+          this.handleClickShuffle();
+        }
         this.startNextBlock();
       }
 
@@ -340,10 +354,16 @@ class PlaylistDock extends Component {
 
   render() {
     const {
+      stacks,
+      stackFocused,
       display,
       playlistMode,
       theme,
     } = this.props;
+
+    if (display !== DISPLAY_PLAYLIST) {
+      return null;
+    }
 
     const minutes = Math.floor(this.state.modeTimeRemaining / 60)
         .toString()
@@ -357,8 +377,15 @@ class PlaylistDock extends Component {
       theme.primaryDark :
       theme.primaryLight,
       fontSize: '2rem',
-      padding: '0.2rem',
-      transition: 'all 0.5s ease-in-out',
+      transition: 'all 0.25s ease-in-out',
+    };
+
+    const styleIconShuffle = {
+      ...styleIcon,
+      color: this.state.enabledShuffle ? theme.secondaryAlt :
+      playlistMode === PLAYLIST_MODE_WORK ?
+      theme.primaryDark :
+      theme.primaryLight,
     };
 
     return (
@@ -369,27 +396,39 @@ class PlaylistDock extends Component {
             {minutes}:{seconds}
           </StyledTextTimer>
 
-          <StyledContainerButton>
-            <RefreshRoundedIcon
+          <StyledContainerButtonControl>
+            <StyledButtonContainer
               onClick={this.handleClickRestart}
-              style={styleIcon} />
+            >
+              <RefreshRoundedIcon style={styleIcon} />
+            </StyledButtonContainer>
 
-            <PauseRoundedIcon
+            <StyledButtonContainer
               onClick={this.handleClickPause}
-              style={styleIcon} />
+            >
+              {!this.state.enabledPause &&
+                <PauseRoundedIcon style={styleIcon} />}
+              {this.state.enabledPause &&
+                <PlayArrowRoundedIcon style={styleIcon} />}
+            </StyledButtonContainer>
 
-            <ShuffleRoundedIcon
+            <StyledButtonContainer
               onClick={this.handleClickShuffle}
-              style={styleIcon} />
-          </StyledContainerButton>
+            >
+              <ShuffleRoundedIcon
+                style={styleIconShuffle} />
+            </StyledButtonContainer>
+          </StyledContainerButtonControl>
         </StyledBoxColumn>
 
         <StyledBoxBottom>
           <StyledTextBreak mode={playlistMode}>Taking a break</StyledTextBreak>
           <StyledContainerSkip mode={playlistMode}>
-            <StyledButtonSkip solid={false} onClick={this.handleClickSkip}>
-              skip
-            </StyledButtonSkip>
+            {!stacks[stackFocused].isRoutine &&
+              <StyledButtonSkip solid={false} onClick={this.handleClickSkip}>
+                skip
+              </StyledButtonSkip>
+            }
             <StyledButtonSkip solid={false} onClick={this.handleClickFinish}>
               finish
             </StyledButtonSkip>
@@ -410,6 +449,8 @@ PlaylistDock.propTypes = {
   focusRemaining: PropTypes.array.isRequired,
   focusFinished: PropTypes.array.isRequired,
   focusCurrent: PropTypes.string,
+  burstCurrent: PropTypes.number.isRequired,
+  initialShuffle: PropTypes.bool.isRequired,
   display: PropTypes.number.isRequired,
   playlistSetMode: PropTypes.func.isRequired,
   playlistSetFocusFinished: PropTypes.func.isRequired,
@@ -430,6 +471,7 @@ const mapStateToProps = (state) => ({
   focusFinished: state.playlist.focusFinished,
   focusCurrent: state.playlist.focusCurrent,
   burstCurrent: state.playlist.burstCurrent,
+  initialShuffle: state.playlist.initialShuffle,
   display: state.session.display,
 });
 

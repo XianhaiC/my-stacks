@@ -142,7 +142,7 @@ export const sessionBlockFetchData = (stackId) => (dispatch, getState) => {
         dispatch({type: SESSION_LOADING_BLOCKS, payload: false});
       })
       .catch((err) => {
-        console.error("BLOCK FETCH DATA", stackId)
+        console.error('BLOCK FETCH DATA', stackId);
         console.error(err);
         dispatch({
           type: SESSION_ERRORS_SET,

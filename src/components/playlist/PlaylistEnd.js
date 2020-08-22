@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
-import {BUTTON_OUTLINE} from '../../util/constants';
 import {StyledButton} from '../common/styles';
 import {playlistEnd} from '../../redux/actions/playlistActions';
 

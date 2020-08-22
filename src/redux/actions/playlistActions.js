@@ -121,20 +121,20 @@ export const playlistEnd = () => (dispatch, getState) => {
     payload: DISPLAY_STACK,
   });
 
-  let playlistState = getState().playlist;
-  let stackState = getState().stack;
-  let dataState = getState().data;
+  const playlistState = getState().playlist;
+  const stackState = getState().stack;
+  const dataState = getState().data;
 
-  let stackFocused = stackState.stackFocused;
-  let isRoutine = dataState.stacks[stackState.stackFocused].isRoutine;
+  const stackFocused = stackState.stackFocused;
+  const isRoutine = dataState.stacks[stackState.stackFocused].isRoutine;
 
   if (isRoutine) return;
 
-  // delete completed blocks if it's not a routine 
-  let completedBlocks = playlistState.completedBlocks;
+  // delete completed blocks if it's not a routine
+  const completedBlocks = playlistState.completedBlocks;
 
   dispatch(dataStackBlocksDeleteMultiple(
-    stackFocused,
-    Object.keys(completedBlocks),
+      stackFocused,
+      Object.keys(completedBlocks),
   ));
 };

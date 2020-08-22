@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import {StyledPopup, StyledMenuItem, StyledButton} from '../common/styles';
 
-import {BUTTON_SOLID, STACK_COLORS} from '../../util/constants';
+import {STACK_COLORS} from '../../util/constants';
 
 const StyledTitle = styled(StyledMenuItem)`
   padding: 1rem 2rem 0.5rem 2rem;

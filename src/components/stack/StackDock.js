@@ -36,6 +36,10 @@ const StyledButtonIcon = styled(StyledButton)`
   min-width: initial;
 `;
 
+const StyledButtonIconRoutine = styled(StyledButtonIcon)`
+  visibility: ${(props) => props.visible ? 'visible' : 'hidden'};
+`;
+
 class StackDock extends Component {
   constructor() {
     super();
@@ -51,12 +55,12 @@ class StackDock extends Component {
   }
 
   handleClickShuffle() {
-    this.playlistPreprocess(false);
+    this.playlistPreprocess(true);
   }
 
   handleClickRoutine() {
     const {stacks, stackFocused, dataStackUpdate} = this.props;
-    let stack = stacks[stackFocused];
+    const stack = stacks[stackFocused];
     dataStackUpdate(stackFocused, {
       ...stack,
       'isRoutine': !stack.isRoutine,
@@ -72,6 +76,10 @@ class StackDock extends Component {
 
   render() {
     const {stacks, stackFocused} = this.props;
+
+    if (stacks[stackFocused].order.length <= 0) {
+      return null;
+    }
 
     const style = {
       fontSize: '1.15rem',
@@ -90,10 +98,11 @@ class StackDock extends Component {
 
         <StyledBoxRight>
           <StackDockGrace />
-          <StyledButtonIcon alt='true' solid={stacks[stackFocused].isRoutine}
+          <StyledButtonIconRoutine visible={!stacks[stackFocused].isInbox}
+            alt='true' solid={stacks[stackFocused].isRoutine}
             onClick={this.handleClickRoutine} >
             <LoopRoundedIcon style={style}/>
-          </StyledButtonIcon>
+          </StyledButtonIconRoutine>
         </StyledBoxRight>
       </StyledContainer>
     );

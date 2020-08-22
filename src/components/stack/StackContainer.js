@@ -8,7 +8,7 @@ import StackDock from './StackDock';
 import PlaylistContainer from '../playlist/PlaylistContainer';
 import PopupOptionsStack from '../popups/PopupOptionsStack';
 
-import {StyledBoxColumn, StyledButtonContainer} from '../common/styles';
+import {StyledButtonContainer} from '../common/styles';
 
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 
@@ -16,15 +16,6 @@ import {DISPLAY_STACK} from '../../util/constants';
 
 import {stackSetPopupVisibleOptionsStack}
   from '../../redux/actions/stackActions';
-
-const StyledBoxDynamic = styled(StyledBoxColumn)`
-  flex:
-  ${(props) => props.display === DISPLAY_STACK ?
-      '0' :
-      '1'
-};
-  transition: all 0.4s ease-in-out;
-`;
 
 const StyledContainer = styled.div`
   display: flex;

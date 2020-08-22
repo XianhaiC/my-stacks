@@ -120,13 +120,13 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-      action.payload.blockIds.forEach(blockId =>
+      action.payload.blockIds.forEach((blockId) =>
         delete newState.blocks[blockId],
       );
 
-      var order = newState.stacks[action.payload.stackId].order;
-      newState.stacks[action.payload.stackId].order = 
-        order.filter(blockId => !action.payload.blockIds.includes(blockId));
+      const order = newState.stacks[action.payload.stackId].order;
+      newState.stacks[action.payload.stackId].order =
+        order.filter((blockId) => !action.payload.blockIds.includes(blockId));
 
       return newState;
 

@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import styled from 'styled-components';
+import styled, {withTheme} from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import {
   FOCUS_NONE, FOCUS_HOVER, FOCUS_INFO, FOCUS_EDIT,
-  BUTTON_SOLID,
   BUTTON_OUTLINE,
 } from '../../util/constants';
 
@@ -418,7 +417,6 @@ class BlockItem extends Component {
   // Finite state machine
   render() {
     const {blocks, blockId, blockCreate} = this.props;
-    console.log("RENDER BLOCK ITEM", blockId, blocks);
 
     const componentBursts = [];
     if (!blockCreate) {
@@ -482,10 +480,13 @@ class BlockItem extends Component {
         <StyledBoxButtonsFront>
           {this.state.focusState === FOCUS_HOVER &&
             <StyledContainerFront>
-              <CloseRoundedIcon onClick={this.handleBlockDelete} />
-              <PlayArrowRoundedIcon onClick={this.handleClickPlay} />
+              <CloseRoundedIcon
+                style={{color: this.props.theme.secondaryAlt}}
+                onClick={this.handleBlockDelete} />
+              <PlayArrowRoundedIcon
+                style={{color: this.props.theme.secondary}}
+                onClick={this.handleClickPlay} />
             </StyledContainerFront>
-
           }
         </StyledBoxButtonsFront>
 
@@ -588,6 +589,7 @@ BlockItem.propTypes = {
   dataStackUpdate: PropTypes.func.isRequired,
   dataBlockDelete: PropTypes.func.isRequired,
   playlistStart: PropTypes.func.isRequired,
+  theme: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -605,4 +607,6 @@ const mapDispatchToProps = {
 };
 
 export default
-connect(mapStateToProps, mapDispatchToProps)(onClickOutside(BlockItem));
+connect(mapStateToProps, mapDispatchToProps)(
+    withTheme(onClickOutside(BlockItem)),
+);
