@@ -36,6 +36,11 @@ const StyledContainer = styled.div`
       '17rem' :
       '0'
 };
+  min-width:
+  ${(props) => props.visible ?
+      '17rem' :
+      '0'
+};
 };
   transition: all 0.25s ease-in-out;
 `;
@@ -43,7 +48,15 @@ const StyledContainer = styled.div`
 const StyledContainerList = styled(StyledContainer)`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
   justify-content: flex-start;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 `;
 
 const StyledDot = styled.div`
@@ -59,6 +72,7 @@ const StyledSeparator = styled.div`
   justify-content: center;
   align-items: center;
   height: 1.5rem;
+  min-height: 1.5rem;
 `;
 
 const StyledContainerCloseButton = styled.div`

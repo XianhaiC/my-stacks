@@ -132,6 +132,9 @@ class LandingDisplay extends Component {
         center = <Signup></Signup>;
         backButton = <StyledBackButton onClick={this.handleClickBack} />;
         break;
+
+      default:
+        break;
     }
 
     return (

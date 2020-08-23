@@ -18,6 +18,14 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3rem;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 `;
 
 const StyledContainerCreate = styled.div`

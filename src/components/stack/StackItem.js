@@ -32,6 +32,10 @@ const StyledItem = styled.button`
       `0.2rem solid ${props.theme.primaryDark}` :
       'none'
 };
+
+  &:hover {
+    background: ${props => props.theme.primaryLightHover};
+  }
 `;
 
 const StyledText = styled.div`
