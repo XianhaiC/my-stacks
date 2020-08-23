@@ -11,38 +11,80 @@ complete your tasks
 A live build of the app can be accessed
 [here](https://my-stacks.netlify.app/)
 
-These instructions will get you a copy of the project up and
-running on your local machine for development and testing
-purposes. See deployment for notes on how to deploy the
-project on a live system.
+### What is it?
+
+A to-do list helps you keep track of your tasks and routines.
+The pomodoro technique helps you stick to those tasks.
+
+Put them together and you get My Stacks.
 
 ### Creating a stack
 
-A step by step series of examples that tell you how to get a
-development env running
+A stack is a collection of related tasks.
+You can create a stack for "Workouts", a stack for
+"Studying", or a stack for your "Daily" routine.
 
-## Creating a task
+Create a new stack down here.
+
+Name the stack and give it a color.
+
+### Creating a task
+
+Once you've created a stack, you can start filling it with
+tasks. Most to-do tasks are created with an implied
+completion criteria of something being "finished". Taking
+out the trash would be finished when the trash can is
+emptied. Vacuuming your room would be finished when the
+floor has been vacuumed. However, the types of tasks that
+best fit the pomodoro technique aren't those that require
+something to be "finished," but rather those that should be
+worked on for some duration of time. Study for two hours,
+paint for one hour, practice guitar for 30 minutes, etc.
+
+As part of the pomodoro technique, you'll break down a task
+into multiple intervals, each 25 minutes in length with a 5
+minute break for example. You can customize the duration and
+break for each task.
+
+You can also set the number of intervals here.
 
 ### Playing a stack
+
+Once you've got a stack of tasks, it's time to conquer them
+one by one. Press 'Start session' to begin.
+
+Once the current work interval is over, you'll get a break
+before the next interval starts.
+
+Once you've completed all intervals of a task, you'll get a
+longer break: the grace period. If you've completed whatever
+you hoped to finish in time you've blocked out for the task,
+tap the checkmark to 'finish' this task. It'll delete it
+from the stack once you end your session. Otherwise you can
+hit the 'X' mark to return to this task in another session.
+
+If you would rather treat all tasks in a stack as part of a
+routine, so that the tasks aren't deleted when they're
+completed, you can turn the stack into a 'Routine' via this
+button.
 
 Explain what these tests test and why
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The
+* [React](https://reactjs.org/) - The
   web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to
-  generate RSS Feeds
+* [Firebase Firestore + Authentication](https://firebase.google.com/) - Dependency Management
+* [Express via Firebase Cloud
+  Functions](https://firebase.google.com/docs/functions/)
+
+The back-end Express API can be found
+[here](https://github.com/XianhaiC/my-stacks-functions)
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* -
-  [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of
-[contributors](https://github.com/your/project/contributors)
-who participated in this project.
+* **Julian Alberto**
+* **Xianhai Cao**
 
 ## License
 
