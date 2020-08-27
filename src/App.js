@@ -27,9 +27,14 @@ import {
 
 import {PATH_ROOT} from './util/constants';
 
+// set the default firebase endpoint
+if (process.env.REACT_APP_PROD_ACTIVE === 'true') {
+  console.log("SETTING URL")
+  axios.defaults.baseURL = process.env.REACT_APP_FIREBASE_URL;
+}
 
+// check if there's an existing session
 const token = localStorage.userToken;
-
 if (token) {
   const decodedToken = jwtDecode(token);
   console.log('[INFO] User session exists', decodedToken);
