@@ -24,6 +24,7 @@ import {
   StyledButton,
   StyledBox,
   StyledDot,
+  StyledClickCatcher,
 } from '../common/styles';
 
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
@@ -86,6 +87,7 @@ const StyledVLine = styled.div`
 
 const StyledContainerRow = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
 `;
 
@@ -267,6 +269,7 @@ class BlockItem extends Component {
   }
 
   handleClickFocus() {
+    console.log("CLICKED")
     if (this.state.focusState === FOCUS_NONE ||
       this.state.focusState === FOCUS_HOVER) {
       this.setState({focusState: FOCUS_INFO});
@@ -507,7 +510,12 @@ class BlockItem extends Component {
                 maxLength="255"
                 required
                 disabled={this.state.focusState !== FOCUS_EDIT}
+                onClick={this.handleClickFocus}
               />
+
+              {this.state.focusState !== FOCUS_EDIT &&
+                <StyledClickCatcher onClick={this.handleClickFocus}/>
+              }
 
               <StyledFiller />
 

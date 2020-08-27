@@ -118,6 +118,16 @@ export const StyledDot = styled.div`
   border-radius: 1rem;
 `;
 
+// catches inputs for disabled elements
+// looking at you firefox
+export const StyledClickCatcher = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`
+
 /* landing page styled components */
 export const StyledPopupContainer = styled.section`
   background: ${(props) => props.theme.primaryLight};

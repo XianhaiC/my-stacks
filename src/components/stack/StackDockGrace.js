@@ -6,9 +6,15 @@ import onClickOutside from 'react-onclickoutside';
 
 import {dataStackUpdate} from '../../redux/actions/dataActions';
 
+import {StyledClickCatcher} from '../common/styles';
+
 import {
   FOCUS_NONE, FOCUS_EDIT,
 } from '../../util/constants';
+
+const StyledContainer = styled.div`
+  position: relative;
+`
 
 const StyledText = styled.input`
   border 0;
@@ -64,7 +70,6 @@ class StackDockGrace extends Component {
 
   handleClickEdit() {
     const {stacks, stackFocused} = this.props;
-    console.log('EDIT');
     this.setState({
       focusState: FOCUS_EDIT,
       durationGrace: stacks[stackFocused].durationGrace / 60,
@@ -89,7 +94,7 @@ class StackDockGrace extends Component {
   render() {
     const {stacks, stackFocused} = this.props;
     return (
-      <div onClick={this.handleClickEdit}>
+      <StyledContainer onClick={this.handleClickEdit}>
         <StyledText
           mode={this.state.focusState}
           type="text"
@@ -103,7 +108,11 @@ class StackDockGrace extends Component {
           required
           disabled={this.state.focusState !== FOCUS_EDIT}
         />
-      </div>
+
+        {this.state.focusState !== FOCUS_EDIT &&
+          <StyledClickCatcher onClick={this.handleClickFocus}/>
+        }
+      </StyledContainer>
     );
   }
 }

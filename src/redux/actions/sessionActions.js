@@ -72,7 +72,6 @@ export const sessionUserLogout = () => (dispatch) => {
 
 // fetches the user's stacks and blocks from firebase
 export const sessionUserFetchData = () => (dispatch) => {
-  console.log("BASE", axios.defaults.baseURL);
   dispatch({type: SESSION_LOADING_STACKS, payload: true});
   axios.get('/users')
       .then((res) => {
