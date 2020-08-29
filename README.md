@@ -1,9 +1,11 @@
-# Project Title
+<div align='center'>
+  <img src='documentation/images/project_title.PNG'>
+</div>
 
 [![Netlify
 Status](https://api.netlify.com/api/v1/badges/d5b83dca-ee5c-4ac5-8f47-09964abdc0a7/deploy-status)](https://app.netlify.com/sites/my-stacks/deploys)
 
-A to-do list with a build in pomodoro timer to help you
+A to-do list with a built in pomodoro timer to help you
 complete your tasks
 
 ## Getting Started
@@ -24,9 +26,21 @@ A stack is a collection of related tasks.
 You can create a stack for "Workouts", a stack for
 "Studying", or a stack for your "Daily" routine.
 
-Create a new stack down here.
+<div align='center'>
+  <img src='documentation/images/sidebar.PNG'>
+</div>
+
+Create a new stack down at the bottom of the sidebar.  
+
+<div align='center'>
+  <img src='documentation/images/add_stack.PNG'>
+</div>
 
 Name the stack and give it a color.
+
+<div align='center'>
+  <img src='documentation/images/name_stack_choose_color.PNG'>
+</div>
 
 ### Creating a task
 
@@ -41,20 +55,43 @@ something to be "finished," but rather those that should be
 worked on for some duration of time. Study for two hours,
 paint for one hour, practice guitar for 30 minutes, etc.
 
+<div align='center'>
+  <img src='documentation/images/readme_trash_example.png'>
+</div>
+
 As part of the pomodoro technique, you'll break down a task
 into multiple intervals, each 25 minutes in length with a 5
 minute break for example. You can customize the duration and
 break for each task.
 
-You can also set the number of intervals here.
+<div align='center'>
+  <img src='documentation/images/edit_block_item.PNG'>
+</div>
+
+You can also set the number of working intervals for a 
+task by hovering over it with your mouse and clicking 
+how many you want this task to have. A single dot 
+represents one working interval.
+
+<div align='center'>
+  <img src='documentation/images/numbursts.PNG'>
+</div>
 
 ### Playing a stack
 
 Once you've got a stack of tasks, it's time to conquer them
 one by one. Press 'Start session' to begin.
 
+<div align='center'>
+  <img src='documentation/images/start_session.PNG'>
+</div>
+
 Once the current work interval is over, you'll get a break
 before the next interval starts.
+
+<div align='center'>
+  <img src='documentation/images/break_period.PNG'>
+</div>
 
 Once you've completed all intervals of a task, you'll get a
 longer break: the grace period. If you've completed whatever
@@ -63,12 +100,18 @@ tap the checkmark to 'finish' this task. It'll delete it
 from the stack once you end your session. Otherwise you can
 hit the 'X' mark to return to this task in another session.
 
+<div align='center'>
+  <img src='documentation/images/grace_period.PNG'>
+</div>
+
 If you would rather treat all tasks in a stack as part of a
 routine, so that the tasks aren't deleted when they're
 completed, you can turn the stack into a 'Routine' via this
 button.
 
-Explain what these tests test and why
+<div align='center'>
+  <img src='documentation/images/routine.PNG'>
+</div>
 
 ## Built With
 

@@ -34,7 +34,7 @@ const StyledItem = styled.button`
 };
 
   &:hover {
-    background: ${props => props.theme.primaryLightHover};
+    background: ${(props) => props.theme.primaryLightHover};
   }
 `;
 
