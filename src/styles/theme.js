@@ -13,4 +13,5 @@ export const theme = {
   greetingCaption: '#AAAAAA',
   greetingTitle: '#333333',
   errorMessage: '#DE3163',
+  mediaMaxWidth: '480px',
 };

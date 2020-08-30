@@ -25,6 +25,7 @@ import {
   StyledBox,
   StyledDot,
   StyledClickCatcher,
+  media,
 } from '../common/styles';
 
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
@@ -96,6 +97,10 @@ const StyledContainerCol = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  ${media.xs(`
+    width: 100%;
+  `)}
 `;
 
 const StyledContainerDurations = styled(StyledContainerRow)`
@@ -133,6 +138,10 @@ const StyledText = styled.input`
   &:focus {
     outline: none;
   }
+
+  ${media.xs(`
+    width: 100%;
+  `)}
 `;
 
 const StyledTextDuration = styled(StyledText)`

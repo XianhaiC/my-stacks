@@ -5,4 +5,5 @@
 
 body, html, #root, .App {
   height: 100%;
+  overflow: hidden;
 }

@@ -275,3 +275,20 @@ export const StyledAnimatedStack = styled.li`
     background: ${(props) => props.theme.primaryLight};
   }
 `;
+
+/*
+ * Media styles
+ */
+
+export const media = {
+  xs: (styles) => `
+    @media only screen and (max-width: 480px) {
+      ${styles}
+    }
+  `,
+  m: (styles) => `
+    @media only screen and (max-width: 1200px) {
+      ${styles}
+    }
+  `
+};

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 
 import PlaylistProgressItem from './PlaylistProgressItem';
+import {media} from '../common/styles';
 
 import {
   playlistCheckoff,
@@ -26,6 +27,12 @@ const StyledContainer = styled.div`
   filter:
   ${(props) => props.mode === PLAYLIST_MODE_BREAK ? 'blur(4px)' : 'none'};
   transition: all 0.5s ease-in-out;
+
+  ${media.m(`
+    width: 22rem;
+    margin-right: unset;
+    margin-left: unset;
+  `)}
 `;
 
 class PlaylistProgressList extends Component {

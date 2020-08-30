@@ -13,6 +13,7 @@ import {
   StyledButtonContainer,
   StyledBox,
   StyledBoxColumn,
+  media,
 } from '../common/styles';
 
 import {
@@ -65,12 +66,20 @@ const StyledTextBreak = styled(StyledText)`
   bottom: 9rem;
   left: 50%;
   transform: translateX(-50%);
+
+  ${media.m(`
+    bottom: 18rem;
+  `)}
 `;
 
 const StyledBoxBottom = styled(StyledBoxColumn)`
   display: relative;
   justify-content: flex-end;
   padding-bottom: 8rem;
+
+  ${media.m(`
+    padding-bottom: 1.5rem;
+  `)}
 `;
 
 const StyledContainerButtonControl = styled.div`
@@ -426,11 +435,11 @@ class PlaylistDock extends Component {
           <StyledContainerSkip mode={playlistMode}>
             {!stacks[stackFocused].isRoutine &&
               <StyledButtonSkip solid={false} onClick={this.handleClickSkip}>
-                skip
+                Skip
               </StyledButtonSkip>
             }
             <StyledButtonSkip solid={false} onClick={this.handleClickFinish}>
-              finish
+              Complete
             </StyledButtonSkip>
           </StyledContainerSkip>
         </StyledBoxBottom>

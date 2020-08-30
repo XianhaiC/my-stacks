@@ -3,23 +3,25 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
-import {StyledButton} from '../common/styles';
+import {StyledButtonContainer} from '../common/styles';
 import {playlistEnd} from '../../redux/actions/playlistActions';
+
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 const StyledContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  margin: 2em;
+  align-items: flex-start;
 `;
+
 
 const PlaylistEnd = (props) => {
   return (
     <StyledContainer>
-      <StyledButton solid={false} onClick={() => props.playlistEnd()}>
-        End session
-      </StyledButton>
+      <StyledButtonContainer onClick={() => props.playlistEnd()}>
+        <CloseRoundedIcon />
+      </StyledButtonContainer>
     </StyledContainer>
   );
 };

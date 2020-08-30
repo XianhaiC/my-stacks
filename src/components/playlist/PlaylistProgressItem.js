@@ -29,7 +29,7 @@ const StyledCard = styled.div`
   height: 7rem;
   width: 20rem;
   border-radius: 5px;
-  right: 2rem;
+  right: 1rem;
 
   box-shadow: 
   ${(props) => props.state === PLAYLIST_ITEM_FINISHED ?
@@ -79,10 +79,53 @@ const StyledCard = styled.div`
     }
   }};
   transition: all 0.5s ease-in-out;
+
+  @media only screen and (max-width: 1200px) {
+    top:
+    ${(props) => {
+      switch (props.state) {
+        case PLAYLIST_ITEM_FINISHED:
+          return `${-20 - 9 * props.index}rem`;
+        case PLAYLIST_ITEM_CURRENT:
+          return 'calc(100% - 12rem)';
+        case PLAYLIST_ITEM_REMAINING:
+          return `calc(100% - 3rem + ${9 * props.index}rem)`;
+        default:
+          return '0%';
+      }
+    }};
+
+    opacity:
+    ${(props) => props.state === PLAYLIST_ITEM_FINISHED
+        ? '0' : '1'
+    };
+
+  }
+
+  @media only screen and (max-height: 700px) {
+    top:
+    ${(props) => {
+      switch (props.state) {
+        case PLAYLIST_ITEM_FINISHED:
+          return `${-20 - 9 * props.index}rem`;
+        case PLAYLIST_ITEM_CURRENT:
+          return 'calc(100% - 10rem)';
+        case PLAYLIST_ITEM_REMAINING:
+          return `calc(100% - 3rem + ${9 * props.index}rem)`;
+        default:
+          return '0%';
+      }
+    }};
+
+    height: 6rem;
+  }
 `;
 
 const StyledText = styled.div`
   font-weight: 600;
+  padding: 0 1rem;
+  text-align: center;
+  overflow: hidden;
   padding-top:
   ${(props) =>
       props.state === PLAYLIST_ITEM_CURRENT &&

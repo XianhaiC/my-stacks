@@ -10,7 +10,7 @@ import {dataBlockCreate} from '../../redux/actions/dataActions';
 
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
-import {StyledButtonContainer} from '../common/styles';
+import {StyledButtonContainer, media} from '../common/styles';
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -31,6 +31,10 @@ const StyledContainer = styled.div`
 const StyledContainerCreate = styled.div`
   display: flex;
   width: 70%;
+
+  ${media.xs(`
+    width: 100%;
+  `)}
 `;
 
 const StyledButtonContainerAdd = styled(StyledButtonContainer)`

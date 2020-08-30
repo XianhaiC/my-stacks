@@ -8,7 +8,7 @@ import StackDock from './StackDock';
 import PlaylistContainer from '../playlist/PlaylistContainer';
 import PopupOptionsStack from '../popups/PopupOptionsStack';
 
-import {StyledButtonContainer} from '../common/styles';
+import {StyledButtonContainer, media} from '../common/styles';
 
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 
@@ -31,6 +31,10 @@ const StyledContainerInner = styled(StyledContainer)`
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   height: calc(100% - 8rem);
   transition: all 0.4s ease-in-out;
+
+  ${media.xs(`
+    height: calc(100% - 5rem);
+  `)}
 `;
 
 const StyledContainerStack = styled.div`
@@ -62,6 +66,10 @@ const StyledTextName = styled.div`
   font-weight: 500;
   margin: auto 0 0.5rem 7rem;
   color: ${(props) => props.theme.primaryLight};
+
+  ${media.xs(`
+    margin: auto 0 0.5rem 3rem;
+  `)}
 `;
 
 const StyledButtonContainerOptions = styled(StyledButtonContainer)`

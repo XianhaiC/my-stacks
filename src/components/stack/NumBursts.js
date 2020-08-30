@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import {
   StyledDot,
+  media,
 } from '../common/styles';
 
 import {
@@ -26,6 +27,10 @@ const StyledContainerBursts = styled.div`
       '1' :
       '0'
 };
+
+  ${media.xs(`
+    display: none;
+  `)}
 `;
 
 const StyledDotContainer = styled.div`

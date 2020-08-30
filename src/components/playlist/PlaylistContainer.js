@@ -7,7 +7,7 @@ import PlaylistEnd from './PlaylistEnd';
 import PlaylistDock from './PlaylistDock';
 import PlaylistProgressList from './PlaylistProgressList';
 
-import {StyledBox, StyledBoxColumn} from '../common/styles';
+import {StyledBox, StyledBoxColumn, media} from '../common/styles';
 
 import {
   DISPLAY_STACK,
@@ -37,14 +37,26 @@ const StyledContainer = styled.div`
       props.theme.primaryDark
 };
   transition: all 0.4s ease-in-out;
+
+  ${media.m(`
+    flex-direction: column;
+  `)}
 `;
+
+const StyledBoxEnd = styled(StyledBox)`
+  align-items: flex-start;
+
+  @media only screen and (max-height: 700px) {
+    flex: 0.4;
+  }
+`
 
 const PlaylistContainer = (props) => {
   return (
     <StyledContainer display={props.display} mode={props.playlistMode}>
-      <StyledBox>
+      <StyledBoxEnd>
         <PlaylistEnd />
-      </StyledBox>
+      </StyledBoxEnd>
       <StyledBoxColumn>
         <PlaylistDock />
       </StyledBoxColumn>
