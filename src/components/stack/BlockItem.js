@@ -43,6 +43,10 @@ const StyledBoxButtonsEnd = styled(StyledBox)`
   justify-content: flex-start;
   align-self: flex-start;
   padding-top: 0.2rem;
+
+  ${media.xs(`
+    width: 100%;
+  `)}
 `;
 
 const StyledContainer = styled.a`
@@ -50,6 +54,10 @@ const StyledContainer = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${media.xs(`
+    flex-direction: column;
+  `)}
 `;
 
 const StyledContainerInner = styled.div`
@@ -113,6 +121,10 @@ const StyledContainerDurations = styled(StyledContainerRow)`
       '1' :
       '0'
 };
+
+  ${media.xs(`
+    position: unset;
+  `)}
 `;
 
 const StyledDotBurst = styled(StyledDot)`
@@ -150,6 +162,11 @@ const StyledTextDuration = styled(StyledText)`
   width: 4.25rem;
   margin: 0;
   text-align: center;
+
+  ${media.xs(`
+    padding: 0.8rem 1rem;
+    width: 2.5rem;
+  `)}
 `;
 
 const StyledDescription = styled(TextareaAutosize)`
@@ -193,6 +210,10 @@ const StyledContainerFront = styled.div`
     width: 1.25rem !important;
     height: 1.25rem !important;
   }
+
+  ${media.xs(`
+    display: none;
+  `)}
 `;
 
 const StyledContainerSwap = styled.div`
@@ -203,6 +224,10 @@ const StyledContainerSwap = styled.div`
     width: 1.25rem !important;
     height: 1.25rem !important;
   }
+
+  ${media.xs(`
+    display: none;
+  `)}
 `;
 
 const StyledContainerMod = styled.div`
@@ -210,6 +235,15 @@ const StyledContainerMod = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-left: 1.5rem;
+
+  ${media.xs(`
+    margin-left: unset;
+    margin: 0.5rem 0;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  `)}
 `;
 
 const StyledButtonMod = styled(StyledButton)`
@@ -218,6 +252,10 @@ const StyledButtonMod = styled(StyledButton)`
 
 const StyledButtonSave = styled(StyledButtonMod)`
   margin-bottom: 0.6rem;
+
+  ${media.xs(`
+    margin-bottom: unset;
+  `)}
 `;
 
 class BlockItem extends Component {
