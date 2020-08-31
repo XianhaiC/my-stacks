@@ -26,13 +26,11 @@ export const BUTTON_OUTLINE = 1;
 export const BUTTON_GRAY = 2;
 
 // animation
-export const WAVE_SPEED_ONE = '10s';
-export const WAVE_SPEED_TWO = '8s';
-export const WAVE_SPEED_THREE = '12s';
+export const WAVE_SPEED_ONE = '50s';
+export const WAVE_SPEED_TWO = '70s';
 
-export const WAVE_OFFSET_ONE = '-15rem';
-export const WAVE_OFFSET_TWO = '-15rem';
-export const WAVE_OFFSET_THREE = '-15rem';
+export const WAVE_OFFSET_ONE = '-2rem';
+export const WAVE_OFFSET_TWO = '0rem';
 
 // landing page states
 export const LANDING = 0;

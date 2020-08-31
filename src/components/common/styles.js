@@ -140,6 +140,7 @@ export const StyledClickCatcher = styled.div`
 `
 
 /* landing page styled components */
+
 export const StyledPopupContainer = styled.section`
   background: ${(props) => props.theme.primaryLight};
   width: 30rem;
@@ -149,10 +150,6 @@ export const StyledPopupContainer = styled.section`
   box-shadow: 0px 11px 35px 2px ${(props) => props.theme.boxShadow};
   align-items: center;
   text-align: center;
-`;
-
-export const StyledButtonWrapper = styled.div`
-  text-align: left;
 `;
 
 export const StyledTitle = styled(StyledMenuItem)`
@@ -202,62 +199,32 @@ export const StyledError = styled.div`
   color: ${(props) => props.theme.errorMessage};
 `;
 
-export const StyledAnimatedStacks = styled.ul`
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-`;
-
 /* landing page animation */
+
 export const StyledWave = keyframes`
   0%{
-      border-radius: 0.25rem;
-      height: 0rem;
+      height: 1rem;
       margin: 0rem;
-      opacity: 0.9;
   }
   
   50%{
-      border-radius: 0.25rem;
-      height: 4rem;
+      height: 5rem;
       margin: 0rem;
-      opacity: 0.6;
   }
 
   100%{
-      height: 0rem;
-      border-radius: 0.25rem;
+      height: 1rem;
       margin: 0rem;
-      opacity: 0.9;
   }
 `;
 
-export const StyledAnimatedStack = styled.li`
+export const StyledAnimatedStack = styled.div`
   position: absolute;
-  list-style: none;
-  height: 0;
-  background: ${(props) => props.theme.primaryLight};
+  bottom: ${props => props.offset};
+  width: 100%;
+  background: ${props => props.color};
   animation-delay: 0s;
-  animation: ${StyledWave} 7s infinite;
-  &:nth-child(1){
-    width: 100%;
-    bottom: ${(props) => props.offset};
-    animation-delay: 1s;
-    background: ${(props) => props.theme.secondary};
-  }
-  &:nth-child(2){
-    width: 100%;
-    bottom: ${(props) => props.offset};
-    animation-delay: 2s;
-    background: ${(props) => props.theme.secondaryAlt};
-  }
-  &:nth-child(3){
-    width: 100%;
-    bottom: ${(props) => props.offset};
-    animation-delay: 3s;
-    background: ${(props) => props.theme.primaryLight};
-  }
+  animation: ${StyledWave} ${props => props.speed} infinite;
 `;
 
 /*

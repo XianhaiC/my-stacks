@@ -1,15 +1,9 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 import {
-  StyledLandingBackground,
-  StyledCaption,
-  StyledButtonWrapper,
-  StyledAnimatedStacks,
   StyledAnimatedStack,
   StyledDot,
-  StyledPopup,
   StyledButton,
   StyledBoxColumn,
   media,
@@ -18,11 +12,8 @@ import {
 import {
   WAVE_SPEED_ONE,
   WAVE_SPEED_TWO,
-  WAVE_SPEED_THREE,
   WAVE_OFFSET_ONE,
   WAVE_OFFSET_TWO,
-  WAVE_OFFSET_THREE,
-  BUTTON_SOLID,
   LANDING,
   LOGIN,
   SIGNUP,
@@ -30,7 +21,6 @@ import {
 
 import {theme} from '../../styles/theme.js';
 
-import LinkButton from '../../util/LinkButton';
 import Login from './Login.js';
 import Signup from './Signup.js';
 
@@ -132,12 +122,6 @@ const StyledDemo = styled.div`
   ${media.m(`
     display: none;
   `)}
-`;
-
-const StyledBackButton = styled(KeyboardBackspaceIcon)`
-  margin: 12.5rem 0 0 5rem;
-  fontSize: 3rem;
-  cursor: pointer;
 `;
 
 const StyledBoxColumnAlign = styled(StyledBoxColumn)`
@@ -246,20 +230,14 @@ class LandingDisplay extends Component {
         </StyledCenterContainer>
         {bottomButton}
 
-        <StyledAnimatedStacks>
-          <StyledAnimatedStack
-            speed={WAVE_SPEED_ONE}
-            offset={WAVE_OFFSET_ONE}
-            color={theme.primaryLight}></StyledAnimatedStack>
-          <StyledAnimatedStack
-            speed={WAVE_SPEED_TWO}
-            offset={WAVE_OFFSET_TWO}
-            color={theme.secondary}></StyledAnimatedStack>
-          <StyledAnimatedStack
-            speed={WAVE_SPEED_THREE}
-            offset={WAVE_OFFSET_THREE}
-            color={theme.secondaryAlt}></StyledAnimatedStack>
-        </StyledAnimatedStacks>
+        <StyledAnimatedStack
+          speed={WAVE_SPEED_TWO}
+          offset={WAVE_OFFSET_TWO}
+          color={theme.secondaryAlt}></StyledAnimatedStack>
+        <StyledAnimatedStack
+          speed={WAVE_SPEED_ONE}
+          offset={WAVE_OFFSET_ONE}
+          color={theme.secondary}></StyledAnimatedStack>
       </StyledContainer>
     );
   }
