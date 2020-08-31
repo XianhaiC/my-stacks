@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import {connect} from 'react-redux';
 
 import {
-  StyledPopupEntry,
-  StyledMenuItem,
-  StyledButton,
-  StyledError,
-  StyledTitle,
-  StyledForm,
+  StyledPopupContainer,
   StyledInput,
-  StyledButtonSubmit,
-  StyledSubmitHidden,
+  StyledSubmit,
+  StyledForm,
+  StyledGreeting,
+  StyledCaption,
+  StyledError,
 } from '../common/styles';
 
 import {sessionUserLogin} from '../../redux/actions/sessionActions';
@@ -27,7 +24,7 @@ class Login extends Component {
 
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleClickSubmit = this.handleClickSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChangeEmail(e) {
@@ -38,30 +35,33 @@ class Login extends Component {
     this.setState({password: e.target.value});
   }
 
-  handleClickSubmit(e) {
-    console.log("SUB")
+  handleSubmit(e) {
     e.preventDefault();
     this.props.sessionUserLogin({...this.state}, this.props.history);
   }
 
   render() {
+    if (this.props.loadingLanding) return (<h3>Loading</h3>);
+    // console.log(this.props.errors.general);
+
     let errorMessage = <StyledError></StyledError>;
     if (Object.keys(this.props.errors).length !== 0) {
       errorMessage = <StyledError>{this.props.errors.general}</StyledError>;
     }
 
     return (
-      <StyledPopupEntry>
-        <StyledForm onSubmit={this.handleClickSubmit}>
-          <StyledTitle>Let's get things done today!</StyledTitle>
+      <StyledPopupContainer>
+        <StyledGreeting>Welcome!</StyledGreeting>
+        <StyledCaption>Let&apos;s get things done today.</StyledCaption>
+        <StyledForm onSubmit={this.handleSubmit}>
           <StyledInput
-            type='text'
-            placeholder='Email'
+            type="text"
+            placeholder="Email"
             value={this.state.email}
             onChange={this.handleChangeEmail}
-            maxLength='255'
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            maxLength="255"
             title="Must provide a valid email"
-            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
             required />
 
           <StyledInput
@@ -72,23 +72,18 @@ class Login extends Component {
             pattern=".{6,}"
             title="Must contain at least 6 or more characters"
             required />
-
           {errorMessage}
+          <StyledSubmit type="submit" value="Login" />
 
-          <StyledButtonSubmit onClick={this.handleClickSubmit}
-            solid={true}>
-            OK
-          </StyledButtonSubmit>
-          <StyledSubmitHidden type="submit" value="Submit" />
         </StyledForm>
-      </StyledPopupEntry>
+      </StyledPopupContainer >
     );
   }
 }
 
 Login.propTypes = {
-  history: PropTypes.object.isRequired,
   sessionUserLogin: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   loadingLanding: PropTypes.bool.isRequired,
 };

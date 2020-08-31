@@ -452,7 +452,7 @@ PlaylistDock.propTypes = {
   theme: PropTypes.object.isRequired,
   blocks: PropTypes.object.isRequired,
   stacks: PropTypes.object.isRequired,
-  stackFocused: PropTypes.string.isRequired,
+  stackFocused: PropTypes.string,
   playlistMode: PropTypes.number.isRequired,
   focusInitial: PropTypes.array.isRequired,
   focusRemaining: PropTypes.array.isRequired,

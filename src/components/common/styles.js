@@ -91,6 +91,17 @@ export const StyledPopup = styled.div`
   padding: 0.5rem 0;
 `;
 
+export const StyledPopupEntry = styled.div`
+  background: ${(props) => props.theme.primaryLight};
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  padding: 0.5rem 0;
+  margin: 0 8% 0 8%;
+  width: 25rem;
+  height: min-content;
+  align-self: center;
+`;
+
 export const StyledPopupMenu = styled(StyledPopup)`
   position: absolute;
   display: flex;
@@ -134,7 +145,7 @@ export const StyledPopupContainer = styled.section`
   width: 30rem;
   margin: 22rem 0 0 10rem;
   position: fixed;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   box-shadow: 0px 11px 35px 2px ${(props) => props.theme.boxShadow};
   align-items: center;
   text-align: center;
@@ -144,78 +155,51 @@ export const StyledButtonWrapper = styled.div`
   text-align: left;
 `;
 
-export const StyledInput = styled.input`
-  width: 20rem;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  margin: 5%;
-  border: 1rem;
-  font-size: 1rem;
-  background: ${(props) => props.theme.landingInput};
-  &:focus {
-      outline: none;
-  }
-`;
-
-export const StyledSubmit = styled.input`
-  width: 50%;
-  border-radius: 0.75rem;
-  margin: 1rem;
-  padding: 1rem;
-  border: 1rem;
-  font-size: 1rem;
-  background: ${(props) => props.theme.secondary};
-  color: white;
-  outline: none;
-  &:hover{
-    cursor: pointer;
+export const StyledTitle = styled(StyledMenuItem)`
+  padding: 1rem 2rem 0.5rem 2rem;
+  width: auto;
+  &:hover {
+    background: none;
+    cursor: default;
   }
 `;
 
 export const StyledForm = styled.form`
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
-export const StyledGreeting = styled.div`
-  font-size: 1.5rem;
-  text-align: center;
-  color: ${(props) => props.theme.greetingTitle};
-  padding: 1rem;
+export const StyledInput = styled.input`
+  background-color: ${(props) => props.theme.primaryLightDull};
+  box-sizing: border-box;
+  border: 0;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+  padding: 0.8rem 2rem;
+  margin-bottom: 1rem;
+  color: ${(props) => props.theme.midtone};
 `;
 
-export const StyledCaption = styled.div`
-  font-size: 1.5rem;
-  text-align: center;
-  color: ${(props) => props.theme.greetingCaption};
+export const StyledButtonSubmit = styled(StyledButton)`
+  align-self: center;
+  justify-self: flex-end;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
 `;
+
+export const StyledSubmitHidden = styled.input`
+  display: none;
+`
 
 export const StyledError = styled.div`
   font-size: 1rem;
-  text-align: center;
-  color: ${(props) => props.theme.errorMessage};
-`;
-
-
-export const StyledTitle = styled.div`
   text-align: left;
-  font-size: 3rem;
-  color: ${(props) => props.theme.primaryDark};
-  font-weight: bold;
-  margin: -1rem;
-`;
-
-export const StyledBody = styled.body`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  border-bottom: 15rem solid ${(props) => props.theme.primaryDark};
-  margin: -15rem 0 0 0;
-`;
-
-export const StyledLandingBackground = styled.div`
-  background: ${(props) => props.theme.primaryDark};
-  width: 100%;
-  height: 20rem;
+  padding: 0.5rem 2rem;
+  color: ${(props) => props.theme.errorMessage};
 `;
 
 export const StyledAnimatedStacks = styled.ul`

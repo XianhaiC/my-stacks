@@ -1,16 +1,18 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import styled from 'styled-components';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 import {
-  StyledTitle,
   StyledLandingBackground,
   StyledCaption,
-  StyledPopupContainer,
   StyledButtonWrapper,
   StyledAnimatedStacks,
   StyledAnimatedStack,
-  StyledBody,
+  StyledDot,
+  StyledPopup,
+  StyledButton,
+  StyledBoxColumn,
+  media,
 } from '../common/styles';
 
 import {
@@ -20,51 +22,116 @@ import {
   WAVE_OFFSET_ONE,
   WAVE_OFFSET_TWO,
   WAVE_OFFSET_THREE,
+  BUTTON_SOLID,
   LANDING,
   LOGIN,
   SIGNUP,
 } from '../../util/constants';
 
-import {BUTTON_SOLID, BUTTON_GRAY} from '../../util/constants';
 import {theme} from '../../styles/theme.js';
 
 import LinkButton from '../../util/LinkButton';
 import Login from './Login.js';
 import Signup from './Signup.js';
 
+const StyledContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: ${(props) => props.theme.primaryDark};
+`
 const StyledCenterContainer = styled.div`
-  width: 30rem;
-  margin: 24rem 0 0 10rem;
-  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 50%;
+  margin: 8% 0 0 0; 
   text-align: center;
-  font-size: 1rem;
+  background: ${(props) => props.theme.primaryLight};
+
+  ${media.m(`
+    height: 70%;
+  `)}
 `;
 
-const StyledMessage = styled(StyledCaption)`
-  color: black;
-  font-weight: light;
-  font-size: 1rem;
-  margin: -2rem;
+const StyledContainerMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 0 0 8%;
 `;
+
+export const StyledTitle = styled.div`
+  text-align: left;
+  font-size: 5rem;
+  color: ${(props) => props.theme.primaryDark};
+  font-weight: 600;
+  line-height: 1em;
+
+  ${media.m(`
+    font-size: 3rem;
+  `)}
+`;
+
+const StyledContainerDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+`;
+
+const StyledDescription = styled(StyledTitle)`
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 2em;
+
+  ${media.m(`
+    font-size: 1rem;
+  `)}
+`;
+
+const StyledContainerRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+const StyledDotBullet = styled(StyledDot)`
+  display: inline;
+  background: ${(props) => props.theme.secondaryAlt};
+  margin-right: 0.5rem;
+  min-width: 0.5rem;
+  min-height: 0.5rem;
+`;
+
+const StyledButtonLogin = styled(StyledButton)`
+  margin-bottom: 1rem;
+  min-width: 8rem;
+`
+
+const StyledButtonBottom = styled(StyledButton)`
+  min-width: 8rem;
+  background: ${props => props.theme.primaryLight};
+  color: ${props => props.theme.primaryDark};
+  border-color: ${props => props.theme.primaryLight};
+  margin: 1rem 0 0 8%;
+`
 
 const StyledImage = styled.img`
-  width: 38rem;
-  height: 19.5rem;
   image-rendering: high-quality;
+  width: 70%;
+  height: auto;
 `;
 
-const StyledDemo = styled(StyledPopupContainer)`
-  padding: 1rem;
-  width: 40rem;
-  margin: -8rem 0 0 40rem;
-`;
+const StyledDemo = styled.div`
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  align-self: center;
+  margin-right: 8rem;
+  width: 50%;
 
-const StyledLoginWrapper = styled(StyledButtonWrapper)`
-  margin: 15.25rem 0 0 -2rem;
-`;
-
-const StyledSignUpWrapper = styled(StyledButtonWrapper)`
-  margin: 1rem 0 0 -2rem;
+  ${media.m(`
+    display: none;
+  `)}
 `;
 
 const StyledBackButton = styled(KeyboardBackspaceIcon)`
@@ -72,6 +139,11 @@ const StyledBackButton = styled(KeyboardBackspaceIcon)`
   fontSize: 3rem;
   cursor: pointer;
 `;
+
+const StyledBoxColumnAlign = styled(StyledBoxColumn)`
+  align-items: flex-start;
+  justify-content: flex-end;
+`
 
 class LandingDisplay extends Component {
   constructor(props) {
@@ -97,40 +169,67 @@ class LandingDisplay extends Component {
   }
 
   render() {
+    const {page} = this.state;
     let center;
-    let backButton;
+    let bottomButton;
 
-    switch (this.state.page) {
+    switch (page) {
       case LANDING:
         center =
-          <StyledCenterContainer>
-            <StyledTitle>my</StyledTitle>
-            <StyledTitle>stacks</StyledTitle>
-            <StyledDemo>
-              <StyledImage src="mystacks_demo.PNG" />
-            </StyledDemo>
-            <StyledMessage>A playlist for tasks </StyledMessage>
-            <StyledLoginWrapper>
-              <LinkButton
-                type={BUTTON_SOLID}
-                onClick={this.handleClickLogin}>Login
-              </LinkButton>
-            </StyledLoginWrapper>
-            <StyledSignUpWrapper>
-              <LinkButton
-                type={BUTTON_GRAY}
-                onClick={this.handleClickSignup}>Sign Up
-              </LinkButton>
-            </StyledSignUpWrapper>
-          </StyledCenterContainer>;
+          <StyledContainerMessage>
+            <StyledBoxColumnAlign>
+              <StyledTitle>my</StyledTitle>
+              <StyledTitle>stacks</StyledTitle>
+
+              <StyledContainerDescription>
+                <StyledContainerRow>
+                  <StyledDotBullet />
+                  <StyledDescription>Create a stack</StyledDescription>
+                </StyledContainerRow>
+                <StyledContainerRow>
+                  <StyledDotBullet />
+                  <StyledDescription>Fill it with tasks</StyledDescription>
+                </StyledContainerRow>
+                <StyledContainerRow>
+                  <StyledDotBullet />
+                  <StyledDescription>Finish with the pomodoro technique</StyledDescription>
+                </StyledContainerRow>
+              </StyledContainerDescription>
+            </StyledBoxColumnAlign>
+
+            <StyledBoxColumnAlign>
+              <StyledButtonLogin
+                onClick={this.handleClickLogin}
+                solid={true}>
+                Login
+              </StyledButtonLogin>
+            </StyledBoxColumnAlign>
+          </StyledContainerMessage>;
+
+        bottomButton = 
+          <StyledButtonBottom
+            onClick={this.handleClickSignup}
+            solid={true}>
+            Signup
+          </StyledButtonBottom>;
         break;
       case LOGIN:
-        center = <Login></Login>;
-        backButton = <StyledBackButton onClick={this.handleClickBack} />;
+        center = <Login />;
+        bottomButton = 
+          <StyledButtonBottom
+            onClick={this.handleClickSignup}
+            solid={true}>
+            Signup
+          </StyledButtonBottom>;
         break;
       case SIGNUP:
-        center = <Signup></Signup>;
-        backButton = <StyledBackButton onClick={this.handleClickBack} />;
+        center = <Signup />;
+        bottomButton = 
+          <StyledButtonBottom
+            onClick={this.handleClickLogin}
+            solid={true}>
+            Login
+          </StyledButtonBottom>
         break;
 
       default:
@@ -138,26 +237,30 @@ class LandingDisplay extends Component {
     }
 
     return (
-      <StyledBody>
-        <StyledLandingBackground>
+      <StyledContainer>
+        <StyledCenterContainer>
           {center}
-          <StyledAnimatedStacks>
-            <StyledAnimatedStack
-              speed={WAVE_SPEED_ONE}
-              offset={WAVE_OFFSET_ONE}
-              color={theme.primaryLight}></StyledAnimatedStack>
-            <StyledAnimatedStack
-              speed={WAVE_SPEED_TWO}
-              offset={WAVE_OFFSET_TWO}
-              color={theme.secondary}></StyledAnimatedStack>
-            <StyledAnimatedStack
-              speed={WAVE_SPEED_THREE}
-              offset={WAVE_OFFSET_THREE}
-              color={theme.secondaryAlt}></StyledAnimatedStack>
-          </StyledAnimatedStacks>
-        </StyledLandingBackground>
-        {backButton}
-      </StyledBody>
+          <StyledDemo>
+            <StyledImage src="mystacks_demo.PNG" />
+          </StyledDemo>
+        </StyledCenterContainer>
+        {bottomButton}
+
+        <StyledAnimatedStacks>
+          <StyledAnimatedStack
+            speed={WAVE_SPEED_ONE}
+            offset={WAVE_OFFSET_ONE}
+            color={theme.primaryLight}></StyledAnimatedStack>
+          <StyledAnimatedStack
+            speed={WAVE_SPEED_TWO}
+            offset={WAVE_OFFSET_TWO}
+            color={theme.secondary}></StyledAnimatedStack>
+          <StyledAnimatedStack
+            speed={WAVE_SPEED_THREE}
+            offset={WAVE_OFFSET_THREE}
+            color={theme.secondaryAlt}></StyledAnimatedStack>
+        </StyledAnimatedStacks>
+      </StyledContainer>
     );
   }
 }

@@ -117,7 +117,7 @@ class PopupStack extends Component {
 
     return (
       <StyledPopup>
-        <StyledForm onSubmit={this.handleStackCreate}>
+        <StyledForm onSubmit={this.handleClickSubmit}>
           <StyledTitle>{title}</StyledTitle>
           <StyledInput
             type="text"

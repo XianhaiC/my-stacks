@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import {connect} from 'react-redux';
 
 import {
-  StyledPopupEntry,
-  StyledMenuItem,
-  StyledButton,
-  StyledError,
-  StyledTitle,
-  StyledForm,
+  StyledPopupContainer,
   StyledInput,
-  StyledButtonSubmit,
-  StyledSubmitHidden,
+  StyledSubmit,
+  StyledForm,
+  StyledGreeting,
+  StyledCaption,
+  StyledError,
 } from '../common/styles';
 
 import {sessionUserSignup} from '../../redux/actions/sessionActions';
@@ -32,7 +29,7 @@ class Signup extends Component {
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleChangePasswordConfirm =
       this.handleChangePasswordConfirm.bind(this);
-    this.handleClickSubmit = this.handleClickSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChangeEmail(e) {
@@ -84,7 +81,7 @@ class Signup extends Component {
     this.setState({passwordsMatch, passwordConfirm: e.target.value});
   }
 
-  handleClickSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
     const {passwordsMatch, passwordError} = this.state;
     if (passwordsMatch && passwordError.length === 0) {
@@ -107,17 +104,18 @@ class Signup extends Component {
       <StyledError>{this.state.passwordError}</StyledError>;
 
     return (
-      <StyledPopupEntry>
-        <StyledForm onSubmit={this.handleClickSubmit}>
-          <StyledTitle>Welcome!</StyledTitle>
+      <StyledPopupContainer>
+        <StyledGreeting>Welcome!</StyledGreeting>
+        <StyledCaption>Let&apos;s get things done today.</StyledCaption>
+        <StyledForm onSubmit={this.handleSubmit}>
           <StyledInput
-            type='text'
-            placeholder='Email'
+            type="text"
+            placeholder="Email"
             value={this.state.email}
             onChange={this.handleChangeEmail}
-            maxLength='255'
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            maxLength="255"
             title="Must provide a valid email"
-            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
             required />
 
           <StyledInput
@@ -125,8 +123,7 @@ class Signup extends Component {
             placeholder="Password"
             value={this.state.password}
             onChange={this.handleChangePassword}
-            pattern=".{6,}"
-            title="Must contain at least 6 or more characters"
+            title="Input a valid password that meets the requirements"
             required />
 
           <StyledInput
@@ -135,18 +132,12 @@ class Signup extends Component {
             value={this.state.passwordConfirm}
             onChange={this.handleChangePasswordConfirm}
             required />
-
           {passwordRequirementsMessage}
           {passwordsMatchingMessage}
           {duplicateEmailMessage}
-
-          <StyledButtonSubmit onClick={this.handleClickSubmit}
-            solid={true}>
-            OK
-          </StyledButtonSubmit>
-          <StyledSubmitHidden type="submit" value="Submit" />
+          <StyledSubmit type="submit" value="Submit" />
         </StyledForm>
-      </StyledPopupEntry>
+      </StyledPopupContainer>
     );
   }
 }
