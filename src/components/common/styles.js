@@ -137,7 +137,7 @@ export const StyledClickCatcher = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-`
+`;
 
 /* landing page styled components */
 
@@ -190,7 +190,7 @@ export const StyledButtonSubmit = styled(StyledButton)`
 
 export const StyledSubmitHidden = styled.input`
   display: none;
-`
+`;
 
 export const StyledError = styled.div`
   font-size: 1rem;
@@ -220,11 +220,11 @@ export const StyledWave = keyframes`
 
 export const StyledAnimatedStack = styled.div`
   position: absolute;
-  bottom: ${props => props.offset};
+  bottom: ${(props) => props.offset};
   width: 100%;
-  background: ${props => props.color};
+  background: ${(props) => props.color};
   animation-delay: 0s;
-  animation: ${StyledWave} ${props => props.speed} infinite;
+  animation: ${StyledWave} ${(props) => props.speed} infinite;
 `;
 
 /*
@@ -241,5 +241,5 @@ export const media = {
     @media only screen and (max-width: 1200px) {
       ${styles}
     }
-  `
+  `,
 };

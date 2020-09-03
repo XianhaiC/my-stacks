@@ -49,7 +49,7 @@ const StyledBoxEnd = styled(StyledBox)`
   @media only screen and (max-height: 700px) {
     flex: 0.4;
   }
-`
+`;
 
 const PlaylistContainer = (props) => {
   return (

@@ -15,6 +15,7 @@ import {
   STACK_SET_STACK_FOCUSED,
   STACK_CLEAR,
   PLAYLIST_CLEAR,
+  SESSION_ATTEMPT_SUBMIT,
 } from '../types';
 
 // logs in the user via a firebase token
@@ -151,6 +152,12 @@ export const sessionBlockFetchData = (stackId) => (dispatch, getState) => {
       });
 };
 
+// reset the session's errors
+export const sessionAttemptSubmit = () => (dispatch) => {
+  dispatch({
+    type: SESSION_ATTEMPT_SUBMIT,
+  });
+};
 
 export const sessionUserUpdate = (userDetails) => (dispatch) => {
   // TODO

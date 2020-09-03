@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   StyledPopupEntry,
@@ -12,7 +13,10 @@ import {
   StyledSubmitHidden,
 } from '../common/styles';
 
-import {sessionUserSignup} from '../../redux/actions/sessionActions';
+import {
+  sessionUserSignup,
+  sessionAttemptSubmit,
+} from '../../redux/actions/sessionActions';
 
 class Signup extends Component {
   constructor() {
@@ -85,6 +89,7 @@ class Signup extends Component {
     e.preventDefault();
     const {passwordsMatch, passwordError} = this.state;
     if (passwordsMatch && passwordError.length === 0) {
+      this.props.sessionAttemptSubmit();
       this.props.sessionUserSignup({...this.state}, this.props.history);
     }
   }
@@ -103,8 +108,12 @@ class Signup extends Component {
     const passwordRequirementsMessage =
       <StyledError>{this.state.passwordError}</StyledError>;
 
-    return (
-      <StyledPopupEntry>
+    let center;
+
+    if (this.props.loading) {
+      center = <CircularProgress />;
+    } else {
+      center =
         <StyledForm onSubmit={this.handleClickSubmit}>
           <StyledTitle>Welcome!</StyledTitle>
           <StyledInput
@@ -142,7 +151,12 @@ class Signup extends Component {
             OK
           </StyledButtonSubmit>
           <StyledSubmitHidden type="submit" value="Submit" />
-        </StyledForm>
+        </StyledForm>;
+    }
+
+    return (
+      <StyledPopupEntry>
+        {center}
       </StyledPopupEntry>
     );
   }
@@ -151,15 +165,19 @@ class Signup extends Component {
 Signup.propTypes = {
   history: PropTypes.object.isRequired,
   sessionUserSignup: PropTypes.func.isRequired,
+  sessionAttemptSubmit: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errors: state.session.errors,
+  loading: state.session.loading,
 });
 
 const mapDispatchToProps = {
   sessionUserSignup,
+  sessionAttemptSubmit,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

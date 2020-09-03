@@ -36,6 +36,7 @@ export const WAVE_OFFSET_TWO = '0rem';
 export const LANDING = 0;
 export const LOGIN = 1;
 export const SIGNUP = 2;
+export const LOADING = 3;
 
 // etc
 export const REPOSITORY_URL = 'https://github.com/XianhaiC/my-stacks';

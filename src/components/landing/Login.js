@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
   StyledPopupEntry,
@@ -12,7 +13,10 @@ import {
   StyledSubmitHidden,
 } from '../common/styles';
 
-import {sessionUserLogin} from '../../redux/actions/sessionActions';
+import {
+  sessionUserLogin,
+  sessionAttemptSubmit,
+} from '../../redux/actions/sessionActions';
 
 class Login extends Component {
   constructor() {
@@ -36,19 +40,19 @@ class Login extends Component {
   }
 
   handleClickSubmit(e) {
-    console.log("SUB")
     e.preventDefault();
+    this.props.sessionAttemptSubmit();
     this.props.sessionUserLogin({...this.state}, this.props.history);
   }
 
   render() {
-    let errorMessage = <StyledError></StyledError>;
-    if (Object.keys(this.props.errors).length !== 0) {
-      errorMessage = <StyledError>{this.props.errors.general}</StyledError>;
-    }
+    const errorMessage = <StyledError>{this.props.errors.general}</StyledError>;
+    let center;
 
-    return (
-      <StyledPopupEntry>
+    if (this.props.loading) {
+      center = <CircularProgress />;
+    } else {
+      center =
         <StyledForm onSubmit={this.handleClickSubmit}>
           <StyledTitle>Let's get things done today!</StyledTitle>
           <StyledInput
@@ -77,7 +81,12 @@ class Login extends Component {
             OK
           </StyledButtonSubmit>
           <StyledSubmitHidden type="submit" value="Submit" />
-        </StyledForm>
+        </StyledForm>;
+    }
+
+    return (
+      <StyledPopupEntry>
+        {center}
       </StyledPopupEntry>
     );
   }
@@ -86,17 +95,21 @@ class Login extends Component {
 Login.propTypes = {
   history: PropTypes.object.isRequired,
   sessionUserLogin: PropTypes.func.isRequired,
+  sessionAttemptSubmit: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   loadingLanding: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   loadingLanding: state.session.loadingLanding,
   errors: state.session.errors,
+  loading: state.session.loading,
 });
 
 const mapDispatchToProps = {
   sessionUserLogin,
+  sessionAttemptSubmit,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

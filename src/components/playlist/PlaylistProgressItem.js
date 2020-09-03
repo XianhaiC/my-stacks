@@ -83,39 +83,39 @@ const StyledCard = styled.div`
   @media only screen and (max-width: 1200px) {
     top:
     ${(props) => {
-      switch (props.state) {
-        case PLAYLIST_ITEM_FINISHED:
-          return `${-20 - 9 * props.index}rem`;
-        case PLAYLIST_ITEM_CURRENT:
-          return 'calc(100% - 12rem)';
-        case PLAYLIST_ITEM_REMAINING:
-          return `calc(100% - 3rem + ${9 * props.index}rem)`;
-        default:
-          return '0%';
-      }
-    }};
+    switch (props.state) {
+      case PLAYLIST_ITEM_FINISHED:
+        return `${-20 - 9 * props.index}rem`;
+      case PLAYLIST_ITEM_CURRENT:
+        return 'calc(100% - 12rem)';
+      case PLAYLIST_ITEM_REMAINING:
+        return `calc(100% - 3rem + ${9 * props.index}rem)`;
+      default:
+        return '0%';
+    }
+  }};
 
     opacity:
-    ${(props) => props.state === PLAYLIST_ITEM_FINISHED
-        ? '0' : '1'
-    };
+    ${(props) => props.state === PLAYLIST_ITEM_FINISHED ?
+        '0' : '1'
+};
 
   }
 
   @media only screen and (max-height: 700px) {
     top:
     ${(props) => {
-      switch (props.state) {
-        case PLAYLIST_ITEM_FINISHED:
-          return `${-20 - 9 * props.index}rem`;
-        case PLAYLIST_ITEM_CURRENT:
-          return 'calc(100% - 10rem)';
-        case PLAYLIST_ITEM_REMAINING:
-          return `calc(100% - 3rem + ${9 * props.index}rem)`;
-        default:
-          return '0%';
-      }
-    }};
+    switch (props.state) {
+      case PLAYLIST_ITEM_FINISHED:
+        return `${-20 - 9 * props.index}rem`;
+      case PLAYLIST_ITEM_CURRENT:
+        return 'calc(100% - 10rem)';
+      case PLAYLIST_ITEM_REMAINING:
+        return `calc(100% - 3rem + ${9 * props.index}rem)`;
+      default:
+        return '0%';
+    }
+  }};
 
     height: 6rem;
   }

@@ -29,7 +29,7 @@ import {PATH_ROOT} from './util/constants';
 
 // set the default firebase endpoint
 if (process.env.REACT_APP_PROD_ACTIVE === 'true') {
-  console.log("SETTING URL")
+  console.log('SETTING URL');
   axios.defaults.baseURL = process.env.REACT_APP_FIREBASE_URL;
 }
 

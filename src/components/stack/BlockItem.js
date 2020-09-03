@@ -316,7 +316,7 @@ class BlockItem extends Component {
   }
 
   handleClickFocus() {
-    console.log("CLICKED")
+    console.log('CLICKED');
     if (this.state.focusState === FOCUS_NONE ||
       this.state.focusState === FOCUS_HOVER) {
       this.setState({focusState: FOCUS_INFO});

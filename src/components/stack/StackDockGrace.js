@@ -14,7 +14,7 @@ import {
 
 const StyledContainer = styled.div`
   position: relative;
-`
+`;
 
 const StyledText = styled.input`
   border 0;
