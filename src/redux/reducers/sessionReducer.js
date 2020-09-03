@@ -7,6 +7,7 @@ import {
   SESSION_SET_AUTHENTICATED,
   SESSION_CLEAR,
   SESSION_ERRORS_SET,
+  SESSION_ATTEMPT_SUBMIT,
 } from '../types';
 
 import {DISPLAY_STACK} from '../../util/constants';
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
   user: {},
   authenticated: false,
   errors: {},
+  loading: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -67,6 +69,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         errors: action.payload,
         loading: false,
+      };
+
+    case SESSION_ATTEMPT_SUBMIT:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:

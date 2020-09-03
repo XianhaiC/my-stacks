@@ -31,7 +31,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   background: ${(props) => props.theme.primaryDark};
-`
+`;
 const StyledCenterContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -84,7 +84,7 @@ const StyledDescription = styled(StyledTitle)`
 const StyledContainerRow = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 const StyledDotBullet = styled(StyledDot)`
   display: inline;
   background: ${(props) => props.theme.secondaryAlt};
@@ -96,15 +96,15 @@ const StyledDotBullet = styled(StyledDot)`
 const StyledButtonLogin = styled(StyledButton)`
   margin-bottom: 1rem;
   min-width: 8rem;
-`
+`;
 
 const StyledButtonBottom = styled(StyledButton)`
   min-width: 8rem;
-  background: ${props => props.theme.primaryLight};
-  color: ${props => props.theme.primaryDark};
-  border-color: ${props => props.theme.primaryLight};
+  background: ${(props) => props.theme.primaryLight};
+  color: ${(props) => props.theme.primaryDark};
+  border-color: ${(props) => props.theme.primaryLight};
   margin: 1rem 0 0 8%;
-`
+`;
 
 const StyledImage = styled.img`
   image-rendering: high-quality;
@@ -127,7 +127,7 @@ const StyledDemo = styled.div`
 const StyledBoxColumnAlign = styled(StyledBoxColumn)`
   align-items: flex-start;
   justify-content: flex-end;
-`
+`;
 
 class LandingDisplay extends Component {
   constructor(props) {
@@ -190,7 +190,7 @@ class LandingDisplay extends Component {
             </StyledBoxColumnAlign>
           </StyledContainerMessage>;
 
-        bottomButton = 
+        bottomButton =
           <StyledButtonBottom
             onClick={this.handleClickSignup}
             solid={true}>
@@ -199,7 +199,7 @@ class LandingDisplay extends Component {
         break;
       case LOGIN:
         center = <Login />;
-        bottomButton = 
+        bottomButton =
           <StyledButtonBottom
             onClick={this.handleClickSignup}
             solid={true}>
@@ -208,12 +208,12 @@ class LandingDisplay extends Component {
         break;
       case SIGNUP:
         center = <Signup />;
-        bottomButton = 
+        bottomButton =
           <StyledButtonBottom
             onClick={this.handleClickLogin}
             solid={true}>
             Login
-          </StyledButtonBottom>
+          </StyledButtonBottom>;
         break;
 
       default:
